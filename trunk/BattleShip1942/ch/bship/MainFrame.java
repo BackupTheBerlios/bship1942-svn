@@ -83,7 +83,7 @@ public class MainFrame extends JFrame {
 	 */    
 	private JPanel getGameState() {
 		if (gameState == null) {
-			gameState = new JPanel();
+			gameState = new PanelGameState();
 		}
 		return gameState;
 	}
