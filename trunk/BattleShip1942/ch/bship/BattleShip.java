@@ -256,7 +256,7 @@ public class BattleShip {
     }
     
     public void attackedbyship(int strength){
-    	_actualShipStatePercent -= 10 * strength;
+    	_actualShipStatePercent -= (10 * strength) / _shield;
     	System.out.println("Ship: " +_actualShipStatePercent+"");
     }
     
