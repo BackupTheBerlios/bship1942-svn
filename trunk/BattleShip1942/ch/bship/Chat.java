@@ -1,3 +1,5 @@
+package ch.bship;
+
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -10,7 +12,6 @@
  */
 
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -22,11 +23,13 @@ public class Chat extends JPanel {
 	private Net _net;
 	private JPanel _mainPanel;
 	private JPanel _sendPanel;
-	private String[] _messages = new String(5);
+	private String _messages[];
 	private GameLanguage _gl = null;
 
 	private static int LINES = 5;
 	private String SEND = "->";
+	private String tmpText;
+	private String messages[];
 	
 	/**
 	 * Constructor
@@ -34,7 +37,7 @@ public class Chat extends JPanel {
 	public Chat (Net net, GameLanguage gl){
 		_gl = gl;
 		_net = net;
-		initChat();
+		initChat(_net);
 	}
 
 	/**
@@ -42,8 +45,8 @@ public class Chat extends JPanel {
 	 *
 	 * @return Chat
 	 */
-	public Chat initChat(Net net) {
-		SEND = _gl.tr(send);
+	private void initChat(Net net) {
+		SEND = _gl.tr("send");
 		_messagesField = new JTextField();
 		_inputBox = new JTextField();
 		_sendButton = new JButton();
@@ -95,7 +98,7 @@ public class Chat extends JPanel {
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
 		if (cmd.equals(SEND)) {
-			send(inputBox.getText());
+			//send(inputBox.getText());
 		}
 	}
 }
