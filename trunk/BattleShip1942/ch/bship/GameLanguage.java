@@ -24,28 +24,27 @@ public class GameLanguage {
      * 3 = French
      */
     
-    static String langfile[] = {"lang/german.lng","lang/english.lng","lang/french.lng"};
-    private static int langid = 1;
+    static String langfile[] = {"german.lng","english.lng","french.lng"};
+    private static int langid = 0;
     static Properties props = new Properties();
-
-    public static void main(String args[]) {
-            try {
-                props.load(new FileInputStream(langfile[langid]));
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        
+    
+    public GameLanguage() {
+        try {
+            props.load(new FileInputStream(langfile[langid]));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     public static void setLanguage(int lid) {
         langid = lid;
     }
     
-    public static String tr(String stringtotranslate){
+    public String tr(String stringtotranslate){
         String stringtr = props.getProperty(stringtotranslate); 
         return stringtr;
     }

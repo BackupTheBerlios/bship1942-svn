@@ -1,3 +1,5 @@
+package ch.bship;
+
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -9,7 +11,7 @@
  * 
  */
 
-import java.swing.*
+import javax.swing.*;
 
 public class Field extends JPanel {
 

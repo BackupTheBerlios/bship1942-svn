@@ -23,6 +23,7 @@ public class BattleShip {
 	private int _speed;
 	private String _name;
 	private String _pathToImage;
+	private GameLanguage translator = new GameLanguage();
 	
 	
 	/**
@@ -31,7 +32,7 @@ public class BattleShip {
 	public BattleShip(int kind) {
 	    _kind = kind;
 		setInfos(_kind);
-		_name = GameLanguage.tr(_name);
+		_name = translator.tr(_name);
 		/**
 		 * TODO: pathToImage mit properties oder setinfos implementieren
 		 */
@@ -91,4 +92,11 @@ public class BattleShip {
 	public void setPosition(Vector position) {
 		_positions = position;
 	}
+
+    /**
+     * get the current shipstate (in percent)
+     */
+    public int getShipStatePercent() {
+        return 25;
+    }
 }
