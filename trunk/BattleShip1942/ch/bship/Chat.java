@@ -31,10 +31,13 @@ public class Chat extends JPanel {
 	private String tmpText;
 	private String messages[];
 	
+	private Net net;
+	private GameLanguage gl = new GameLanguage();
+	
 	/**
 	 * Constructor
 	 */
-	public Chat (Net net, GameLanguage gl){
+	public Chat (){
 		_gl = gl;
 		_net = net;
 		initChat(_net);
