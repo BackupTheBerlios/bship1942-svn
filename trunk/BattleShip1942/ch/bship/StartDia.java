@@ -64,7 +64,7 @@ public class StartDia extends JFrame implements ActionListener {
     private final static String MAP_CHANGED = "MAP_CHANGED_CMD";
 	private Net _net;
 	private Engine _engine;
-	private GameLanguage _lang;
+	private GameLanguage _lang = GameLanguage.getInstance();
 	private Vector _flags;
 	private JLabel jLabel = null;
 	private JPanel subButtonPanel = null;
@@ -124,11 +124,21 @@ public class StartDia extends JFrame implements ActionListener {
 			optionsPanel.setLayout(gridLayout1);
 			gridLayout1.setRows(5);
 			gridLayout1.setColumns(2);
-			nickFieldLabel.setText("Dein Nickname:");
-			ipFieldLabel.setText("Die IP-Adresse des Gegners");
-			nationComboLabel.setText("Spielnation");
-			mapComboLabel.setText("Spielkarte");
-			langComboLabel.setText("Sprache");
+			nickFieldLabel.setText(_lang.tr("Nick"));
+			nickFieldLabel.setName("Nick");
+			ipFieldLabel.setText(_lang.tr("IP"));
+			ipFieldLabel.setName("IP");
+			nationComboLabel.setText(_lang.tr("Nation"));
+			nationComboLabel.setName("Nation");
+			mapComboLabel.setText(_lang.tr("Map"));
+			mapComboLabel.setName("Map");
+			langComboLabel.setText(_lang.tr("Language"));
+			langComboLabel.setName("Language");
+			Engine.guiElements.addElement(nickFieldLabel);
+			Engine.guiElements.addElement(ipFieldLabel);
+			Engine.guiElements.addElement(nationComboLabel);
+			Engine.guiElements.addElement(mapComboLabel);
+			Engine.guiElements.addElement(langComboLabel);
 			optionsPanel.add(nickFieldLabel, null);
 			optionsPanel.add(getNickField(), null);
 			optionsPanel.add(ipFieldLabel, null);
@@ -201,6 +211,12 @@ public class StartDia extends JFrame implements ActionListener {
 	private JComboBox getLangCombo() {
 		if (langCombo == null) {
 			langCombo = new JComboBox(_lang.getLanguages());
+			langCombo.addItemListener(new java.awt.event.ItemListener() { 
+				public void itemStateChanged(java.awt.event.ItemEvent e) {    
+					_lang.setLanguage(langCombo.getSelectedItem().toString());
+					_engine.updateLanguage();
+				}
+			});
 		}
 		return langCombo;
 	}

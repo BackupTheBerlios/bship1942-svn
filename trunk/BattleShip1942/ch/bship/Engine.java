@@ -51,6 +51,7 @@ public class Engine {
      */
     public Engine() {
     	_net = new Net(this);
+    	translator.setLanguage("german");
     	openStartDialog();
         
 
@@ -69,7 +70,7 @@ public class Engine {
     
     public void openStartDialog() {
     	StartDia sdlg = new StartDia(_net, this);
-        sdlg.setVisible(true);
+    	sdlg.setVisible(true);
     }
     
     public void openMainFrame() {
