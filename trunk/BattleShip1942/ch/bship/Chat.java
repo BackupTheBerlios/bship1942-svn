@@ -25,7 +25,7 @@ public class Chat extends JPanel {
 	}
 
 	/**
-	 * initialises the Chat
+	 * initializes the Chat
 	 *
 	 * @return Chat
 	 */
@@ -47,4 +47,7 @@ public class Chat extends JPanel {
 	private void send(String text) {
 		_net.send(text);
 	}
+
+	public void reiceive(String text) {
+		messages.write(text);
 }
