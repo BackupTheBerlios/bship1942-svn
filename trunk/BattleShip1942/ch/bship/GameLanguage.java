@@ -64,11 +64,7 @@ public class GameLanguage {
     
     public String tr(String stringToTranslate){
         String stringtr = props.getProperty(stringToTranslate); 
-
-        //-----------zum testen-------------
-        return stringToTranslate;
-        //    return stringtr;
-        ////////////////////////////////////
+        return stringtr;
     }
 
     public String[] getLanguages() {

@@ -67,7 +67,7 @@ public class StartDlg extends JFrame implements ActionListener {
         _cancelButton.setActionCommand(CANCEL);
 
         _nations = listDir("nations", "");
-        _maps = listDir("maps", "");
+        _maps = listDir("./maps", "");
         _flags = listDir("nations", "banner.jpg");
 
         _nationCBox = new JComboBox(_nations);
@@ -83,6 +83,7 @@ public class StartDlg extends JFrame implements ActionListener {
 
         _ipTF = new JTextField(_ip);
         _nickNameTF = new JTextField();
+        setSize(400,400);
     }
 
     public void initPanels() {
@@ -118,7 +119,7 @@ public class StartDlg extends JFrame implements ActionListener {
             _engine.setMyNationality((String)(_nationCBox.getSelectedItem()));
             _engine.setMap((String)(_mapCBox.getSelectedItem()));
             
-            String message = _net.MSG_HELLO + "|" + 
+            String message = Net.MSG_HELLO + "|" + 
                 _ipTF.getText() + "|" +
                 _nickNameTF.getText() + "|" +
                 ((String)(_nationCBox.getSelectedItem())) + "|" +

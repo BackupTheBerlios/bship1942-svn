@@ -1,8 +1,12 @@
-/*
- * Insert Comment
+/**
+ * @author Adrian Greiler, Marcel Ryser
+ * 
+ * PROJECT: Battleship 1942
  *
  * Changelog:
- * 01.12.2004		MR		Creation
+ * 
+ * 27.08.2004	MR		Erstellung
+ * 
  */
 package ch.bship;
 
@@ -10,12 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
-/**
- * @author metawave
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+
 public class PanelShipNav extends JPanel {
 	
 	JButton navleftButton = null;
@@ -23,12 +22,16 @@ public class PanelShipNav extends JPanel {
 	JButton navupButton = null;
 	JButton navdownButton = null;
 	
+	private Engine _engine;
+	private Field _field;
 	
 	/**
 	 * This is the default constructor
 	 */
-	public PanelShipNav() {
+	public PanelShipNav(Engine engine, Field field) {
 		super();
+		_engine = engine;
+		_field = field;
 		initialize();
 	}
 	/**
@@ -54,6 +57,12 @@ public class PanelShipNav extends JPanel {
 		if (navleftButton == null) {
 			navleftButton = new JButton();
 			navleftButton.setText("<");
+			navleftButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					((BattleShip)_engine.getSelectedBoat()).moveLeft(1);
+					_field.zeichne();
+				}
+			});
 		}
 		return navleftButton;
 	}
@@ -66,6 +75,12 @@ public class PanelShipNav extends JPanel {
 		if (navupButton == null) {
 			navupButton = new JButton();
 			navupButton.setText("^");
+			navupButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					((BattleShip)_engine.getSelectedBoat()).moveUp(1);
+					_field.zeichne();
+				}
+			});
 		}
 		return navupButton;
 	}
@@ -78,6 +93,12 @@ public class PanelShipNav extends JPanel {
 		if (navdownButton == null) {
 			navdownButton = new JButton();
 			navdownButton.setText("v");
+			navdownButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					((BattleShip)_engine.getSelectedBoat()).moveDown(1);
+					_field.zeichne();
+				}
+			});
 		}
 		return navdownButton;
 	}
@@ -90,6 +111,12 @@ public class PanelShipNav extends JPanel {
 		if (navrightButton == null) {
 			navrightButton = new JButton();
 			navrightButton.setText(">");
+			navrightButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					((BattleShip)_engine.getSelectedBoat()).moveRight(1);
+					_field.zeichne();
+				}
+			});
 		}
 		return navrightButton;
 	}

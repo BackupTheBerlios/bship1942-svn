@@ -11,7 +11,6 @@
  */
 package ch.bship;
 
-import java.io.File;
 import java.util.Vector;
 import javax.swing.*;
 
@@ -51,18 +50,8 @@ public class Engine {
      * constructor
      */
     public Engine() {
-        _net = new Net(this);
-
-        StartDlg sdlg = new StartDlg(_net, this);
-        sdlg.pack();
-        sdlg.setVisible(true);
-
-
-        _frm = new MainFrame(this);
-        _frm.setVisible(true);
-
-
-        
+    	_net = new Net(this);
+    	openStartDialog();
         
 
         // Creating ship instances and adding ships to Vector
@@ -77,15 +66,25 @@ public class Engine {
     public Net getNetInstance() {
         return _net;
     }
+    
+    public void openStartDialog() {
+    	StartDia sdlg = new StartDia(_net, this);
+        sdlg.setVisible(true);
+    }
+    
+    public void openMainFrame() {
+        _frm = new MainFrame(this);
+        _frm.initField();
+    }
 
     public void Eventhandler(String msg) {
         String[] tmpMsg = msg.split("\\|");
         
-        if (tmpMsg[0].equals(_net.MSG_HELLO)) {
+        if (tmpMsg[0].equals(Net.MSG_HELLO)) {
             _net.setIP(tmpMsg[1]);
             _rivalsNick = (tmpMsg[2]);
             _rivalsNationality = (tmpMsg[3]);
-        } else if (tmpMsg[0].equals(_net.MSG_CHAT)) {
+        } else if (tmpMsg[0].equals(Net.MSG_CHAT)) {
             String parts = "";
             for (int i = 0; i < (tmpMsg.length - 1); i++) {
                 parts = parts + tmpMsg[i+1];
@@ -98,15 +97,16 @@ public class Engine {
     /**
      * @return Actual selected BattleShip
      */
-    public static BattleShip getSelectedBoat() {
+    public BattleShip getSelectedBoat() {
         return actBship;
     }
 
-    public static void setSelectedBoat(BattleShip bs) {
+    public void setSelectedBoat(BattleShip bs) {
         actBship = bs;
+        _frm.updateselected();
     }
 
-    public static void updateLanguage() {
+    public void updateLanguage() {
         translator.setLanguage(language);
         for (int i = 0; i < guiElements.size(); i++){
             if (guiElements.elementAt(i) instanceof JMenu){

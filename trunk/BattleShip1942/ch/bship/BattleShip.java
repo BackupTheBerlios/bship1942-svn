@@ -10,7 +10,6 @@
  */
 
 package ch.bship;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
@@ -18,8 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import javax.imageio.ImageIO;
 
+import javax.imageio.ImageIO;
 public class BattleShip {
 
 	private int _alignment;

@@ -30,14 +30,16 @@ public class PanelShipState extends JPanel {
 	private JLabel labelBezSpeed = null;
 	private JLabel labelValueSpeed = null;
 	private JLabel jShipPicture = null;
+	private Engine _engine;
 	
 	private GameLanguage gl = GameLanguage.getInstance();
 	
 	/**
 	 * This is the default constructor
 	 */
-	public PanelShipState() {
+	public PanelShipState(Engine engine) {
 		super();
+		_engine = engine;
 		initialize();
 	}
 	/**
@@ -110,8 +112,8 @@ public class PanelShipState extends JPanel {
 		return panelShipDetails;
 	}
 	
-	public void update() {
-	    BattleShip acbs = Engine.getSelectedBoat();
+	public void updateship() {
+	    BattleShip acbs = _engine.getSelectedBoat();
 	    
 	    labelValueShield.setText(""+acbs.getShipShield()+"");
 	    labelValueStrength.setText(""+acbs.getShipStrength()+"");

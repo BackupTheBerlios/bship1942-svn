@@ -1,3 +1,8 @@
+package ch.bship;
+import javax.swing.*;
+import java.awt.BorderLayout;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -9,13 +14,6 @@
  * 
  */
 
-package ch.bship;
-
-import javax.swing.*;
-import java.awt.BorderLayout;
-import javax.swing.JMenuItem;
-import javax.swing.JButton;
-
 public class MainFrame extends JFrame {
 
 	private javax.swing.JPanel jContentPane = null;
@@ -25,6 +23,7 @@ public class MainFrame extends JFrame {
 	private Field gameField = null;
 	private Chat gameChat = null;
 	private PanelShipState shipState = null;
+	private Engine _engine;
 	private JMenuBar jJMenuBar = null;
 	private JMenu jMenuFile = null;
 	private JMenuItem jMenuItemNewGame = null;
@@ -37,15 +36,14 @@ public class MainFrame extends JFrame {
 	private JMenu jMenuHelp = null;
 	private JMenuItem jMenuItemManual = null;
 	private JMenuItem jMenuItemInfo = null;
-        private Engine _engine = null;
 		
-	private JButton jButton = null;
+	private JPanel shipNav = null;
 	/**
 	 * This is the default constructor
 	 */
 	public MainFrame(Engine engine) {
 		super();
-                _engine = engine;
+		_engine = engine;
 		initialize();
 	}
 	/**
@@ -99,6 +97,7 @@ public class MainFrame extends JFrame {
 			jContentPane.add(west, java.awt.BorderLayout.WEST);
 			jContentPane.add(getGameField(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(south, java.awt.BorderLayout.SOUTH);
+			south.add(getShipNavField(), null);
 			
 		}
 		return jContentPane;
@@ -121,7 +120,7 @@ public class MainFrame extends JFrame {
 	 */    
 	private JPanel getGameField() {
 		if (gameField == null) {
-			gameField = new Field();
+			gameField = new Field(_engine);
 		}
 		return gameField;
 	}
@@ -130,11 +129,11 @@ public class MainFrame extends JFrame {
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
-        public JPanel getGameChat() {
-            if (gameChat == null) {
-                gameChat = new Chat(_engine.getNetInstance());
-            }
-            return gameChat;
+	JPanel getGameChat() {
+		if (gameChat == null) {
+			gameChat = new Chat(_engine.getNetInstance());
+		}
+		return gameChat;
 	}
 	/**
 	 * This method initializes shipState	
@@ -143,8 +142,7 @@ public class MainFrame extends JFrame {
 	 */    
 	private JPanel getShipState() {
 		if (shipState == null) {
-			shipState = new PanelShipState();
-			shipState.add(getJButton(), java.awt.BorderLayout.NORTH);
+			shipState = new PanelShipState(_engine);
 		}
 		return shipState;
 	}
@@ -188,6 +186,12 @@ public class MainFrame extends JFrame {
 			jMenuItemNewGame.setText(translator.tr("NewGame"));
 			jMenuItemNewGame.setName("NewGame");
 			jMenuItemNewGame.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK, false));
+			jMenuItemNewGame.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					_engine.openStartDialog();
+					setVisible(false);
+				}
+			});
 		}
 		return jMenuItemNewGame;
 	}
@@ -254,8 +258,8 @@ public class MainFrame extends JFrame {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxEnglish().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
-				    Engine.language = "german.lng";
-				    Engine.updateLanguage();
+					translator.setLanguage("german");
+				    _engine.updateLanguage();
 				}
 			});
 		}
@@ -275,8 +279,8 @@ public class MainFrame extends JFrame {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
-				    Engine.language = "english.lng";
-				    Engine.updateLanguage();
+					translator.setLanguage("english");
+				    _engine.updateLanguage();
 				}
 			});
 		}
@@ -296,8 +300,8 @@ public class MainFrame extends JFrame {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxEnglish().setSelected(false);
-				    Engine.language = "french.lng";
-				    Engine.updateLanguage();
+					translator.setLanguage("french");
+					_engine.updateLanguage();
 				}
 			});
 		}
@@ -346,19 +350,26 @@ public class MainFrame extends JFrame {
 		return jMenuItemInfo;
 	}
 	/**
-	 * This method initializes jButton	
+	 * This method initializes shipNavField	
 	 * 	
-	 * @return javax.swing.JButton	
+	 * @return javax.swing.JPanel	
 	 */    
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.addActionListener(new java.awt.event.ActionListener() { 
-				public void actionPerformed(java.awt.event.ActionEvent e) {    
-					((Field) getGameField()).zeichne();
-				}
-			});
+	private JPanel getShipNavField() {
+		if (shipNav == null) {
+			shipNav = new PanelShipNav(_engine, (Field)getGameField());
 		}
-		return jButton;
+		return shipNav;
 	}
- }  //  @jve:decl-index=0:visual-constraint="10,10"
+	/**
+	 * 
+	 */
+	public void updateselected() {
+		((PanelShipState)getShipState()).updateship();
+	}
+	
+	public void initField() {
+		setVisible(true);
+		((Field) getGameField()).zeichne();
+	}
+	
+     }  //  @jve:decl-index=0:visual-constraint="10,10"
