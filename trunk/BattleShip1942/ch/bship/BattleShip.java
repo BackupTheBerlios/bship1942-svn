@@ -90,9 +90,10 @@ public class BattleShip {
 		}
 		
 		if (_player == 1) {
-			_xpos = 50; _ypos = 440;
+			_xpos = 30; _ypos = 440;
 		}else{
-			_xpos = 630; _ypos = 50;
+			_xpos = 610; _ypos = 50;
+			_direction = 3;
 		}
 	}
 
@@ -153,10 +154,10 @@ public class BattleShip {
     public String getShipPicture() {
     	String shp = "";
     	switch (_kind) {
-    		case 1: shp = "pics/ships/2er.gif"; break;
-    		case 2: shp = "pics/ships/3er.gif"; break;
-    		case 3: shp = "pics/ships/4er.gif"; break;
-    		case 4: shp = "pics/ships/5er.gif"; break;
+    		case 0: shp = "pics/ships/2er.gif"; break;
+    		case 1: shp = "pics/ships/3er.gif"; break;
+    		case 2: shp = "pics/ships/4er.gif"; break;
+    		case 3: shp = "pics/ships/5er.gif"; break;
     	}
     	return shp;
     }
@@ -184,6 +185,23 @@ public class BattleShip {
     
     public int getXPosition() {
     	return _xpos;
+    }
+    
+    // Following Methods just for sync function
+    public void setYPosition(int y) {
+    	_ypos = y;
+    }
+    
+    public void setXPosition(int x) {
+    	_xpos = x;
+    }
+    
+    public void setDirection(int dir) {
+    	_direction = dir;
+    }
+    
+    public void setShipStatePercent(int perc){
+    	_actualShipStatePercent = perc;
     }
     
     public void moveUp(int howmany) {

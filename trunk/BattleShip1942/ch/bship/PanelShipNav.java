@@ -26,7 +26,7 @@ public class PanelShipNav extends JPanel {
 	private Field _field;
 	private int nav = 1;
 	
-	private JButton jButton = null;
+	private JButton navbattleButton = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -48,7 +48,7 @@ public class PanelShipNav extends JPanel {
 		this.add(getNavrightButton(), java.awt.BorderLayout.EAST);
 		this.add(getNavupButton(), java.awt.BorderLayout.NORTH);
 		this.add(getNavdownButton(), java.awt.BorderLayout.SOUTH);
-		this.add(getJButton(), java.awt.BorderLayout.CENTER);
+		this.add(getNavbattleButton(), java.awt.BorderLayout.CENTER);
 	}
 	
 	/**
@@ -63,7 +63,9 @@ public class PanelShipNav extends JPanel {
 			navleftButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveLeft(1);
+					_engine.reduceaction();
 					_field.zeichne();
+					actualizebuttons();
 				}
 			});
 		}
@@ -81,7 +83,9 @@ public class PanelShipNav extends JPanel {
 			navupButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveUp(1);
+					_engine.reduceaction();
 					_field.zeichne();
+					actualizebuttons();
 				}
 			});
 		}
@@ -99,7 +103,9 @@ public class PanelShipNav extends JPanel {
 			navdownButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveDown(1);
+					_engine.reduceaction();
 					_field.zeichne();
+					actualizebuttons();
 				}
 			});
 		}
@@ -117,7 +123,9 @@ public class PanelShipNav extends JPanel {
 			navrightButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveRight(1);
+					_engine.reduceaction();
 					_field.zeichne();
+					actualizebuttons();
 				}
 			});
 		}
@@ -127,7 +135,8 @@ public class PanelShipNav extends JPanel {
 	public void actualizebuttons() {
 		// kein Schiff selektiert => alle buttons disablen
 		boolean enabled;
-		if (_engine.getSelectedBoat() == null) {
+		System.out.println("actualize buttons");
+		if (_engine.getSelectedBoat() == null || !_engine.isAtPlaying()) {
 			enabled = false;
 		}else{
 			enabled = true;
@@ -136,32 +145,33 @@ public class PanelShipNav extends JPanel {
 		getNavleftButton().setEnabled(enabled);
 		getNavupButton().setEnabled(enabled);
 		getNavdownButton().setEnabled(enabled);
+		getNavbattleButton().setEnabled(enabled);
 		
 
 	}
 	/**
-	 * This method initializes jButton	
+	 * This method initializes navbattleButton	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.setText("Nav / Battle");
-			jButton.addActionListener(new java.awt.event.ActionListener() { 
+	private JButton getNavbattleButton() {
+		if (navbattleButton == null) {
+			navbattleButton = new JButton();
+			navbattleButton.setText("Nav / Battle");
+			navbattleButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					if (nav == 1) {
-						getJButton().setText("Navigation Mode");
+						getNavbattleButton().setText("Navigation Mode");
 						nav = 2;
 						_engine.setNavmode(true);
 					}else{
-						getJButton().setText("Battle Mode");
+						getNavbattleButton().setText("Battle Mode");
 						_engine.setNavmode(false);
 						nav = 1;
 					}
 				}
 			});
 		}
-		return jButton;
+		return navbattleButton;
 	}
  }

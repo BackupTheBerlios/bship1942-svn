@@ -30,6 +30,9 @@ public class Engine {
     private String _myNick = "";
     private String _myNationality = "";
     private String _map = "logo";
+    private int playernumber = 1;
+    public int actualplayer;
+    private int actionsleft;
 
     public void setRivalsNick(String nick) { _rivalsNick = nick; }
     public void setRivalsNationality(String nation) { _rivalsNationality = nation; }
@@ -54,11 +57,11 @@ public class Engine {
     	translator.setLanguage("german");
     	openStartDialog();
         
-    	int shipnr = 1;
+    	int shipnr = 0;
     	int player = 1;
         // Creating ship instances and adding ships to Vector
-        for (int i = 0; i < 7;i++) {
-            if (shipnr == 4) { shipnr = 1; player = 2; }
+        for (int i = 0; i < 8;i++) {
+            if (shipnr == 4) { shipnr = 0; player = 2; }
             BattleShip bship = new BattleShip(shipnr, player);
             battleShips.addElement(bship);
             shipnr++;
@@ -78,6 +81,8 @@ public class Engine {
         _frm = new MainFrame(this);
         _frm.updateselected();
         _frm.initField();
+        actualplayer = 1;
+        actionsleft = 3;
     }
 
     public void Eventhandler(String msg) {
@@ -87,12 +92,30 @@ public class Engine {
             _net.setIP(tmpMsg[1]);
             _rivalsNick = (tmpMsg[2]);
             _rivalsNationality = (tmpMsg[3]);
+            playernumber = 2;
+            updategui();
         } else if (tmpMsg[0].equals(Net.MSG_CHAT)) {
             String parts = "";
             for (int i = 0; i < (tmpMsg.length - 1); i++) {
                 parts = parts + tmpMsg[i+1];
                 ((Chat)(_frm.getGameChat())).receive(parts);
             }
+        } else if (tmpMsg[0].equals(Net.MSG_SYNC)) {
+        	int shipid = 0;
+        	int idx = 1;
+        	if (playernumber == 1){
+    			// Second Part ist to sync
+    			shipid = 4;
+    		}
+        	// Ship (x, y, direction, percent)
+        	for (int i = 0; i < 4;i++) {
+        		((BattleShip)battleShips.elementAt(shipid + i)).setXPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(shipid + i)).setYPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(shipid + i)).setDirection(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(shipid + i)).setShipStatePercent(Integer.parseInt(tmpMsg[idx])); idx++;
+        	}
+        	actualplayer = playernumber;
+        	updategui();
         }
         //TODO
     }
@@ -137,7 +160,17 @@ public class Engine {
                 b.setText(translator.tr(b.getName()));
             }
         }
-        _frm.repaint();
+        if (_frm != null){  _frm.repaint();}
+    }
+    
+    public boolean isAtPlaying(){
+    	if (actualplayer == playernumber) {
+    		System.out.println("Is at play");
+    		return true;
+    	}else{
+    		System.out.println("Is not at playing");
+    		return false;
+    	}
     }
     
 	public void setNavmode(boolean b) {
@@ -145,6 +178,40 @@ public class Engine {
 	}
 	public boolean getNavmode() {
 		return navmode;
+	}
+	/**
+	 * 
+	 */
+	public void reduceaction() {
+		actionsleft--;
+		System.out.println("Actions left: " + actionsleft);
+		if (actionsleft == 0){
+			syncwithrival();
+			if (actualplayer == 1) {
+				actualplayer = 2;
+			}else{
+				actualplayer = 1;
+			}
+			actionsleft = 3;
+		}
+	}
+
+	private void syncwithrival() {
+		// TODO Auto-generated method stub
+		int shipid = 0;
+		if (playernumber == 1) {
+			shipid = 4;
+		}
+		String tosend = Net.MSG_SYNC + "|";
+		for (int i = 0; i < 4; i++){
+			int x = ((BattleShip)battleShips.elementAt(shipid + i)).getXPosition();
+    		int y = ((BattleShip)battleShips.elementAt(shipid + i)).getYPosition();
+    		int dir = ((BattleShip)battleShips.elementAt(shipid + i)).getDirection();
+    		int perc = ((BattleShip)battleShips.elementAt(shipid + i)).getShipStatePercent();
+    		tosend += String.valueOf(x) + "|" + String.valueOf(y) + "|" + String.valueOf(dir) + "|" + String.valueOf(perc) + "|";
+		}
+		_net.send(tosend);
+		updategui();
 	}
 	
 }

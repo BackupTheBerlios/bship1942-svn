@@ -196,6 +196,7 @@ public class StartDia extends JFrame implements ActionListener {
 	private JComboBox getNationCombo() {
 		if (nationCombo == null) {
 			nationCombo = new JComboBox(listDir("nations", ""));
+			nationCombo.setRenderer(new NationsCBoxRenderer());
 		}
 		return nationCombo;
 	}
@@ -224,6 +225,7 @@ public class StartDia extends JFrame implements ActionListener {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {    
 					_lang.setLanguage(langCombo.getSelectedItem().toString());
 					_engine.updateLanguage();
+					drawPreviewPic();
 				}
 			});
 		}
@@ -325,8 +327,12 @@ public class StartDia extends JFrame implements ActionListener {
         } else if ((e.getActionCommand()).equals(MAP_CHANGED)) {
             // set new image to map... 
         	drawPreviewPic();
-        } //  vielleicht noch die sprachen aendern
-        drawPreviewPic();
+        }else{
+        	repaint();
+        	drawPreviewPic();
+        	
+        }
+        
     }
 	
 	private BufferedImage getMapPreviewImage() {
@@ -406,7 +412,8 @@ public class StartDia extends JFrame implements ActionListener {
 	}
 	
 	private void drawPreviewPic() {
-		if (!getMapCombo().getSelectedItem().toString().equals("") && getMapPreviewImage() != null) {
+		if (getMapPreviewImage() != null) {
+			System.out.println("Draw image");
 			getPreviewPanel().getGraphics().drawImage(getMapPreviewImage(),0,0,300,214,getPreviewPanel());
 		}
 	}

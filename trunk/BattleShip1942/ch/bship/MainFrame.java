@@ -119,7 +119,7 @@ public class MainFrame extends JFrame {
 	 */    
 	private JPanel getGameState() {
 		if (gameState == null) {
-			gameState = new PanelGameState();
+			gameState = new PanelGameState(_engine);
 		}
 		return gameState;
 	}
@@ -385,6 +385,7 @@ public class MainFrame extends JFrame {
 	public void initField() {
 		setVisible(true);
 		((Field) getGameField()).zeichne();
+		((Field) getGameField()).setInfo("Spieler 1 ist an der Reihe");
 	}
 	
 	/**

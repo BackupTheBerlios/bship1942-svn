@@ -87,13 +87,18 @@ public class Field extends JPanel {
 		for (int i = Engine.battleShips.size()-1; i >= 0; i--) {
 			bim = ((BattleShip)Engine.battleShips.elementAt(i)).getShipPic();
 			BattleShip bs = (BattleShip)Engine.battleShips.elementAt(i);
-			getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
+			if (bs.getShipStatePercent() > 0) {
+				getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
+			}
 		}
+		setInfo("Player " +_engine.actualplayer);
     }
     
     class FieldMouseListener implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
-			selectShipAtCoordinate(e.getX(), e.getY());
+			if (_engine.isAtPlaying()) {
+				selectShipAtCoordinate(e.getX(), e.getY());
+			}
 		}
 		public void mousePressed(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
@@ -116,6 +121,7 @@ public class Field extends JPanel {
     		for (int i = 0; i < Engine.battleShips.size(); i++){
     			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
     				((BattleShip)Engine.battleShips.elementAt(i)).attackedbyship(1);
+    				_engine.reduceaction();
     				_engine.updategui();
     				
     				break;
@@ -124,8 +130,22 @@ public class Field extends JPanel {
     			}
     		}
     	}
-		
-		
 	}
+    
+    public void setInfo(String what) {
+    	getGraphics().setColor (java.awt.Color.red);
+    	getGraphics().setFont (new java.awt.Font ("Monospaced",java.awt.Font.BOLD,24));
+
+        java.awt.FontMetrics fm = getGraphics().getFontMetrics ();
+        int msg_width = fm.stringWidth (what);
+
+        int ascent = fm.getMaxAscent ();
+        int descent= fm.getMaxDescent ();
+
+        int msg_x = getSize ().width/2 - msg_width/2;
+        int msg_y = getSize ().height/2 - descent/2 + ascent/2;
+
+        getGraphics().drawString (what, msg_x, msg_y);
+    }
 } 
 	//  @jve:decl-index=0:visual-constraint="10,10"
