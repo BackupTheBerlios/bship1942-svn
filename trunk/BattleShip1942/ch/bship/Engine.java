@@ -80,8 +80,8 @@ public class Engine {
     
     public void openMainFrame() {
     	_frm = new MainFrame(this);
+    	_frm.initField();
         _frm.updateselected();
-        _frm.initField();
         actualplayer = 1;
         actionsleft = 3;
     }
@@ -90,27 +90,43 @@ public class Engine {
         String[] tmpMsg = msg.split("\\|");
         
         if (tmpMsg[0].equals(Net.MSG_HELLO)) {
-        	openMainFrame();
+        	_net.send(Net.MSG_RESPONSE + "|" + _myNick + "|" + _myNationality);
             _net.setIP(tmpMsg[1]);
             _rivalsNick = (tmpMsg[2]);
             _rivalsNationality = (tmpMsg[3]);
             playernumber = 2;
+            openMainFrame();
             updategui();
+        } else if (tmpMsg[0].equals(Net.MSG_RESPONSE)) {
+        	_rivalsNick = tmpMsg[1];
+        	_rivalsNationality = tmpMsg[2];
+        	playernumber = 1;
+        	openMainFrame();
+        	updategui();
+        	
         } else if (tmpMsg[0].equals(Net.MSG_CHAT)) {
             ((Chat)_frm.getGameChat()).receive(tmpMsg[1]);
         } else if (tmpMsg[0].equals(Net.MSG_SYNC)) {
-        	actualplayer = playernumber; // jetzt bin ich dran!
-        	int idx = 1;
-        	// Ship (x, y, direction, percent)
-        	for (int i = 0; i < battleShips.size()-1;i++) {
-        		((BattleShip)battleShips.elementAt(i)).setXPosition(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(i)).setYPosition(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(i)).setDirection(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(i)).setShipStatePercent(Integer.parseInt(tmpMsg[idx])); idx++;
+        	if (amidefeated()) {
+        		_frm.defeatmsg();
+        	}else{
+        		actualplayer = playernumber; // jetzt bin ich dran!
+            	int idx = 1;
+            	// Ship (x, y, direction, percent)
+            	for (int i = 0; i < battleShips.size()-1;i++) {
+            		((BattleShip)battleShips.elementAt(i)).setXPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+            		((BattleShip)battleShips.elementAt(i)).setYPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+            		((BattleShip)battleShips.elementAt(i)).setDirection(Integer.parseInt(tmpMsg[idx])); idx++;
+            		((BattleShip)battleShips.elementAt(i)).setShipStatePercent(Integer.parseInt(tmpMsg[idx])); idx++;
+            	}
+            	
+            	setNavmode(true);
+            	((PanelShipNav) _frm.getShipNavField()).resetButton();
+            	actBship = null;
+            	updategui();
+            	_frm.repaintField();
         	}
         	
-        	setNavmode(true);
-        	updategui();
         }
         //TODO
     }
@@ -121,6 +137,10 @@ public class Engine {
     public BattleShip getSelectedBoat() {
         return actBship;
     }
+    
+    public void repaintField() {
+    	_frm.repaintField();
+    }
 
     public void setSelectedBoat(BattleShip bs) {
         actBship = bs;
@@ -128,6 +148,7 @@ public class Engine {
     }
     
     public void updategui() {
+    	System.out.println("I'm Player number:" + playernumber);
     	_frm.updateselected();
     }
 
@@ -166,6 +187,18 @@ public class Engine {
     		System.out.println("Is not at playing");
     		return false;
     	}
+    }
+    
+    private boolean amidefeated() {
+    	boolean defeated = true;
+    	for (int i = 0; i < battleShips.size(); i++){
+    		if (((BattleShip)battleShips.elementAt(i)).isMine(playernumber)) {
+    			if (((BattleShip)battleShips.elementAt(i)).getShipStatePercent() > 0) {
+    				defeated = false;
+    			}
+    		}
+    	}
+    	return defeated;
     }
     
 	public void setNavmode(boolean b) {

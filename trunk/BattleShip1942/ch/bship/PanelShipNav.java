@@ -174,4 +174,8 @@ public class PanelShipNav extends JPanel {
 		}
 		return navbattleButton;
 	}
+	
+	public void resetButton() {
+		getNavbattleButton().setText("Nav / Battle");
+	}
  }

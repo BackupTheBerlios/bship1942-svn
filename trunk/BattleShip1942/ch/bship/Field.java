@@ -34,6 +34,7 @@ public class Field extends JPanel {
     private String folderdivider = File.separator;
     private String _mapimgpath, _mapdatpath;
     private Engine _engine;
+    private boolean _defeated = false;
     
     private BufferedImage mapimg = null;
 	private JLabel jLabel = null;
@@ -91,7 +92,11 @@ public class Field extends JPanel {
 				getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
 			}
 		}
-		setInfo("Player " +_engine.actualplayer);
+		if (!_defeated) {
+			setInfo("Player " +_engine.actualplayer);
+		}else{
+			setInfo("You are defeated!");
+		}
     }
     
     class FieldMouseListener implements MouseListener {
@@ -110,23 +115,28 @@ public class Field extends JPanel {
     	if (_engine.getNavmode()){
     		for (int i = 0; i < Engine.battleShips.size(); i++){
     			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
-    				_engine.setSelectedBoat((BattleShip)Engine.battleShips.elementAt(i));
+    				if (((BattleShip)Engine.battleShips.elementAt(i)).isMine(_engine.playernumber)) {
+    					_engine.setSelectedBoat((BattleShip)Engine.battleShips.elementAt(i));
+    				}else{
+    					System.out.println("Not my Ship");
+    				}
     				break;
     			}else{
     				_engine.setSelectedBoat(null);
     			}
     		}
     	}else{
-    		System.out.println("attacking");
     		for (int i = 0; i < Engine.battleShips.size(); i++){
     			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
-    				((BattleShip)Engine.battleShips.elementAt(i)).attackedbyship(1);
-    				_engine.reduceaction();
+    				if (!((BattleShip)Engine.battleShips.elementAt(i)).isMine(_engine.playernumber)) {
+    					((BattleShip)Engine.battleShips.elementAt(i)).attackedbyship(_engine.getSelectedBoat().getShipStrength());
+    					_engine.reduceaction();
+    				}else{
+    					System.out.println("Hey, don't shoot at yourself");
+    				}
     				_engine.updategui();
-    				
+    				_engine.repaintField();
     				break;
-    			}else{
-    				_engine.setSelectedBoat(null);
     			}
     		}
     	}
@@ -147,5 +157,11 @@ public class Field extends JPanel {
 
         getGraphics().drawString (what, msg_x, msg_y);
     }
+	/**
+	 * @param b
+	 */
+	public void setDefeated(boolean b) {
+		_defeated = b;
+	}
 } 
 	//  @jve:decl-index=0:visual-constraint="10,10"

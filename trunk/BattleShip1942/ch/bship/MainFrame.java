@@ -364,7 +364,7 @@ public class MainFrame extends JFrame {
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
-	private JPanel getShipNavField() {
+	public JPanel getShipNavField() {
 		if (shipNav == null) {
 			shipNav = new PanelShipNav(_engine, (Field)getGameField());
 		}
@@ -385,7 +385,11 @@ public class MainFrame extends JFrame {
 	public void initField() {
 		setVisible(true);
 		((Field) getGameField()).zeichne();
-		((Field) getGameField()).setInfo("Spieler 1 ist an der Reihe");
+	}
+	
+	public void defeatmsg() {
+		((Field) getGameField()).setDefeated(true);
+		((Field) getGameField()).zeichne();
 	}
 	
 	/**
@@ -399,5 +403,11 @@ public class MainFrame extends JFrame {
 			northwest.add(getGameState(), null);
 		}
 		return northwest;
+	}
+	/**
+	 * 
+	 */
+	public void repaintField() {
+		((Field) getGameField()).zeichne();
 	}
       }  //  @jve:decl-index=0:visual-constraint="10,10"

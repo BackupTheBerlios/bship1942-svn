@@ -324,8 +324,6 @@ public class StartDia extends JFrame implements ActionListener {
                     getNickField().getText() + "|" +
                     ((String)(getNationCombo().getSelectedItem())) + "|" +
                     ((String)(getMapCombo().getSelectedItem()));
-
-            	_engine.openMainFrame();
                 _net.send(message);
         	}
             setVisible(false);

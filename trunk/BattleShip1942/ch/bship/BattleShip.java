@@ -24,6 +24,7 @@ public class BattleShip {
 	private int _alignment;
 	private Vector _positions;
 	private int _kind;
+	private String _picture;
 	private int _shield;
 	private int _force;
 	private int _rangeOfSight;
@@ -66,6 +67,7 @@ public class BattleShip {
 			_rangeOfShot = 1;
 			_speed = 1;
 			_name = "LandingCraft";
+			_picture = "pics/ships/Landungsboot.jpg";
 		} else if (kind == 1) {
 			_shield = 2;
 			_force = 1;
@@ -73,6 +75,7 @@ public class BattleShip {
 			_rangeOfShot = 1;
 			_speed = 3;
 			_name = "SpeedBoat";
+			_picture = "pics/ships/SpeedBoot.jpg";
 		} else if (kind == 2) {
 			_shield = 4;
 			_force = 2;
@@ -80,6 +83,7 @@ public class BattleShip {
 			_rangeOfShot = 2;
 			_speed = 1;
 			_name = "ArmoredBoat";
+			_picture = "pics/ships/Panzerboot.jpg";
 		} else if (kind == 3) {
 			_shield = 3;
 			_force = 4;
@@ -87,12 +91,13 @@ public class BattleShip {
 			_rangeOfShot = 4;
 			_speed = 1;
 			_name = "AirCraftCarrier";
+			_picture = "pics/ships/Flugzeugtraeger.jpg";
 		}
 		
 		if (_player == 1) {
-			_xpos = 30; _ypos = 440;
+			_xpos = 30; _ypos = 310 + kind * 45;
 		}else{
-			_xpos = 610; _ypos = 50;
+			_xpos = 610; _ypos = 150 - kind * 45;
 			_direction = 3;
 		}
 	}
@@ -152,14 +157,7 @@ public class BattleShip {
      * get the Ships own picture
      */
     public String getShipPicture() {
-    	String shp = "";
-    	switch (_kind) {
-    		case 0: shp = "pics/ships/2er.gif"; break;
-    		case 1: shp = "pics/ships/3er.gif"; break;
-    		case 2: shp = "pics/ships/4er.gif"; break;
-    		case 3: shp = "pics/ships/5er.gif"; break;
-    	}
-    	return shp;
+    	return _picture;
     }
     
     /**
@@ -243,6 +241,14 @@ public class BattleShip {
     	int imgheight = img.getHeight();
     	int imgwidth = img.getWidth();
     	if (x > getXPosition() && x < (getXPosition() + imgwidth) && y > getYPosition() && y < (getYPosition() + imgheight)) {
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+    
+    public boolean isMine(int playernr) {
+    	if (_player == playernr) {
     		return true;
     	}else{
     		return false;

@@ -57,7 +57,8 @@ public class Net extends Thread {
         }
         while (true) {
             try {
-                _con = _s.accept ();			
+                _con = _s.accept ();
+                setIP(_con.getInetAddress().toString().substring(1,_con.getInetAddress().toString().length()));
                 byte b[]=new byte [2048];
                 int anzahl=_con.getInputStream().read(b);
                 String msg = new String(b, 0, anzahl);
@@ -81,5 +82,6 @@ public class Net extends Thread {
 
     public void setIP (String ip) {
         _ip = ip;
+        System.out.println("Setting opponents ip to: " + _ip);
     }
 }

@@ -51,8 +51,7 @@ public class PanelShipState extends JPanel {
 		jShipPicture = new JLabel();
 		this.setLayout(new BorderLayout());
 		this.setSize(300,200);
-		ImageIcon icon = new ImageIcon( "bild.jpg" );
-		jShipPicture = new JLabel(icon);
+		jShipPicture = new JLabel();
 		this.add(getPanelShipDetails(), java.awt.BorderLayout.CENTER);
 		this.add(jShipPicture, java.awt.BorderLayout.EAST);
 		

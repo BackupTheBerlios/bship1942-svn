@@ -328,9 +328,6 @@ public class PanelGameState extends JPanel {
 		    lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getRivalsNationality() + "/banner.jpg")));
 	    }
 	    
-	    lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
-	    lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/USA/banner.jpg")));
-	    
 	    progressPlayer1Ship1.setValue(shipperc[0]);
 	    progressPlayer1Ship2.setValue(shipperc[1]);
 	    progressPlayer1Ship3.setValue(shipperc[2]);
