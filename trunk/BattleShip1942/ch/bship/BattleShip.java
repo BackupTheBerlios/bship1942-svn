@@ -28,11 +28,14 @@ public class BattleShip {
 	/**
 	 * constructor
 	 */
-	public BattleShip(int kind, String pathToImage) {
+	public BattleShip(int kind) {
 	    _kind = kind;
 		setInfos(_kind);
 		_name = GameLanguage.tr(_name);
-		_pathToImage = pathToImage;
+		/**
+		 * TODO: pathToImage mit properties oder setinfos implementieren
+		 */
+		_pathToImage = "";
 	}
 
     /**
