@@ -6,6 +6,7 @@
  * Changelog:
  * 
  * 24.08.2004	MR		Erstellung
+ * 6.12.2004    AG              Instanzierung
  * 
  */
 package ch.bship;
@@ -15,44 +16,84 @@ import java.util.Vector;
 import javax.swing.*;
 
 public class Engine {
-    
-    public static Vector BattleShips = new Vector();
+
+    public static Vector battleShips = new Vector();
     public static Vector guiElements = new Vector();
-    static GameLanguage translator = new GameLanguage();
     public static String language = "german.lng";
+    private static GameLanguage translator = GameLanguage.getInstance();
     private static BattleShip actBship;
-    private static int i, shipnr = 0;
-    
-    
-	public static void main(String[] args) {
-		MainFrame frm = new MainFrame();
-		frm.setVisible(true);
-		
-		// Creating ship instances and adding ships to Vector
-		for (i = 0; i < 7;i++) {
-		    if (shipnr == 4) { shipnr = 0; }
-		    BattleShip bship = new BattleShip(shipnr);
-		    BattleShips.addElement(bship);
-		    shipnr++;
-		}
-	}
-	
-	public static String[] getLanguages() {
-    	File langs = new File(".");
-    	File[] f = langs.listFiles();
-    	
-    	String out = "";
-    	for (int i = 0; i < f.length; i++) {
-    		if (f[i].isFile() && f[i].getName().endsWith(".lng")) {
-    			out +=  f[i].getName().substring(0,f[i].getName().length()-4) + ":";
-    		}
-    	}
-    	return out.split(":");
+    private MainFrame _frm;
+    private Net _net = null;
+    private int shipnr = 0;
+
+    private String _rivalsNick = "";
+    private String _rivalsNationality = "";
+    private String _myNick = "";
+    private String _myNationality = "";
+    private String _map = "logo";
+
+    public void setRivalsNick(String nick) { _rivalsNick = nick; }
+    public void setRivalsNationality(String nation) { _rivalsNationality = nation; }
+    public void setMyNick(String nick) { _myNick = nick; }
+    public void setMyNationality(String nation) { _myNationality = nation; }
+    public void setMap(String map) { _map = map; }
+    public String getRivalsNick() { return _rivalsNick; }
+    public String getRivalsNationality() { return _rivalsNationality; }
+    public String getMyNick() { return _myNick; }
+    public String getMyNationality() { return _myNationality; }
+    public String getMap() { return _map; }
+
+    public static void main(String[] args) {
+        new Engine();
     }
 
-	public void Eventhandler(String msg) {
-		// TODO: Programming the new Eventhandler
-	}
+    /**
+     * constructor
+     */
+    public Engine() {
+        _net = new Net(this);
+
+        StartDlg sdlg = new StartDlg(_net, this);
+        sdlg.pack();
+        sdlg.setVisible(true);
+
+
+        _frm = new MainFrame(this);
+        _frm.setVisible(true);
+
+
+        
+        
+
+        // Creating ship instances and adding ships to Vector
+        for (int i = 0; i < 7;i++) {
+            if (shipnr == 4) { shipnr = 0; }
+            BattleShip bship = new BattleShip(shipnr);
+            battleShips.addElement(bship);
+            shipnr++;
+        }
+    }
+
+    public Net getNetInstance() {
+        return _net;
+    }
+
+    public void Eventhandler(String msg) {
+        String[] tmpMsg = msg.split("\\|");
+        
+        if (tmpMsg[0].equals(_net.MSG_HELLO)) {
+            _net.setIP(tmpMsg[1]);
+            _rivalsNick = (tmpMsg[2]);
+            _rivalsNationality = (tmpMsg[3]);
+        } else if (tmpMsg[0].equals(_net.MSG_CHAT)) {
+            String parts = "";
+            for (int i = 0; i < (tmpMsg.length - 1); i++) {
+                parts = parts + tmpMsg[i+1];
+                ((Chat)(_frm.getGameChat())).receive(parts);
+            }
+        }
+        //TODO
+    }
 
     /**
      * @return Actual selected BattleShip
@@ -60,34 +101,34 @@ public class Engine {
     public static BattleShip getSelectedBoat() {
         return actBship;
     }
-    
+
     public static void setSelectedBoat(BattleShip bs) {
         actBship = bs;
     }
-	
+
     public static void updateLanguage() {
-    	for (int i = 0; i < guiElements.size(); i++){
-    		if (guiElements.elementAt(i) instanceof JMenu){
-    			JMenu m = (JMenu) guiElements.elementAt(i);
-    			m.setText(translator.tr(m.getName()));
-    		}
-    		if (guiElements.elementAt(i) instanceof JMenuItem){
-    			JMenuItem mi = (JMenuItem) guiElements.elementAt(i);
-    			mi.setText(translator.tr(mi.getName()));
-    		}
-    		if (guiElements.elementAt(i) instanceof JCheckBoxMenuItem){
-    			JCheckBoxMenuItem cbmi = (JCheckBoxMenuItem) guiElements.elementAt(i);
-    			cbmi.setText(translator.tr(cbmi.getName()));
-    		}
-    		if (guiElements.elementAt(i) instanceof JLabel){
-    			JLabel l = (JLabel) guiElements.elementAt(i);
-    			l.setText(translator.tr(l.getName()));
-    		}
-    		if (guiElements.elementAt(i) instanceof JButton){
-    			JButton b = (JButton) guiElements.elementAt(i);
-    			b.setText(translator.tr(b.getName()));
-    		}
-    	}
+        translator.setLanguage(language);
+        for (int i = 0; i < guiElements.size(); i++){
+            if (guiElements.elementAt(i) instanceof JMenu){
+                JMenu m = (JMenu) guiElements.elementAt(i);
+                m.setText(translator.tr(m.getName()));
+            }
+            if (guiElements.elementAt(i) instanceof JMenuItem){
+                JMenuItem mi = (JMenuItem) guiElements.elementAt(i);
+                mi.setText(translator.tr(mi.getName()));
+            }
+            if (guiElements.elementAt(i) instanceof JCheckBoxMenuItem){
+                JCheckBoxMenuItem cbmi = (JCheckBoxMenuItem) guiElements.elementAt(i);
+                cbmi.setText(translator.tr(cbmi.getName()));
+            }
+            if (guiElements.elementAt(i) instanceof JLabel){
+                JLabel l = (JLabel) guiElements.elementAt(i);
+                l.setText(translator.tr(l.getName()));
+            }
+            if (guiElements.elementAt(i) instanceof JButton){
+                JButton b = (JButton) guiElements.elementAt(i);
+                b.setText(translator.tr(b.getName()));
+            }
+        }
     }
-    
 }
