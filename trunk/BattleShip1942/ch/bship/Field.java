@@ -88,8 +88,13 @@ public class Field extends JPanel {
 		for (int i = _engine.getBattleShips().size()-1; i >= 0; i--) {
 			BattleShip bs = (BattleShip)_engine.getBattleShips().elementAt(i);
 			bim = bs.getShipPic();
-			if (bs.getShipStatePercent() > 0) {
-				getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
+			int j;
+			if(_engine.getMyPlayernumber() == 1) { j = 0; }else{ j = 4 }
+			for (j < 4; i++) {
+				BattleShip ba = (BattleShip)_engine.getBattleShips().elementAt(j);
+				if (bs.isInSightRange(ba, bs.getShipRangeOfSight()) && bs.getShipStatePercent() > 0) {
+					getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
+				}
 			}
 		}
 		setInfo("Player: " + _engine.getActualPlayer());

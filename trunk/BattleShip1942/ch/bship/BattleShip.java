@@ -145,6 +145,27 @@ public class BattleShip {
     }
     
     /**
+     * methoden zur kollisionserkennung
+     */
+        
+    public boolean isInSightRange(BattleShip actingbs, int range){
+    	int x, y, width, heigth;
+    	x = actingbs.getXPosition() - actingbs.getShipRangeOfSight() * 15;
+    	y = actingbs.getYPosition() - actingbs.getShipRangeOfSight() * 15;
+    	width = getShipImage().getWidth();
+    	heigth = getShipImage().getHeight();
+    	x -= range * 15;
+    	y -= range * 15;
+    	heigth += range * 15 * 2;
+    	width += range * 15 * 2;
+    	if (x > getXPosition() && x < (getXPosition() + width) && y > getYPosition() && y < (getYPosition() + heigth)) {
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+    
+    /**
      * graphical part of the ship
      */
     
