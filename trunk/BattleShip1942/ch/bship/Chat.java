@@ -10,16 +10,25 @@
  */
 
 public class Chat extends JPanel {
+	
 	JTextField _messages;
 	JTextField _inputBox;
 	JColor _myColor;
 	JColor _hisColor;
 	Net _net;
 	
+	/**
+	 * Constructor
+	 */
 	public Chat (Net net){
 		initChat(net);
 	}
 
+	/**
+	 * initialises the Chat
+	 *
+	 * @return Chat
+	 */
 	public Chat initChat(Net net) {
 		messages = new JTextField;
 		inputBox = new JTextField;
@@ -30,6 +39,12 @@ public class Chat extends JPanel {
 		
 	}
 	
+	/**
+	 * sends a message to the opponent
+	 *
+	 * @param message
+	 */
 	private void send(String text) {
-		_net.	
+		_net.send(text);
+	}
 }
