@@ -11,8 +11,6 @@
 
 package ch.bship;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -59,15 +57,11 @@ public class GameLanguage {
      */
     private void loadLangFile() {
     	props.clear();
-    	try {
-            FileInputStream fis = new FileInputStream(getLanguage() + ".lng");
-            props.load(fis);
-            fis.close();
-        } catch (FileNotFoundException e) {
-            Error.addError(e, "Sprachdatei " + getLanguage() + ".lng nicht gefunden");
-        } catch (IOException e) {
-            Error.addError(e, "Eingabe-/Ausgabefehler");
-        }
+        try {
+			props.load(Utillib.getInputStreamFromJar(getLanguage() + ".lng"));
+		} catch (IOException e) {
+			Error.addError(e, "Languagefile cannot be loaded");
+		}
     }
     
     /**

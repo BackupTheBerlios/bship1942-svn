@@ -71,9 +71,8 @@ public class Field extends JPanel {
 	 */
 	private BufferedImage getMapImage() {
 		if (_mapimg == null) {
-			File f = new File(_mapimgpath);
 			try {
-				_mapimg = ImageIO.read(f);
+				_mapimg = ImageIO.read(Utillib.getInputStreamFromJar(_mapimgpath));
 			} catch (IOException e) {
 				Error.addError(e, "Fehler beim laden der Karte");
 			}

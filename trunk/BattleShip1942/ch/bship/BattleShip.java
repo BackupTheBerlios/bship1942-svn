@@ -14,7 +14,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -85,28 +84,28 @@ public class BattleShip {
 			_rangeOfSight = 1;
 			_rangeOfShot = 1;
 			_speed = 1;
-			_picture = "pics/ships/Landungsboot.jpg";
+			_picture = "/pics/ships/Landungsboot.jpg";
 		} else if (kind == 1) {
 			_shield = 2;
 			_force = 1;
 			_rangeOfSight = 3;
 			_rangeOfShot = 1;
 			_speed = 3;
-			_picture = "pics/ships/SpeedBoot.jpg";
+			_picture = "/pics/ships/SpeedBoot.jpg";
 		} else if (kind == 2) {
 			_shield = 4;
 			_force = 2;
 			_rangeOfSight = 2;
 			_rangeOfShot = 2;
 			_speed = 1;
-			_picture = "pics/ships/Panzerboot.jpg";
+			_picture = "/pics/ships/Panzerboot.jpg";
 		} else if (kind == 3) {
 			_shield = 3;
 			_force = 4;
 			_rangeOfSight = 4;
 			_rangeOfShot = 4;
 			_speed = 1;
-			_picture = "pics/ships/Flugzeugtraeger.jpg";
+			_picture = "/pics/ships/Flugzeugtraeger.jpg";
 		}
 		
 		// placing ships in left under and right upper corner (need to be implmented dynamicly)
@@ -151,9 +150,8 @@ public class BattleShip {
     
     private BufferedImage getShipImage() {
     	if (_shippic == null) {
-    		File f = new File(getShipPicture());
         	try {
-        		_shippic = ImageIO.read(f);
+        		_shippic = ImageIO.read(Utillib.getInputStreamFromJar(getShipPicture()));
     		} catch (IOException e) {
     			Error.addError(e, "Fehler beim Laden des Schiffbildes");
     		}

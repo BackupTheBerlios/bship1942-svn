@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -67,7 +66,6 @@ public class StartDia extends JFrame implements ActionListener {
     private final static String CANCEL = "CANCEL_CMD";
     private final static String MAP_CHANGED = "MAP_CHANGED_CMD";
 	private Engine _engine;
-	private Vector _flags;
 	private JPanel subButtonPanel = null;
 	private JPanel optionPanel = null;
 	
@@ -87,7 +85,6 @@ public class StartDia extends JFrame implements ActionListener {
 		this.setContentPane(getJContentPane());
 		this.setTitle("BattleShip 1942");
 		this.addWindowListener(new AppCloser());
-        _flags = listDir("nations", "banner.jpg");
 	}
 	
 	/**
@@ -172,7 +169,7 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	private JComboBox getNationCombo() {
 		if (nationCombo == null) {
-			nationCombo = new JComboBox(listDir("nations", ""));
+			nationCombo = new JComboBox(Utillib.listDir("nations", ""));
 			nationCombo.setRenderer(new NationsCBoxRenderer());
 		}
 		return nationCombo;
@@ -180,7 +177,7 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	private JComboBox getMapCombo() {
 		if (mapCombo == null) {
-			mapCombo = new JComboBox(listDir("./maps", ""));
+			mapCombo = new JComboBox(Utillib.listDir("maps", ""));
 			mapCombo.addActionListener(this);
 			mapCombo.setActionCommand(MAP_CHANGED);
 		}
@@ -323,27 +320,6 @@ public class StartDia extends JFrame implements ActionListener {
 		return img;
 	}
 	
-	/**
-	 * gives back a vector with a dirlisting
-	 */
-	private Vector listDir(String dirName, String filename) {
-        Vector list = new Vector();
-
-        File file = new File(dirName);
-        File[] dirs = file.listFiles();
-        for (int i = 0; i < dirs.length; i++) {
-            if (dirs[i].isDirectory() && !dirs[i].getName().equals("CVS")) {
-                if (filename.equals("")) {
-                    list.addElement(dirs[i].getName());
-                } else {
-                    list.addElement(dirs[i].getName() + 
-                        File.separator + "banner.jpg");
-                }
-            }
-        }
-        return list;
-    }
-	
 	private void drawPreviewPic() {
 		if (getMapPreviewImage() != null) {
 			System.out.println("Draw image");
@@ -371,7 +347,9 @@ public class StartDia extends JFrame implements ActionListener {
             boolean isSelected,
             boolean cellHasFocus)
         {
-            setIcon(new ImageIcon("nations" + File.separator + (String)value + File.separator + "banner.jpg"));
+            try {
+				setIcon(new ImageIcon(ImageIO.read(Utillib.getInputStreamFromJar("nations/" + (String)value + "/banner.jpg"))));
+			} catch (IOException e) {}
             setText((String)value);
             return this;
         }

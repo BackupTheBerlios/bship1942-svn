@@ -9,12 +9,14 @@
  * 
  */
 package ch.bship;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
@@ -303,8 +305,13 @@ public class PanelGameState extends JPanel {
 	    }
 	    if (_engine.getMyPlayernumber() == 1) {
 	    	setPlayernames(_engine.getMyNick(), _engine.getRivalsNick());
-	    	lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
-		    lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getRivalsNationality() + "/banner.jpg")));
+	    	try {
+				lablePlayer1Name.setIcon(new ImageIcon(ImageIO.read(Utillib.getInputStreamFromJar("/nations/" + _engine.getMyNationality() + "/banner.jpg"))));
+				lablePlayer2Name.setIcon(new ImageIcon(ImageIO.read(Utillib.getInputStreamFromJar("/nations/" + _engine.getRivalsNationality() + "/banner.jpg"))));
+			} catch (IOException e) {
+				Error.addError(e, "Nationalflag cannot be loaded");
+			}
+		    
 	    }else{
 	    	setPlayernames(_engine.getRivalsNick(),_engine.getMyNick());
 	    	lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
