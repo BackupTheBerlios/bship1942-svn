@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem jMenuItemInfo = null;
 		
 	private JPanel shipNav = null;
+	private JPanel northwest = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -59,7 +60,7 @@ public class MainFrame extends JFrame {
 		this.setJMenuBar(getJJMenuBar());
 		this.setTitle("BattleShip 1942");
 		this.addWindowListener(new AppCloser());
-		this.setSize(958, 641);
+		this.setSize(960, 730);
 		this.setContentPane(getJContentPane());
 	}
 	protected static final class AppCloser extends WindowAdapter {
@@ -95,7 +96,6 @@ public class MainFrame extends JFrame {
 			
 			JPanel west = new JPanel();
 			west.setLayout(new BoxLayout(west, BoxLayout.X_AXIS));
-			west.add(getGameState());
 			west.add(getGameChat());
 			
 			JPanel south = new JPanel();
@@ -104,6 +104,7 @@ public class MainFrame extends JFrame {
 			south.add(getShipState());
 			
 			jContentPane.add(west, java.awt.BorderLayout.WEST);
+			west.add(getNorthwest(), null);
 			jContentPane.add(getGameField(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(south, java.awt.BorderLayout.SOUTH);
 			south.add(getShipNavField(), null);
@@ -378,6 +379,7 @@ public class MainFrame extends JFrame {
 	public void updateselected() {
 		((PanelShipNav)getShipNavField()).actualizebuttons();
 		((PanelShipState)getShipState()).updateship();
+		((PanelGameState)getGameState()).updateShipStates();
 	}
 	
 	public void initField() {
@@ -385,4 +387,16 @@ public class MainFrame extends JFrame {
 		((Field) getGameField()).zeichne();
 	}
 	
-     }  //  @jve:decl-index=0:visual-constraint="10,10"
+	/**
+	 * This method initializes northwest	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getNorthwest() {
+		if (northwest == null) {
+			northwest = new JPanel();
+			northwest.add(getGameState(), null);
+		}
+		return northwest;
+	}
+      }  //  @jve:decl-index=0:visual-constraint="10,10"

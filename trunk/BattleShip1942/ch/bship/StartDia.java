@@ -94,7 +94,6 @@ public class StartDia extends JFrame implements ActionListener {
 		this.setContentPane(getJContentPane());
 		this.setTitle("BattleShip 1942");
 		this.addWindowListener(new AppCloser());
-		System.out.println("height: " + this.getHeight() +" width:"+ this.getWidth());
         _flags = listDir("nations", "banner.jpg");
 	}
 	protected static final class AppCloser extends WindowAdapter {
@@ -184,7 +183,7 @@ public class StartDia extends JFrame implements ActionListener {
 			try {
 				ipField.setText((InetAddress.getLocalHost()).getHostAddress());
 			} catch (UnknownHostException e) {
-				e.printStackTrace();
+				Error.addError(e, "Konnte lokale IP-Adresse nicht finden");
 			}
 		}
 		return ipField;
@@ -349,11 +348,9 @@ public class StartDia extends JFrame implements ActionListener {
         Vector list = new Vector();
 
         File file = new File(dirName);
-        System.out.println(dirName);
         File[] dirs = file.listFiles();
-        System.out.println(dirs);
         for (int i = 0; i < dirs.length; i++) {
-            if (dirs[i].isDirectory()) {
+            if (dirs[i].isDirectory() && !dirs[i].getName().equals("CVS")) {
                 if (filename.equals("")) {
                     list.addElement(dirs[i].getName());
                 } else {

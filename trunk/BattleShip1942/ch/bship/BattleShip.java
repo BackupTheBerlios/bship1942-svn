@@ -29,9 +29,10 @@ public class BattleShip {
 	private int _rangeOfSight;
 	private int _rangeOfShot;
 	private int _speed;
-	private int _actualShipStatePercent;
+	private int _actualShipStatePercent = 100;
 	private int _xpos;
 	private int _ypos;
+	private int _player;
 	private int _direction = 1;
 	private String _name;
 	private String _pathToImage;
@@ -42,8 +43,9 @@ public class BattleShip {
 	/**
 	 * constructor
 	 */
-	public BattleShip(int kind) {
+	public BattleShip(int kind, int player) {
 	    _kind = kind;
+	    _player = player;
 		setInfos(_kind);
 		_name = translator.tr(_name);
 		/**
@@ -85,6 +87,12 @@ public class BattleShip {
 			_rangeOfShot = 4;
 			_speed = 1;
 			_name = "AirCraftCarrier";
+		}
+		
+		if (_player == 1) {
+			_xpos = 50; _ypos = 440;
+		}else{
+			_xpos = 630; _ypos = 50;
 		}
 	}
 
@@ -180,7 +188,6 @@ public class BattleShip {
     
     public void moveUp(int howmany) {
     	_ypos -= 15 * howmany;
-    	// Looking for right direction
     	_direction = 0;
     }
     
@@ -223,6 +230,12 @@ public class BattleShip {
     		return false;
     	}
     }
+    
+    public void attackedbyship(int strength){
+    	_actualShipStatePercent -= 10 * strength;
+    	System.out.println("Ship: " +_actualShipStatePercent+"");
+    }
+    
 	/**
 	 * @return Returns the _direction.
 	 */

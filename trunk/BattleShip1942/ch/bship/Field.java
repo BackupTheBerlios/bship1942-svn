@@ -102,14 +102,29 @@ public class Field extends JPanel {
 	}
     
     private void selectShipAtCoordinate(int x, int y) {
-		for (int i = 0; i < Engine.battleShips.size(); i++){
-			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
-				_engine.setSelectedBoat((BattleShip)Engine.battleShips.elementAt(i));
-				break;
-			}else{
-				_engine.setSelectedBoat(null);
-			}
-		}
+    	if (_engine.getNavmode()){
+    		for (int i = 0; i < Engine.battleShips.size(); i++){
+    			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
+    				_engine.setSelectedBoat((BattleShip)Engine.battleShips.elementAt(i));
+    				break;
+    			}else{
+    				_engine.setSelectedBoat(null);
+    			}
+    		}
+    	}else{
+    		System.out.println("attacking");
+    		for (int i = 0; i < Engine.battleShips.size(); i++){
+    			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
+    				((BattleShip)Engine.battleShips.elementAt(i)).attackedbyship(1);
+    				_engine.updategui();
+    				
+    				break;
+    			}else{
+    				_engine.setSelectedBoat(null);
+    			}
+    		}
+    	}
+		
 		
 	}
 } 

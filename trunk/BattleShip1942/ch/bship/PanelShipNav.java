@@ -24,7 +24,9 @@ public class PanelShipNav extends JPanel {
 	
 	private Engine _engine;
 	private Field _field;
+	private int nav = 1;
 	
+	private JButton jButton = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -46,6 +48,7 @@ public class PanelShipNav extends JPanel {
 		this.add(getNavrightButton(), java.awt.BorderLayout.EAST);
 		this.add(getNavupButton(), java.awt.BorderLayout.NORTH);
 		this.add(getNavdownButton(), java.awt.BorderLayout.SOUTH);
+		this.add(getJButton(), java.awt.BorderLayout.CENTER);
 	}
 	
 	/**
@@ -136,4 +139,29 @@ public class PanelShipNav extends JPanel {
 		
 
 	}
-}
+	/**
+	 * This method initializes jButton	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */    
+	private JButton getJButton() {
+		if (jButton == null) {
+			jButton = new JButton();
+			jButton.setText("Nav / Battle");
+			jButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					if (nav == 1) {
+						getJButton().setText("Navigation Mode");
+						nav = 2;
+						_engine.setNavmode(true);
+					}else{
+						getJButton().setText("Battle Mode");
+						_engine.setNavmode(false);
+						nav = 1;
+					}
+				}
+			});
+		}
+		return jButton;
+	}
+ }

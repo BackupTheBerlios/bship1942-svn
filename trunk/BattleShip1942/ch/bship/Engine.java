@@ -21,9 +21,9 @@ public class Engine {
     public static String language = "german.lng";
     private static GameLanguage translator = GameLanguage.getInstance();
     private static BattleShip actBship = null;
+    private boolean navmode = true;
     private MainFrame _frm;
     private Net _net = null;
-    private int shipnr = 0;
 
     private String _rivalsNick = "";
     private String _rivalsNationality = "";
@@ -54,11 +54,12 @@ public class Engine {
     	translator.setLanguage("german");
     	openStartDialog();
         
-    	shipnr = 1;
+    	int shipnr = 1;
+    	int player = 1;
         // Creating ship instances and adding ships to Vector
         for (int i = 0; i < 7;i++) {
-            if (shipnr == 4) { shipnr = 1; }
-            BattleShip bship = new BattleShip(shipnr);
+            if (shipnr == 4) { shipnr = 1; player = 2; }
+            BattleShip bship = new BattleShip(shipnr, player);
             battleShips.addElement(bship);
             shipnr++;
         }
@@ -107,6 +108,10 @@ public class Engine {
         actBship = bs;
         _frm.updateselected();
     }
+    
+    public void updategui() {
+    	_frm.updateselected();
+    }
 
     public void updateLanguage() {
         translator.setLanguage(language);
@@ -132,5 +137,14 @@ public class Engine {
                 b.setText(translator.tr(b.getName()));
             }
         }
+        _frm.repaint();
     }
+    
+	public void setNavmode(boolean b) {
+		navmode = b;	
+	}
+	public boolean getNavmode() {
+		return navmode;
+	}
+	
 }
