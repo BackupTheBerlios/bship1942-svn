@@ -10,14 +10,9 @@
  */
 package ch.bship;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Utillib {
 
@@ -47,34 +42,7 @@ public class Utillib {
 		return in;
 	}
 	
-	/**
-	 * gives back a vector with a dirlisting
-	 */
-	public static Vector listDir(String dirName, String filename) {
-        Vector list = new Vector();
-        File file = new File(dirName);
-        JarFile jar = null; 
-
-        try {
-			jar = new JarFile(Utillib.getJarName(Engine.class));
-			int numentries = jar.size(); 
-	        Enumeration entries = jar.entries(); 
-	        
-	        for (int i = 0; i < numentries; i++) { 
-	        	JarEntry entry =  (JarEntry) entries.nextElement();
-	        	
-	        	if (entry.getName().startsWith(dirName) && entry.isDirectory()) {
-	        		list.addElement(entry.getName().substring(entry.getName().lastIndexOf("/")+1, entry.getName().length()));
-	        	}else if(entry.getName().startsWith(dirName) && !entry.isDirectory()){
-	        		list.addElement(entry.getName());
-	        	}
-	        }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return list;
-    }
+	
 	
 	/**
 	 * gives back the jarname of file with given class

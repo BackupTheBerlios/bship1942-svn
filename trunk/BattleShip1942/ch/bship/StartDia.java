@@ -26,6 +26,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
+import java.util.Vector;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -169,7 +173,7 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	private JComboBox getNationCombo() {
 		if (nationCombo == null) {
-			nationCombo = new JComboBox(Utillib.listDir("nations", ""));
+			nationCombo = new JComboBox(listDir("nations","banner.jpg"));
 			nationCombo.setRenderer(new NationsCBoxRenderer());
 		}
 		return nationCombo;
@@ -177,7 +181,7 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	private JComboBox getMapCombo() {
 		if (mapCombo == null) {
-			mapCombo = new JComboBox(Utillib.listDir("maps", ""));
+			mapCombo = new JComboBox(listDir("maps", "map.jpg"));
 			mapCombo.addActionListener(this);
 			mapCombo.setActionCommand(MAP_CHANGED);
 		}
@@ -307,15 +311,12 @@ public class StartDia extends JFrame implements ActionListener {
 	 */
 	private BufferedImage getMapPreviewImage() {
 		if (img == null) {
-			File f = new File("maps" + File.separator + (getMapCombo().getSelectedItem().toString()) + File.separator + "map.jpg");
-			if (f.exists()){
-				try {
-					img = ImageIO.read(f);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				img.getScaledInstance(300,214,java.awt.Image.SCALE_FAST);
-			}else{ img = null; }
+			try {
+				img = ImageIO.read(Utillib.getInputStreamFromJar("maps/" + (getMapCombo().getSelectedItem().toString()) + "/map.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			img.getScaledInstance(300,214,java.awt.Image.SCALE_FAST);
 		}
 		return img;
 	}
@@ -331,6 +332,29 @@ public class StartDia extends JFrame implements ActionListener {
 		super.paint(g);
 		drawPreviewPic();
 	}
+	
+	public static Vector listDir(String dirname, String filename) {
+        Vector list = new Vector();
+        File file = new File(dirname);
+        JarFile jar = null; 
+
+        try {
+			jar = new JarFile(Utillib.getJarName(Engine.class));
+			int numentries = jar.size(); 
+	        Enumeration entries = jar.entries(); 
+	        
+	        for (int i = 0; i < numentries; i++) { 
+	        	JarEntry entry =  (JarEntry) entries.nextElement();
+	        	if (entry.getName().startsWith(dirname) && entry.getName().endsWith(filename)) {
+	        		String entryname = entry.getName().substring(0,entry.getName().lastIndexOf("/"));
+	        		list.addElement(entryname.substring(entryname.lastIndexOf("/")+1, entryname.length()));
+	        	}
+	        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return list;
+    }
 	
 	/**
 	 * a combobox renderer to display flag in front of nations name

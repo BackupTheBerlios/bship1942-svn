@@ -13,7 +13,6 @@ package ch.bship;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -62,8 +61,8 @@ public class Field extends JPanel {
 	 * setting actual map
 	 */
 	private void setMap(String mapname) {
-        _mapimgpath = _mappath + File.separator + mapname + File.separator + _pictfile;
-        _mapdatpath = _mappath + File.separator + mapname + File.separator + _gridfile;
+        _mapimgpath = _mappath + "/" + mapname + "/" + _pictfile;
+        _mapdatpath = _mappath + "/" + mapname + "/" + _gridfile;
     }
 	
 	/**
