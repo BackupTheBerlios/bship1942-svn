@@ -16,29 +16,21 @@ public class Engine {
     
     public static Vector BattleShips = new Vector();
     public static int language = 0;
+    private static BattleShip actBship;
+    private static int i, shipnr = 0;
     
     
 	public static void main(String[] args) {
 		MainFrame frm = new MainFrame();
 		frm.setVisible(true);
-		// Creating ship instances and adding ships to Vector
-		BattleShip p1s1 = new BattleShip(0);
-		BattleShip p1s2 = new BattleShip(1);
-		BattleShip p1s3 = new BattleShip(2);
-		BattleShip p1s4 = new BattleShip(3);
-		BattleShip p2s1 = new BattleShip(0);
-		BattleShip p2s2 = new BattleShip(1);
-		BattleShip p2s3 = new BattleShip(2);
-		BattleShip p2s4 = new BattleShip(3);
 		
-		BattleShips.addElement(p1s1);
-		BattleShips.addElement(p1s2);
-		BattleShips.addElement(p1s3);
-		BattleShips.addElement(p1s4);
-		BattleShips.addElement(p2s1);
-		BattleShips.addElement(p2s2);
-		BattleShips.addElement(p2s3);
-		BattleShips.addElement(p2s4);
+		// Creating ship instances and adding ships to Vector
+		for (i = 0; i < 7;i++) {
+		    if (shipnr == 4) { shipnr = 0; }
+		    BattleShip bship = new BattleShip(shipnr);
+		    BattleShips.addElement(bship);
+		    shipnr++;
+		}
 	}
 
 	public void Eventhandler(String msg) {
@@ -46,11 +38,14 @@ public class Engine {
 	}
 
     /**
-     * @return
+     * @return Actual selected BattleShip
      */
-    public static BattleShip selectedBoat() {
-        // TODO: Aktuell ausgewähltes schiff zurückliefern
-        return null;
+    public static BattleShip getSelectedBoat() {
+        return actBship;
+    }
+    
+    public static void setSelectedBoat(BattleShip bs) {
+        actBship = bs;
     }
 	
 }

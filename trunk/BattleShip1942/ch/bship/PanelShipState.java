@@ -29,7 +29,7 @@ public class PanelShipState extends JPanel {
 	private JLabel labelValueShotRange = null;
 	private JLabel labelBezSpeed = null;
 	private JLabel labelValueSpeed = null;
-	private JLabel jLabel = null;
+	private JLabel jShipPicture = null;
 	
 	private GameLanguage gl = new GameLanguage();
 	
@@ -46,13 +46,14 @@ public class PanelShipState extends JPanel {
 	 * @return void
 	 */
 	private  void initialize() {
-		jLabel = new JLabel();
+		jShipPicture = new JLabel();
 		this.setLayout(new BorderLayout());
 		this.setSize(300,200);
 		ImageIcon icon = new ImageIcon( "bild.jpg" );
-		jLabel = new JLabel(icon);
+		jShipPicture = new JLabel(icon);
 		this.add(getPanelShipDetails(), java.awt.BorderLayout.CENTER);
-		this.add(jLabel, java.awt.BorderLayout.EAST);
+		this.add(jShipPicture, java.awt.BorderLayout.EAST);
+		
 	}
 	/**
 	 * This method initializes panelShipDetails	
@@ -100,18 +101,18 @@ public class PanelShipState extends JPanel {
 	}
 	
 	public void update() {
-	    BattleShip acbs = Engine.selectedBoat();
+	    BattleShip acbs = Engine.getSelectedBoat();
 	    
 	    labelValueShield.setText(""+acbs.getShipShield()+"");
 	    labelValueStrength.setText(""+acbs.getShipStrength()+"");
 	    labelValueRangeOfSight.setText(""+acbs.getShipRangeOfSight()+"");
 	    labelValueShotRange.setText(""+acbs.getShipShotRange()+"");
 	    labelValueSpeed.setText(""+acbs.getShipSpeed()+"");
-	    this.remove(jLabel);
 	    
+	    this.remove(jShipPicture);
 	    ImageIcon icon = new ImageIcon(acbs.getShipPicture());
-		jLabel = new JLabel(icon);
-		this.add(jLabel, java.awt.BorderLayout.EAST);
+		jShipPicture = new JLabel(icon);
+		this.add(jShipPicture, java.awt.BorderLayout.EAST);
 	    
 	}
 }

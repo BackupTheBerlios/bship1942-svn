@@ -21,6 +21,7 @@ public class BattleShip {
 	private int _rangeOfSight;
 	private int _rangeOfShot;
 	private int _speed;
+	private int _actualShipStatePercent;
 	private String _name;
 	private String _pathToImage;
 	private GameLanguage translator = new GameLanguage();
@@ -97,14 +98,14 @@ public class BattleShip {
      * get the current shipstate (in percent)
      */
     public int getShipStatePercent() {
-        return 25;
+        return _actualShipStatePercent;
     }
 
     /**
      * get the Ship Shield
      */
     public int getShipShield() {
-        return _shield;
+        return  _shield;
     }
 
     /**

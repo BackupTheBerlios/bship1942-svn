@@ -27,19 +27,19 @@ public class MainFrame extends JFrame {
 	private JPanel gameChat = null;
 	private JPanel shipState = null;
 	private JMenuBar jJMenuBar = null;
-	private JMenu jMenu = null;
-	private JMenu jMenu1 = null;
-	private JMenu jMenu2 = null;
-	private JMenuItem jMenuItem = null;
+	private JMenu jMenuFile = null;
+	private JMenu jMenuOptions = null;
+	private JMenu jMenuHelp = null;
+	private JMenuItem jMenuItemNewGame = null;
 	
 	GameLanguage translator = new GameLanguage();
-	private JMenuItem jMenuItem1 = null;
-	private JCheckBoxMenuItem jCheckBoxMenuItem = null;
-	private JMenu jMenu3 = null;
-	private JCheckBoxMenuItem jCheckBoxMenuItem1 = null;
-	private JCheckBoxMenuItem jCheckBoxMenuItem2 = null;
-	private JMenuItem jMenuItem2 = null;
-	private JMenuItem jMenuItem3 = null;
+	private JMenuItem jMenuItemQuit = null;
+	private JCheckBoxMenuItem jCheckBoxGerman = null;
+	private JMenu jMenuLanguage = null;
+	private JCheckBoxMenuItem jCheckBoxEnglish = null;
+	private JCheckBoxMenuItem jCheckBoxFrench = null;
+	private JMenuItem jMenuItemManual = null;
+	private JMenuItem jMenuItemInfo = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -147,158 +147,164 @@ public class MainFrame extends JFrame {
 	private JMenuBar getJJMenuBar() {
 		if (jJMenuBar == null) {
 			jJMenuBar = new JMenuBar();
-			jJMenuBar.add(getJMenu());
-			jJMenuBar.add(getJMenu1());
-			jJMenuBar.add(getJMenu2());
+			jJMenuBar.add(getJMenuFile());
+			jJMenuBar.add(getJMenuOptions());
+			jJMenuBar.add(getJMenuHelp());
 		}
 		return jJMenuBar;
 	}
 	/**
-	 * This method initializes jMenu	
+	 * This method initializes jMenuFile	
 	 * 	
 	 * @return javax.swing.JMenu	
 	 */    
-	private JMenu getJMenu() {
-		if (jMenu == null) {
-			jMenu = new JMenu();
-			jMenu.setText("Datei");
-			jMenu.add(getJMenuItem());
-			jMenu.add(getJMenuItem1());
+	private JMenu getJMenuFile() {
+		if (jMenuFile == null) {
+			jMenuFile = new JMenu();
+			jMenuFile.setText(translator.tr("File"));
+			jMenuFile.add(getJMenuItemNewGame());
+			jMenuFile.add(getJMenuItemQuit());
 		}
-		return jMenu;
+		return jMenuFile;
 	}
 	/**
-	 * This method initializes jMenu1	
+	 * This method initializes jMenuOptions	
 	 * 	
 	 * @return javax.swing.JMenu	
 	 */    
-	private JMenu getJMenu1() {
-		if (jMenu1 == null) {
-			jMenu1 = new JMenu();
-			jMenu1.setText("Optionen");
-			jMenu1.add(getJMenu3());
+	private JMenu getJMenuOptions() {
+		if (jMenuOptions == null) {
+			jMenuOptions = new JMenu();
+			jMenuOptions.setText(translator.tr("Options"));
+			jMenuOptions.add(getJMenuLanguage());
 		}
-		return jMenu1;
+		return jMenuOptions;
 	}
 	/**
-	 * This method initializes jMenu2	
+	 * This method initializes jMenuHelp	
 	 * 	
 	 * @return javax.swing.JMenu	
 	 */    
-	private JMenu getJMenu2() {
-		if (jMenu2 == null) {
-			jMenu2 = new JMenu();
-			jMenu2.setText("Hilfe");
-			jMenu2.add(getJMenuItem2());
-			jMenu2.add(getJMenuItem3());
+	private JMenu getJMenuHelp() {
+		if (jMenuHelp == null) {
+			jMenuHelp = new JMenu();
+			jMenuHelp.setText(translator.tr("Help"));
+			jMenuHelp.add(getJMenuItemManual());
+			jMenuHelp.add(getJMenuItemInfo());
 		}
-		return jMenu2;
+		return jMenuHelp;
 	}
 	/**
-	 * This method initializes jMenuItem	
+	 * This method initializes jMenuItemNewGame	
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */    
-	private JMenuItem getJMenuItem() {
-		if (jMenuItem == null) {
-			jMenuItem = new JMenuItem();
-			jMenuItem.setText("Neues Spiel");
-			jMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK, false));
+	private JMenuItem getJMenuItemNewGame() {
+		if (jMenuItemNewGame == null) {
+			jMenuItemNewGame = new JMenuItem();
+			jMenuItemNewGame.setText(translator.tr("NewGame"));
+			jMenuItemNewGame.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK, false));
 		}
-		return jMenuItem;
+		return jMenuItemNewGame;
 	}
 	/**
-	 * This method initializes jMenuItem1	
+	 * This method initializes jMenuItemQuit	
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */    
-	private JMenuItem getJMenuItem1() {
-		if (jMenuItem1 == null) {
-			jMenuItem1 = new JMenuItem();
-			jMenuItem1.setText("Beenden");
-			jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK, false));
-			jMenuItem1.addActionListener(new java.awt.event.ActionListener() { 
+	private JMenuItem getJMenuItemQuit() {
+		if (jMenuItemQuit == null) {
+			jMenuItemQuit = new JMenuItem();
+			jMenuItemQuit.setText(translator.tr("Quit"));
+			jMenuItemQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK, false));
+			jMenuItemQuit.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					System.exit(0);
 				}
 			});
 		}
-		return jMenuItem1;
+		return jMenuItemQuit;
 	}
 	/**
-	 * This method initializes jCheckBoxMenuItem	
+	 * This method initializes jCheckBoxGerman	
 	 * 	
 	 * @return javax.swing.JCheckBoxMenuItem	
 	 */    
-	private JCheckBoxMenuItem getJCheckBoxMenuItem() {
-		if (jCheckBoxMenuItem == null) {
-			jCheckBoxMenuItem = new JCheckBoxMenuItem();
-			jCheckBoxMenuItem.setText("Deutsch");
+	private JCheckBoxMenuItem getJCheckBoxGerman() {
+		if (jCheckBoxGerman == null) {
+			jCheckBoxGerman = new JCheckBoxMenuItem();
+			jCheckBoxGerman.setText(translator.tr("German"));
+			jCheckBoxGerman.addChangeListener(new javax.swing.event.ChangeListener() { 
+				public void stateChanged(javax.swing.event.ChangeEvent e) {    
+					// Bei einem anchecken müssen die anderen Sprachen abgewählt werden
+				    
+				}
+			});
 		}
-		return jCheckBoxMenuItem;
+		return jCheckBoxGerman;
 	}
 	/**
-	 * This method initializes jMenu3	
+	 * This method initializes jMenuLanguage	
 	 * 	
 	 * @return javax.swing.JMenu	
 	 */    
-	private JMenu getJMenu3() {
-		if (jMenu3 == null) {
-			jMenu3 = new JMenu();
-			jMenu3.setText("Applikationssprache");
-			jMenu3.add(getJCheckBoxMenuItem());
-			jMenu3.add(getJCheckBoxMenuItem1());
-			jMenu3.add(getJCheckBoxMenuItem2());
+	private JMenu getJMenuLanguage() {
+		if (jMenuLanguage == null) {
+			jMenuLanguage = new JMenu();
+			jMenuLanguage.setText(translator.tr("Applanguage"));
+			jMenuLanguage.add(getJCheckBoxGerman());
+			jMenuLanguage.add(getJCheckBoxEnglish());
+			jMenuLanguage.add(getJCheckBoxFrench());
 		}
-		return jMenu3;
+		return jMenuLanguage;
 	}
 	/**
-	 * This method initializes jCheckBoxMenuItem1	
+	 * This method initializes jCheckBoxEnglish	
 	 * 	
 	 * @return javax.swing.JCheckBoxMenuItem	
 	 */    
-	private JCheckBoxMenuItem getJCheckBoxMenuItem1() {
-		if (jCheckBoxMenuItem1 == null) {
-			jCheckBoxMenuItem1 = new JCheckBoxMenuItem();
-			jCheckBoxMenuItem1.setText("English");
+	private JCheckBoxMenuItem getJCheckBoxEnglish() {
+		if (jCheckBoxEnglish == null) {
+			jCheckBoxEnglish = new JCheckBoxMenuItem();
+			jCheckBoxEnglish.setText(translator.tr("English"));
 		}
-		return jCheckBoxMenuItem1;
+		return jCheckBoxEnglish;
 	}
 	/**
-	 * This method initializes jCheckBoxMenuItem2	
+	 * This method initializes jCheckBoxFrench	
 	 * 	
 	 * @return javax.swing.JCheckBoxMenuItem	
 	 */    
-	private JCheckBoxMenuItem getJCheckBoxMenuItem2() {
-		if (jCheckBoxMenuItem2 == null) {
-			jCheckBoxMenuItem2 = new JCheckBoxMenuItem();
-			jCheckBoxMenuItem2.setText("Französisch");
+	private JCheckBoxMenuItem getJCheckBoxFrench() {
+		if (jCheckBoxFrench == null) {
+			jCheckBoxFrench = new JCheckBoxMenuItem();
+			jCheckBoxFrench.setText(translator.tr("French"));
 		}
-		return jCheckBoxMenuItem2;
+		return jCheckBoxFrench;
 	}
 	/**
-	 * This method initializes jMenuItem2	
+	 * This method initializes jMenuItemManual	
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */    
-	private JMenuItem getJMenuItem2() {
-		if (jMenuItem2 == null) {
-			jMenuItem2 = new JMenuItem();
-			jMenuItem2.setText("Anleitung");
-			jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0, false));
+	private JMenuItem getJMenuItemManual() {
+		if (jMenuItemManual == null) {
+			jMenuItemManual = new JMenuItem();
+			jMenuItemManual.setText(translator.tr("Manual"));
+			jMenuItemManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0, false));
 		}
-		return jMenuItem2;
+		return jMenuItemManual;
 	}
 	/**
-	 * This method initializes jMenuItem3	
+	 * This method initializes jMenuItemInfo	
 	 * 	
 	 * @return javax.swing.JMenuItem	
 	 */    
-	private JMenuItem getJMenuItem3() {
-		if (jMenuItem3 == null) {
-			jMenuItem3 = new JMenuItem();
-			jMenuItem3.setText("Info");
+	private JMenuItem getJMenuItemInfo() {
+		if (jMenuItemInfo == null) {
+			jMenuItemInfo = new JMenuItem();
+			jMenuItemInfo.setText(translator.tr("Info"));
 		}
-		return jMenuItem3;
+		return jMenuItemInfo;
 	}
                  }  //  @jve:decl-index=0:visual-constraint="10,10"
