@@ -30,6 +30,9 @@ public class PanelShipState extends JPanel {
 	private JLabel labelBezSpeed = null;
 	private JLabel labelValueSpeed = null;
 	private JLabel jLabel = null;
+	
+	private GameLanguage gl = new GameLanguage();
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -71,19 +74,16 @@ public class PanelShipState extends JPanel {
 			java.awt.GridLayout gridLayout6 = new GridLayout();
 			panelShipDetails = new JPanel();
 			panelShipDetails.setLayout(gridLayout6);
-			labelBezShield.setName("labelBezShield");
-			labelBezShield.setText("Schild");
-			labelValueShield.setName("labelValueShield");
+			labelBezShield.setText(gl.tr("Shield"));
 			labelValueShield.setText("0");
-			labelBezStrength.setName("labelBezStrength");
-			labelBezStrength.setText("Stärke");
+			labelBezStrength.setText(gl.tr("Strength"));
 			gridLayout6.setRows(5);
 			labelValueStrength.setText("0");
-			labelBezRangeOfSight.setText("Sichtweite");
+			labelBezRangeOfSight.setText(gl.tr("RangeOfSight"));
 			labelValueRangeOfSight.setText("0");
-			labelBezShotRange.setText("Schussweite");
+			labelBezShotRange.setText(gl.tr("Shootrange"));
 			labelValueShotRange.setText("0");
-			labelBezSpeed.setText("Geschwindigkeit");
+			labelBezSpeed.setText(gl.tr("Speed"));
 			labelValueSpeed.setText("0");
 			panelShipDetails.add(labelBezShield, null);
 			panelShipDetails.add(labelValueShield, null);
@@ -97,5 +97,21 @@ public class PanelShipState extends JPanel {
 			panelShipDetails.add(labelValueSpeed, null);
 		}
 		return panelShipDetails;
+	}
+	
+	public void update() {
+	    BattleShip acbs = Engine.selectedBoat();
+	    
+	    labelValueShield.setText(""+acbs.getShipShield()+"");
+	    labelValueStrength.setText(""+acbs.getShipStrength()+"");
+	    labelValueRangeOfSight.setText(""+acbs.getShipRangeOfSight()+"");
+	    labelValueShotRange.setText(""+acbs.getShipShotRange()+"");
+	    labelValueSpeed.setText(""+acbs.getShipSpeed()+"");
+	    this.remove(jLabel);
+	    
+	    ImageIcon icon = new ImageIcon(acbs.getShipPicture());
+		jLabel = new JLabel(icon);
+		this.add(jLabel, java.awt.BorderLayout.EAST);
+	    
 	}
 }

@@ -24,7 +24,6 @@ public class Chat extends JPanel {
 	private JPanel _mainPanel;
 	private JPanel _sendPanel;
 	private String _messages[];
-	private GameLanguage _gl = null;
 
 	private static int LINES = 5;
 	private String SEND = "->";
@@ -32,34 +31,37 @@ public class Chat extends JPanel {
 	private String messages[];
 	
 	private Net net;
-	private GameLanguage gl = new GameLanguage();
+	private GameLanguage _gl = new GameLanguage();
 	
 	/**
 	 * Constructor
 	 */
 	public Chat (){
-		_gl = gl;
+	    super();
+		initialize();
 		_net = net;
-		initChat(_net);
 	}
-
 	/**
 	 * initializes the Chat
 	 *
 	 * @return Chat
 	 */
-	private void initChat(Net net) {
+	private void initialize() {
+		 
 		SEND = _gl.tr("send");
 		_messagesField = new JTextField();
 		_inputBox = new JTextField();
 		_sendButton = new JButton();
 		_mainPanel = new JPanel(new BorderLayout());
 		_sendPanel = new JPanel(new BorderLayout());
-		
+		_sendButton.setText("Send");
+		_mainPanel.setPreferredSize(new java.awt.Dimension(200,150));
+		this.setSize(216, 165);
 		_sendPanel.add(_inputBox, BorderLayout.CENTER);
 		_sendPanel.add(_sendButton, BorderLayout.EAST);
 		_mainPanel.add(_messagesField, BorderLayout.CENTER);
 		_mainPanel.add(_sendPanel, BorderLayout.SOUTH);
+		this.add(_mainPanel, null);
 	}
 	
 	/**
@@ -84,7 +86,7 @@ public class Chat extends JPanel {
 	 * @param the received message
 	 */
 
-	public void reiceive(String text) {
+	public void recieve(String text) {
 		String tmpText = "";
 		for (int i = 0; i > LINES; i++) {
 			_messages[i] = _messages[i-1];
@@ -104,4 +106,4 @@ public class Chat extends JPanel {
 			//send(inputBox.getText());
 		}
 	}
-}
+}  //  @jve:decl-index=0:visual-constraint="10,10"

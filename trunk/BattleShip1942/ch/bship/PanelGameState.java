@@ -63,7 +63,7 @@ public class PanelGameState extends JPanel {
 	 */
 	private  void initialize() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setSize(300,200);
+		this.setSize(277, 187);
 		this.add(getPanelPlayerName1(), null);
 		this.add(getPanelPlayer1State(), null);
 		this.add(getPanelPlayerName2(), null);
@@ -112,6 +112,7 @@ public class PanelGameState extends JPanel {
 			lablePlayer1Ship4.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints9.gridx = 1;
 			gridBagConstraints9.gridy = 3;
+			panelPlayer1State.setMinimumSize(new java.awt.Dimension(163,60));
 			panelPlayer1State.add(lablePlayer1Ship1, gridBagConstraints2);
 			panelPlayer1State.add(getProgressPlayer1Ship1(), gridBagConstraints3);
 			panelPlayer1State.add(lablePlayer1Ship2, gridBagConstraints4);
@@ -129,6 +130,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer1Ship1() {
 		if (progressPlayer1Ship1 == null) {
 			progressPlayer1Ship1 = new JProgressBar();
+			progressPlayer1Ship1.setStringPainted(true);
 		}
 		return progressPlayer1Ship1;
 	}
@@ -138,6 +140,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer1Ship2() {
 		if (progressPlayer1Ship2 == null) {
 			progressPlayer1Ship2 = new JProgressBar();
+			progressPlayer1Ship2.setStringPainted(true);
 		}
 		return progressPlayer1Ship2;
 	}
@@ -147,6 +150,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer1Ship3() {
 		if (progressPlayer1Ship3 == null) {
 			progressPlayer1Ship3 = new JProgressBar();
+			progressPlayer1Ship3.setStringPainted(true);
 		}
 		return progressPlayer1Ship3;
 	}
@@ -156,6 +160,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer1Ship4() {
 		if (progressPlayer1Ship4 == null) {
 			progressPlayer1Ship4 = new JProgressBar();
+			progressPlayer1Ship4.setStringPainted(true);
 		}
 		return progressPlayer1Ship4;
 	}
@@ -251,6 +256,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer2Ship1() {
 		if (progressPlayer2Ship1 == null) {
 			progressPlayer2Ship1 = new JProgressBar();
+			progressPlayer2Ship1.setStringPainted(true);
 		}
 		return progressPlayer2Ship1;
 	}
@@ -260,6 +266,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer2Ship2() {
 		if (progressPlayer2Ship2 == null) {
 			progressPlayer2Ship2 = new JProgressBar();
+			progressPlayer2Ship2.setStringPainted(true);
 		}
 		return progressPlayer2Ship2;
 	}
@@ -269,6 +276,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer2Ship3() {
 		if (progressPlayer2Ship3 == null) {
 			progressPlayer2Ship3 = new JProgressBar();
+			progressPlayer2Ship3.setStringPainted(true);
 		}
 		return progressPlayer2Ship3;
 	}
@@ -278,6 +286,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar getProgressPlayer2Ship4() {
 		if (progressPlayer2Ship4 == null) {
 			progressPlayer2Ship4 = new JProgressBar();
+			progressPlayer2Ship4.setStringPainted(true);
 		}
 		return progressPlayer2Ship4;
 	}
@@ -309,4 +318,4 @@ public class PanelGameState extends JPanel {
 	    progressPlayer2Ship3.setValue(shipperc[6]);
 	    progressPlayer2Ship4.setValue(shipperc[7]);
 	}
-}
+}  //  @jve:decl-index=0:visual-constraint="16,10"

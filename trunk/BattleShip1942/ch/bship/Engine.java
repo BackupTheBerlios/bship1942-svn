@@ -44,5 +44,13 @@ public class Engine {
 	public void Eventhandler(String msg) {
 		// TODO: Programming the new Eventhandler
 	}
+
+    /**
+     * @return
+     */
+    public static BattleShip selectedBoat() {
+        // TODO: Aktuell ausgewähltes schiff zurückliefern
+        return null;
+    }
 	
 }

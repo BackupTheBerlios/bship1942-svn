@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
 	private void initialize() {
 		this.setJMenuBar(getJJMenuBar());
 		this.setTitle("BattleShip 1942");
-		this.setSize(558, 340);
+		this.setSize(655, 430);
 		this.setContentPane(getJContentPane());
 	}
 	/**

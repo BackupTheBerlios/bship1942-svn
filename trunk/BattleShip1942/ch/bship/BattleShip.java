@@ -99,4 +99,46 @@ public class BattleShip {
     public int getShipStatePercent() {
         return 25;
     }
+
+    /**
+     * get the Ship Shield
+     */
+    public int getShipShield() {
+        return _shield;
+    }
+
+    /**
+     * get the Ship Strength
+     */
+    public int getShipStrength() {
+        return _force;
+    }
+
+    /**
+     * get the Ship Range of Sight
+     */
+    public int getShipRangeOfSight() {
+        return _rangeOfSight;
+    }
+
+    /**
+     * get the Ship Shot Range
+     */
+    public int getShipShotRange() {
+        return _rangeOfShot;
+    }
+
+    /**
+     * get the Ship Speed
+     */
+    public int getShipSpeed() {
+        return _speed;
+    }
+
+    /**
+     * get the Ships own picture
+     */
+    public String getShipPicture() {
+        return "bild.jpg";
+    }
 }
