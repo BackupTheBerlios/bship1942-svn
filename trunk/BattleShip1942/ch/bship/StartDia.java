@@ -309,18 +309,25 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals(OK)) {
-            _lang.setLanguage((getLangCombo().getSelectedItem()).toString());
-            _net.setIP(getIpField().getText());
-            _engine.setMyNick(getNickField().getText());
-            _engine.setMyNationality((String)(getNationCombo().getSelectedItem()));
-            _engine.setMap((String)(getMapCombo().getSelectedItem()));
-            _engine.openMainFrame();
-            String message = Net.MSG_HELLO + "|" + 
-                getIpField().getText() + "|" +
-                getNickField().getText() + "|" +
-                ((String)(getNationCombo().getSelectedItem())) + "|" +
-                ((String)(getMapCombo().getSelectedItem()));
-            _net.send(message);
+        	if (getIpField().getText().equals("")) {
+        		_engine.isclient = true;
+        		_engine.setMyNick(getNickField().getText());
+                _engine.setMyNationality(getNationCombo().getSelectedItem().toString());
+                _lang.setLanguage((getLangCombo().getSelectedItem()).toString());
+        	}else{
+        		_net.setIP(getIpField().getText());
+                _engine.setMyNick(getNickField().getText());
+                _engine.setMyNationality(getNationCombo().getSelectedItem().toString());
+                _engine.setMap(getMapCombo().getSelectedItem().toString());
+                String message = Net.MSG_HELLO + "|" + 
+                    getIpField().getText() + "|" +
+                    getNickField().getText() + "|" +
+                    ((String)(getNationCombo().getSelectedItem())) + "|" +
+                    ((String)(getMapCombo().getSelectedItem()));
+
+            	_engine.openMainFrame();
+                _net.send(message);
+        	}
             setVisible(false);
         } else if ((e.getActionCommand()).equals(CANCEL)) {
             System.exit(0);

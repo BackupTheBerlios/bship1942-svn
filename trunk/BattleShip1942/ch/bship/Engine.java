@@ -24,15 +24,16 @@ public class Engine {
     private boolean navmode = true;
     private MainFrame _frm;
     private Net _net = null;
-
+    private StartDia sdlg;
     private String _rivalsNick = "";
     private String _rivalsNationality = "";
     private String _myNick = "";
     private String _myNationality = "";
     private String _map = "logo";
-    private int playernumber = 1;
+    int playernumber = 1;
     public int actualplayer;
     private int actionsleft;
+	public boolean isclient = false;
 
     public void setRivalsNick(String nick) { _rivalsNick = nick; }
     public void setRivalsNationality(String nation) { _rivalsNationality = nation; }
@@ -73,12 +74,12 @@ public class Engine {
     }
     
     public void openStartDialog() {
-    	StartDia sdlg = new StartDia(_net, this);
+    	sdlg = new StartDia(_net, this);
     	sdlg.setVisible(true);
     }
     
     public void openMainFrame() {
-        _frm = new MainFrame(this);
+    	_frm = new MainFrame(this);
         _frm.updateselected();
         _frm.initField();
         actualplayer = 1;
@@ -89,32 +90,26 @@ public class Engine {
         String[] tmpMsg = msg.split("\\|");
         
         if (tmpMsg[0].equals(Net.MSG_HELLO)) {
+        	openMainFrame();
             _net.setIP(tmpMsg[1]);
             _rivalsNick = (tmpMsg[2]);
             _rivalsNationality = (tmpMsg[3]);
             playernumber = 2;
             updategui();
         } else if (tmpMsg[0].equals(Net.MSG_CHAT)) {
-            String parts = "";
-            for (int i = 0; i < (tmpMsg.length - 1); i++) {
-                parts = parts + tmpMsg[i+1];
-                ((Chat)(_frm.getGameChat())).receive(parts);
-            }
+            ((Chat)_frm.getGameChat()).receive(tmpMsg[1]);
         } else if (tmpMsg[0].equals(Net.MSG_SYNC)) {
-        	int shipid = 0;
+        	actualplayer = playernumber; // jetzt bin ich dran!
         	int idx = 1;
-        	if (playernumber == 1){
-    			// Second Part ist to sync
-    			shipid = 4;
-    		}
         	// Ship (x, y, direction, percent)
-        	for (int i = 0; i < 4;i++) {
-        		((BattleShip)battleShips.elementAt(shipid + i)).setXPosition(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(shipid + i)).setYPosition(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(shipid + i)).setDirection(Integer.parseInt(tmpMsg[idx])); idx++;
-        		((BattleShip)battleShips.elementAt(shipid + i)).setShipStatePercent(Integer.parseInt(tmpMsg[idx])); idx++;
+        	for (int i = 0; i < battleShips.size()-1;i++) {
+        		((BattleShip)battleShips.elementAt(i)).setXPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(i)).setYPosition(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(i)).setDirection(Integer.parseInt(tmpMsg[idx])); idx++;
+        		((BattleShip)battleShips.elementAt(i)).setShipStatePercent(Integer.parseInt(tmpMsg[idx])); idx++;
         	}
-        	actualplayer = playernumber;
+        	
+        	setNavmode(true);
         	updategui();
         }
         //TODO
@@ -187,31 +182,30 @@ public class Engine {
 		System.out.println("Actions left: " + actionsleft);
 		if (actionsleft == 0){
 			syncwithrival();
-			if (actualplayer == 1) {
-				actualplayer = 2;
-			}else{
-				actualplayer = 1;
-			}
 			actionsleft = 3;
 		}
 	}
 
 	private void syncwithrival() {
 		// TODO Auto-generated method stub
-		int shipid = 0;
-		if (playernumber == 1) {
-			shipid = 4;
-		}
 		String tosend = Net.MSG_SYNC + "|";
-		for (int i = 0; i < 4; i++){
-			int x = ((BattleShip)battleShips.elementAt(shipid + i)).getXPosition();
-    		int y = ((BattleShip)battleShips.elementAt(shipid + i)).getYPosition();
-    		int dir = ((BattleShip)battleShips.elementAt(shipid + i)).getDirection();
-    		int perc = ((BattleShip)battleShips.elementAt(shipid + i)).getShipStatePercent();
+		for (int i = 0; i < battleShips.size()-1; i++){
+			int x = ((BattleShip)battleShips.elementAt(i)).getXPosition();
+    		int y = ((BattleShip)battleShips.elementAt(i)).getYPosition();
+    		int dir = ((BattleShip)battleShips.elementAt(i)).getDirection();
+    		int perc = ((BattleShip)battleShips.elementAt(i)).getShipStatePercent();
     		tosend += String.valueOf(x) + "|" + String.valueOf(y) + "|" + String.valueOf(dir) + "|" + String.valueOf(perc) + "|";
+		}
+		if (actualplayer == playernumber) {
+			if (actualplayer == 1) {
+				actualplayer = 2;
+			}else{
+				actualplayer = 1;
+			}
 		}
 		_net.send(tosend);
 		updategui();
+		setNavmode(true);
 	}
 	
 }

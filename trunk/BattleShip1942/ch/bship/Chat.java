@@ -89,11 +89,7 @@ public class Chat extends JPanel implements ActionListener {
          *
          * @param the received message
          */
-        public void receive(String text) {
-            _messages.addElement("->" + text);
-            for (int i = 0; i > _messages.size(); i++) {
-                tmpText += tmpText + "\n" + _messages.elementAt(i);
-            }
+    public void receive(String text) {
             _messagesField.setText(tmpText);
 	}
 

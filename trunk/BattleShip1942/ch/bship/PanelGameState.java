@@ -318,7 +318,16 @@ public class PanelGameState extends JPanel {
 	        BattleShip bs = (BattleShip) ships.elementAt(i);
 	        shipperc[i] = bs.getShipStatePercent();
 	    }
-	    setPlayernames(_engine.getMyNick(), _engine.getRivalsNick());
+	    if (_engine.playernumber == 1) {
+	    	setPlayernames(_engine.getMyNick(), _engine.getRivalsNick());
+	    	lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
+		    lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getRivalsNationality() + "/banner.jpg")));
+	    }else{
+	    	setPlayernames(_engine.getRivalsNick(),_engine.getMyNick());
+	    	lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
+		    lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getRivalsNationality() + "/banner.jpg")));
+	    }
+	    
 	    lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
 	    lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/USA/banner.jpg")));
 	    

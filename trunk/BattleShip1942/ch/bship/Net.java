@@ -25,6 +25,7 @@ public class Net extends Thread {
     private String 		_ip;
 
     public static String MSG_HELLO = "HELLO";
+    public static String MSG_RESPONSE = "RESPONSE";
     public static String MSG_CHAT = "MSG";
     public static String MSG_SYNC = "SYNC";
 
@@ -80,6 +81,5 @@ public class Net extends Thread {
 
     public void setIP (String ip) {
         _ip = ip;
-        send(MSG_HELLO);
     }
 }
