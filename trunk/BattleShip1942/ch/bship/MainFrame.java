@@ -1,20 +1,19 @@
+package ch.bship;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-/*
- * Created on 24.08.2004
+/**
+ * @author Adrian Greiler, Marcel Ryser
+ * 
+ * PROJECT: Battleship 1942
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Changelog:
+ * 
+ * 24.08.2004	MR		Erstellung
+ * 
  */
 
-/**
- * @author metawave
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 public class MainFrame extends JFrame {
 
 	private javax.swing.JPanel jContentPane = null;

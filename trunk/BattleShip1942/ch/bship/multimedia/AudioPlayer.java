@@ -8,7 +8,7 @@
  * 24.08.2004	MR		Erstellung
  * 
  */
-
+package ch.bship.multimedia;
 import java.io.*;
 import javax.sound.sampled.*;
 import java.net.URL;

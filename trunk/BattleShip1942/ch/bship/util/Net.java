@@ -9,8 +9,11 @@
  * 
  */
 
+package ch.bship.util;
+
 import java.io.*;
 import java.net.*;
+import ch.bship.*;
 
 public class Net extends Thread{
 	Engine engine;
@@ -21,8 +24,7 @@ public class Net extends Thread{
 	ServerSocket 		s = null;
 
 	public Net(Engine engine){
-		this.engine = engine;	
-			
+		this.engine = engine;
 	}
 	
 	public void closeAll() {

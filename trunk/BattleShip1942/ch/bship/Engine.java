@@ -8,6 +8,9 @@
  * 24.08.2004	MR		Erstellung
  * 
  */
+package ch.bship;
+
+
 public class Engine {
 
 	public static void main(String[] args) {
