@@ -10,7 +10,15 @@
  */
 
 package ch.bship;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 public class BattleShip {
 
 	private int _alignment;
@@ -22,6 +30,9 @@ public class BattleShip {
 	private int _rangeOfShot;
 	private int _speed;
 	private int _actualShipStatePercent;
+	private int _xpos;
+	private int _ypos;
+	private int _shipangle;
 	private String _name;
 	private String _pathToImage;
 	private GameLanguage translator = new GameLanguage();
@@ -142,4 +153,65 @@ public class BattleShip {
     public String getShipPicture() {
         return "bild.jpg";
     }
+    
+    /**
+     * Graphical Part of the Ship
+     */
+    
+    private BufferedImage getShipImage() {
+    	File f = new File(getShipPicture());
+    	BufferedImage bim = null;
+    	try {
+			bim = ImageIO.read(f);
+		} catch (IOException e) {
+			Error.addError(e, "Fehler beim laden des Schiffbildes");
+		}
+    	return bim;
+    }
+    
+    public int getYPosition() {
+    	return _ypos;
+    }
+    
+    public int getXPosition() {
+    	return _xpos;
+    }
+    
+    public BufferedImage rotateLeft() {
+    	_shipangle -= 90;
+    	if (_shipangle < 0) { _shipangle = 360 + _shipangle; }
+    	return rotate(getShipImage(), _shipangle);
+    }
+    
+    public BufferedImage rotateRight() {
+    	_shipangle += 90;
+    	if (_shipangle == 360) { _shipangle = 0; }
+    	return rotate(getShipImage(), _shipangle);
+    }
+    
+    public void moveUp(int howmany) {
+    	_ypos += 15 * howmany;
+    }
+    
+    public void moveDown(int howmany) {
+    	_ypos -= 15 * howmany;
+    }
+    
+    public void moveLeft(int howmany) {
+    	_xpos -= 15 * howmany;
+    }
+    
+    public void moveRight(int howmany) {
+    	_xpos += 15 * howmany;
+    }
+    
+    public static BufferedImage rotate(BufferedImage bi, int angle){
+		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		Rectangle2D rect = op.getBounds2D(bi);
+		tx.translate(-rect.getX(), rect.getY());
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		bi = op.filter(bi, null);
+		return bi;
+	}
 }

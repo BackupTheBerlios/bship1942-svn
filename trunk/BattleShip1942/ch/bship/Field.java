@@ -11,11 +11,6 @@ package ch.bship;
  * 
  */
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -54,29 +49,8 @@ public class Field extends JPanel {
 	private void initialize() {
 		this.setSize(589, 363);
 		this.setMap("logo");
-		this.setLayout(null);	
-		this.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent evt) {
-				int keyCode = evt.getKeyCode();
-				switch (keyCode) {
-					case KeyEvent.VK_UP: {
-						File f = new File("c:/arrow.gif");
-						BufferedImage img = null;
-						try {
-							img = ImageIO.read(f);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						bim = versch(img,20);
-						zeichne();
-						
-					}
-				}
-			}
-		});
+		this.setLayout(null);
 	}
-	
 	
 	private BufferedImage getMapImage() {
 		File f = new File(_mapimgpath);
@@ -101,23 +75,9 @@ public class Field extends JPanel {
         _mapdatpath = _mappath + folderdivider + mapname + folderdivider + gridfile;
     }
     
-    private void verschieben(int xmove, int ymove) {
-    	int actx, acty;
-    	//actx = getJ
-    }
-    
     public void zeichne() {
 		getGraphics().drawImage(getMapImage(), 0, 0, this);
+		bim = ((BattleShip)Engine.BattleShips.elementAt(1)).rotateLeft();
 		getGraphics().drawImage(bim, 10, 10, this);
     }
-    
-    public static BufferedImage versch(BufferedImage bi, int angle){
-		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		Rectangle2D rect = op.getBounds2D(bi);
-		tx.translate(-rect.getX(), rect.getY());
-		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		bi = op.filter(bi, null);
-		return bi;
-	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
