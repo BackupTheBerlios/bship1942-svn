@@ -9,7 +9,7 @@
  *
  */
 
-package com.ascom.util;
+package ch.bship;
 
 import java.io.*;
 import javax.sound.sampled.*;

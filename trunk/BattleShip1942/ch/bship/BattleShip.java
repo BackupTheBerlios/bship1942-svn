@@ -9,9 +9,8 @@
  * 
  */
 
-
+package ch.bship;
 import java.util.*;
-
 public class BattleShip {
 
 	private int _alignment;
@@ -29,19 +28,18 @@ public class BattleShip {
 	/**
 	 * constructor
 	 */
-	public BattleShip(int kind, GameLanguage translator, String pathToImage) {
-		kind = _kind;
+	public BattleShip(int kind, String pathToImage) {
+	    _kind = kind;
 		setInfos(_kind);
-		_name = translator.tr(_name);
+		_name = GameLanguage.tr(_name);
 		_pathToImage = pathToImage;
 	}
 
-	
-	/**
+    /**
 	 * sets the variables with the values
 	 * for the given kind of ship
 	 */
-	private setInfos(int kind) {
+	private void setInfos(int kind) {
 		if (kind == 0) {
 			_shield = 1;
 			_force = 1;
@@ -56,14 +54,14 @@ public class BattleShip {
 			_rangeOfShot = 1;
 			_speed = 3;
 			_name = "SpeedBoat";
-		} else if (kind = 2) {
+		} else if (kind == 2) {
 			_shield = 4;
 			_force = 2;
 			_rangeOfSight = 2;
 			_rangeOfShot = 2;
 			_speed = 1;
 			_name = "ArmoredBoat";
-		} else if (kind = 3) {
+		} else if (kind == 3) {
 			_shield = 3;
 			_force = 4;
 			_rangeOfSight = 4;
@@ -88,6 +86,6 @@ public class BattleShip {
 	 * @param alignment
 	 */
 	public void setPosition(Vector position) {
-		_position = position;
+		_positions = position;
 	}
 }
