@@ -8,7 +8,7 @@
  * 26.08.2004   AG      Erstellung
  *
  */
-
+package ch.bship;
 import java.io.*;
 import java.net.*;
 
