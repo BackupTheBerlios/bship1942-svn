@@ -2,6 +2,7 @@ package ch.bship;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -57,8 +58,14 @@ public class MainFrame extends JFrame {
 		this.initGuiComponents();
 		this.setJMenuBar(getJJMenuBar());
 		this.setTitle("BattleShip 1942");
+		this.addWindowListener(new AppCloser());
 		this.setSize(958, 641);
 		this.setContentPane(getJContentPane());
+	}
+	protected static final class AppCloser extends WindowAdapter {
+		public void windowClosing(java.awt.event.WindowEvent e) {
+			System.exit(0);
+		}
 	}
 	/**
 	 * 

@@ -20,6 +20,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,7 @@ import javax.swing.ListCellRenderer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+
 import java.awt.BorderLayout;
 public class StartDia extends JFrame implements ActionListener {
 
@@ -91,8 +93,14 @@ public class StartDia extends JFrame implements ActionListener {
 		this.setSize(640, 280);
 		this.setContentPane(getJContentPane());
 		this.setTitle("BattleShip 1942");
+		this.addWindowListener(new AppCloser());
 		System.out.println("height: " + this.getHeight() +" width:"+ this.getWidth());
         _flags = listDir("nations", "banner.jpg");
+	}
+	protected static final class AppCloser extends WindowAdapter {
+		public void windowClosing(java.awt.event.WindowEvent e) {
+			System.exit(0);
+		}
 	}
 	/**
 	 * This method initializes jContentPane

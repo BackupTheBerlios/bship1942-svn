@@ -32,7 +32,7 @@ public class BattleShip {
 	private int _actualShipStatePercent;
 	private int _xpos;
 	private int _ypos;
-	private int _shipangle;
+	private int _direction = 1;
 	private String _name;
 	private String _pathToImage;
 	private GameLanguage translator = GameLanguage.getInstance();
@@ -143,7 +143,14 @@ public class BattleShip {
      * get the Ships own picture
      */
     public String getShipPicture() {
-        return "bild.jpg";
+    	String shp = "";
+    	switch (_kind) {
+    		case 1: shp = "pics/ships/2er.gif"; break;
+    		case 2: shp = "pics/ships/3er.gif"; break;
+    		case 3: shp = "pics/ships/4er.gif"; break;
+    		case 4: shp = "pics/ships/5er.gif"; break;
+    	}
+    	return shp;
     }
     
     /**
@@ -152,6 +159,7 @@ public class BattleShip {
     
     private BufferedImage getShipImage() {
     	if (shippic == null) {
+    		System.out.println("Loding now pic: " + getShipPicture());
     		File f = new File(getShipPicture());
         	try {
         		shippic = ImageIO.read(f);
@@ -170,33 +178,28 @@ public class BattleShip {
     	return _xpos;
     }
     
-    public void rotateLeft() {
-    	_shipangle -= 90;
-    	if (_shipangle < 0) { _shipangle = 360 + _shipangle; }
-    }
-    
-    public void rotateRight() {
-    	_shipangle += 90;
-    	if (_shipangle == 360) { _shipangle = 0; }
-    }
-    
     public void moveUp(int howmany) {
     	_ypos -= 15 * howmany;
+    	// Looking for right direction
+    	_direction = 0;
     }
     
     public void moveDown(int howmany) {
     	_ypos += 15 * howmany;
+    	_direction = 2;
     }
     
     public void moveLeft(int howmany) {
     	_xpos -= 15 * howmany;
+    	_direction = 3;
     }
     
     public void moveRight(int howmany) {
     	_xpos += 15 * howmany;
+    	_direction = 1;
     }
     
-    private static BufferedImage rotate(BufferedImage bi, int angle){
+    private BufferedImage rotate(BufferedImage bi, int angle){
 		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		Rectangle2D rect = op.getBounds2D(bi);
@@ -207,7 +210,7 @@ public class BattleShip {
 	}
     
     public BufferedImage getShipPic() {
-    	return rotate(getShipImage(), _shipangle);
+    	return rotate(getShipImage(), _direction * 90);
     }
     
     public boolean isAtCoordinate(int x, int y){
@@ -220,4 +223,10 @@ public class BattleShip {
     		return false;
     	}
     }
+	/**
+	 * @return Returns the _direction.
+	 */
+	public int getDirection() {
+		return _direction;
+	}
 }

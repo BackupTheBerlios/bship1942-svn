@@ -54,10 +54,10 @@ public class Engine {
     	translator.setLanguage("german");
     	openStartDialog();
         
-
+    	shipnr = 1;
         // Creating ship instances and adding ships to Vector
         for (int i = 0; i < 7;i++) {
-            if (shipnr == 4) { shipnr = 0; }
+            if (shipnr == 4) { shipnr = 1; }
             BattleShip bship = new BattleShip(shipnr);
             battleShips.addElement(bship);
             shipnr++;

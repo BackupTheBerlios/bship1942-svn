@@ -133,5 +133,7 @@ public class PanelShipNav extends JPanel {
 		getNavleftButton().setEnabled(enabled);
 		getNavupButton().setEnabled(enabled);
 		getNavdownButton().setEnabled(enabled);
+		
+
 	}
 }
