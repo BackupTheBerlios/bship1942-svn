@@ -1,9 +1,13 @@
-// java
-// Copyright:	(C) 2001 Ascom Autelca AG
-// Author:	Juerg Liechti
-// $Id$
-
-//package com.ascom.util;
+/**
+ * @author Adrian Greiler, Marcel Ryser
+ * 
+ * PROJECT: Battleship 1942
+ *
+ * Changelog:
+ * 
+ * 24.08.2004	MR		Erstellung
+ * 
+ */
 
 import java.io.*;
 import javax.sound.sampled.*;
