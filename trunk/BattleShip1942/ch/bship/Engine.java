@@ -15,7 +15,9 @@ import java.util.Vector;
 public class Engine {
     
     public static Vector BattleShips = new Vector();
-
+    public static int language = 0;
+    
+    
 	public static void main(String[] args) {
 		MainFrame frm = new MainFrame();
 		frm.setVisible(true);
@@ -42,4 +44,5 @@ public class Engine {
 	public void Eventhandler(String msg) {
 		// TODO: Programming the new Eventhandler
 	}
+	
 }

@@ -25,10 +25,10 @@ public class GameLanguage {
      */
     
     static String langfile[] = {"german.lng","english.lng","french.lng"};
-    private static int langid = 0;
     static Properties props = new Properties();
     
     public GameLanguage() {
+        int langid = Engine.language;
         try {
             props.load(new FileInputStream(langfile[langid]));
         } catch (FileNotFoundException e) {
@@ -38,10 +38,6 @@ public class GameLanguage {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-    
-    public static void setLanguage(int lid) {
-        langid = lid;
     }
     
     public String tr(String stringtotranslate){
