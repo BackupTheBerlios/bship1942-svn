@@ -11,63 +11,70 @@
 
 package ch.bship;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 public class GameLanguage {
     
     private static Properties props = new Properties();
     private static GameLanguage _instance = null;
-    private static String _lang = "german.lng";
+    private static String _lang = "german";
 
     private static String[] _availableLanguages = new String[] 
-        {"german", "english", "french"};
+        {"german", "english", "french"}; // In future need to be dynamic perhaps
     
     public GameLanguage(String lang) {
-        _lang = lang + ".lng";
+    	setLanguage(lang);
         this.loadLangFile();
         _instance = this;
     }
-
+    
+    /**
+     * getter and setters
+     */
+    public String[] getLanguages() { return _availableLanguages; }
+    private static String getLanguage() { return _lang; };
+    public void setLanguage(String lang) { _lang = lang; loadLangFile(); }
+    
+    /**
+     * get instance of a GameLanguage
+     */
     public static GameLanguage getInstance() {
-        return getInstance(_lang);
+        return getInstance(getLanguage());
     }
 
     public static GameLanguage getInstance(String lang) {
         if (_instance != null) {
             _instance.setLanguage(lang);
-            return _instance;
         } else {
             _instance = new GameLanguage(lang);
-            return _instance;
         }
+        return _instance;
     }
-
-    public void setLanguage(String lang) {
-        _lang = lang + ".lng";
-        loadLangFile();
-    }
-        
+    
+    /**
+     * loading the properties file to Properties hashtable
+     */
     private void loadLangFile() {
-    	//if (Engine.language == null) { Engine.language = "german.lng"; }
-    	//lang = Engine.language;
     	try {
-            FileInputStream fis = new FileInputStream(_lang);
+            FileInputStream fis = new FileInputStream(getLanguage() + ".lng");
             props.load(fis);
             fis.close();
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
+            Error.addError(e, "Sprachdatei " + getLanguage() + ".lng nicht gefunden");
         } catch (IOException e) {
-            //e.printStackTrace();
+            Error.addError(e, "Eingabe-/Ausgabefehler");
         }
     }
     
+    /**
+     * translates a string to the specified language
+     */
     public String tr(String stringToTranslate){
-        String stringtr = props.getProperty(stringToTranslate); 
-        return stringtr;
+        return props.getProperty(stringToTranslate); 
     }
 
-    public String[] getLanguages() {
-        return _availableLanguages;
-    }
+    
 }

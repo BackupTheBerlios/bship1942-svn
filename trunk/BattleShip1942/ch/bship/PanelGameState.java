@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
@@ -50,10 +49,8 @@ public class PanelGameState extends JPanel {
 	private JProgressBar progressPlayer2Ship4 = null;
 	private Engine _engine;
 	
-	GameLanguage translator = GameLanguage.getInstance();
-	
 	/**
-	 * This is the constructor
+	 * constructor
 	 */
 	public PanelGameState(Engine engine) {
 		super();
@@ -61,7 +58,7 @@ public class PanelGameState extends JPanel {
 		initialize();
 	}
 	/**
-	 * This method initializes this
+	 * intitialize of guielements
 	 */
 	private  void initialize() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -71,9 +68,39 @@ public class PanelGameState extends JPanel {
 		this.add(getPanelPlayerName2(), null);
 		this.add(getPanelPlayer2State(), null);
 	}
+	
 	/**
-	 * This method initializes panelPlayer1State
-	 */    
+	 * following 2 methods creates the player names
+	 */
+	private JPanel getPanelPlayerName1() {
+		if (panelPlayerName1 == null) {
+			lablePlayer1Name = new JLabel();
+			panelPlayerName1 = new JPanel();
+			panelPlayerName1.setLayout(new BoxLayout(panelPlayerName1, BoxLayout.X_AXIS));
+			lablePlayer1Name.setText("Spieler 1");
+			lablePlayer1Name.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+			lablePlayer1Name.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+			panelPlayerName1.add(lablePlayer1Name, null);
+		}
+		return panelPlayerName1;
+	}
+	
+	private JPanel getPanelPlayerName2() {
+		if (panelPlayerName2 == null) {
+			lablePlayer2Name = new JLabel();
+			panelPlayerName2 = new JPanel();
+			panelPlayerName2.setLayout(new GridBagLayout());
+			lablePlayer2Name.setText("Spieler 2");
+			lablePlayer2Name.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+			lablePlayer2Name.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+			panelPlayerName2.add(lablePlayer2Name, new GridBagConstraints());
+		}
+		return panelPlayerName2;
+	}
+	
+	/**
+	 * following 2 methods creates the panel with the gamestate
+	 */
 	private JPanel getPanelPlayer1State() {
 		if (panelPlayer1State == null) {
 			lablePlayer1Ship1 = new JLabel();
@@ -92,25 +119,25 @@ public class PanelGameState extends JPanel {
 			panelPlayer1State.setLayout(new GridBagLayout());
 			gridBagConstraints2.gridx = 0;
 			gridBagConstraints2.gridy = 0;
-			lablePlayer1Ship1.setText(translator.tr("LandingCraft"));
+			lablePlayer1Ship1.setText(_engine.getTranslator().tr("LandingCraft"));
 			lablePlayer1Ship1.setName("LandingCraft");
 			gridBagConstraints3.gridx = 1;
 			gridBagConstraints3.gridy = 0;
 			gridBagConstraints4.gridx = 0;
 			gridBagConstraints4.gridy = 1;
-			lablePlayer1Ship2.setText(translator.tr("SpeedBoat"));
+			lablePlayer1Ship2.setText(_engine.getTranslator().tr("SpeedBoat"));
 			lablePlayer1Ship2.setName("SpeedBoat");
 			gridBagConstraints5.gridx = 1;
 			gridBagConstraints5.gridy = 1;
 			gridBagConstraints6.gridx = 0;
 			gridBagConstraints6.gridy = 2;
-			lablePlayer1Ship3.setText(translator.tr("ArmoredBoat"));
+			lablePlayer1Ship3.setText(_engine.getTranslator().tr("ArmoredBoat"));
 			lablePlayer1Ship3.setName("ArmoredBoat");
 			gridBagConstraints7.gridx = 1;
 			gridBagConstraints7.gridy = 2;
 			gridBagConstraints8.gridx = 0;
 			gridBagConstraints8.gridy = 3;
-			lablePlayer1Ship4.setText(translator.tr("AirCraftCarrier"));
+			lablePlayer1Ship4.setText(_engine.getTranslator().tr("AirCraftCarrier"));
 			lablePlayer1Ship4.setName("AirCraftCarrier");
 			gridBagConstraints9.gridx = 1;
 			gridBagConstraints9.gridy = 3;
@@ -123,88 +150,14 @@ public class PanelGameState extends JPanel {
 			panelPlayer1State.add(getProgressPlayer1Ship3(), gridBagConstraints7);
 			panelPlayer1State.add(lablePlayer1Ship4, gridBagConstraints8);
 			panelPlayer1State.add(getProgressPlayer1Ship4(), gridBagConstraints9);
-			Engine.guiElements.addElement(lablePlayer1Ship1);
-			Engine.guiElements.addElement(lablePlayer1Ship2);
-			Engine.guiElements.addElement(lablePlayer1Ship3);
-			Engine.guiElements.addElement(lablePlayer1Ship4);
+			_engine.getGuiElements().addElement(lablePlayer1Ship1);
+			_engine.getGuiElements().addElement(lablePlayer1Ship2);
+			_engine.getGuiElements().addElement(lablePlayer1Ship3);
+			_engine.getGuiElements().addElement(lablePlayer1Ship4);
 		}
 		return panelPlayer1State;
 	}
-	/**
-	 * This method initializes progressPlayer1Ship1
-	 */    
-	private JProgressBar getProgressPlayer1Ship1() {
-		if (progressPlayer1Ship1 == null) {
-			progressPlayer1Ship1 = new JProgressBar();
-			progressPlayer1Ship1.setStringPainted(true);
-		}
-		return progressPlayer1Ship1;
-	}
-	/**
-	 * This method initializes progressPlayer1Ship2
-	 */    
-	private JProgressBar getProgressPlayer1Ship2() {
-		if (progressPlayer1Ship2 == null) {
-			progressPlayer1Ship2 = new JProgressBar();
-			progressPlayer1Ship2.setStringPainted(true);
-		}
-		return progressPlayer1Ship2;
-	}
-	/**
-	 * This method initializes progressPlayer1Ship3
-	 */    
-	private JProgressBar getProgressPlayer1Ship3() {
-		if (progressPlayer1Ship3 == null) {
-			progressPlayer1Ship3 = new JProgressBar();
-			progressPlayer1Ship3.setStringPainted(true);
-		}
-		return progressPlayer1Ship3;
-	}
-	/**
-	 * This method initializes progressPlayer1Ship4
-	 */    
-	private JProgressBar getProgressPlayer1Ship4() {
-		if (progressPlayer1Ship4 == null) {
-			progressPlayer1Ship4 = new JProgressBar();
-			progressPlayer1Ship4.setStringPainted(true);
-		}
-		return progressPlayer1Ship4;
-	}
-	/**
-	 * This method initializes panelPlayerName1
-	 */    
-	private JPanel getPanelPlayerName1() {
-		if (panelPlayerName1 == null) {
-			lablePlayer1Name = new JLabel();
-			panelPlayerName1 = new JPanel();
-			panelPlayerName1.setLayout(new BoxLayout(panelPlayerName1, BoxLayout.X_AXIS));
-			lablePlayer1Name.setText("Spieler 1");
-			lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
-			lablePlayer1Name.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-			lablePlayer1Name.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-			panelPlayerName1.add(lablePlayer1Name, null);
-		}
-		return panelPlayerName1;
-	}
-	/**
-	 * This method initializes panelPlayerName2
-	 */    
-	private JPanel getPanelPlayerName2() {
-		if (panelPlayerName2 == null) {
-			lablePlayer2Name = new JLabel();
-			panelPlayerName2 = new JPanel();
-			panelPlayerName2.setLayout(new GridBagLayout());
-			lablePlayer2Name.setText("Spieler 2");
-			lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
-			lablePlayer2Name.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-			lablePlayer2Name.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-			panelPlayerName2.add(lablePlayer2Name, new GridBagConstraints());
-		}
-		return panelPlayerName2;
-	}
-	/**
-	 * This method initializes panelPlayer2State
-	 */    
+	
 	private JPanel getPanelPlayer2State() {
 		if (panelPlayer2State == null) {
 			panelPlayer2State = new JPanel();
@@ -221,13 +174,13 @@ public class PanelGameState extends JPanel {
 			java.awt.GridBagConstraints gridBagConstraints16 = new GridBagConstraints();
 			java.awt.GridBagConstraints gridBagConstraints17 = new GridBagConstraints();
 			panelPlayer2State.setLayout(new GridBagLayout());
-			lablePlayer2Ship1.setText(translator.tr("LandingCraft"));
+			lablePlayer2Ship1.setText(_engine.getTranslator().tr("LandingCraft"));
 			lablePlayer2Ship1.setName("LandingCraft");
-			lablePlayer2Ship2.setText(translator.tr("SpeedBoat"));
+			lablePlayer2Ship2.setText(_engine.getTranslator().tr("SpeedBoat"));
 			lablePlayer2Ship2.setName("SpeedBoat");
-			lablePlayer2Ship3.setText(translator.tr("ArmoredBoat"));
+			lablePlayer2Ship3.setText(_engine.getTranslator().tr("ArmoredBoat"));
 			lablePlayer2Ship3.setName("ArmoredBoat");
-			lablePlayer2Ship4.setText(translator.tr("AirCraftCarrier"));
+			lablePlayer2Ship4.setText(_engine.getTranslator().tr("AirCraftCarrier"));
 			lablePlayer2Ship4.setName("AirCraftCarrier");
 			gridBagConstraints10.gridx = 0;
 			gridBagConstraints10.gridy = 0;
@@ -253,16 +206,50 @@ public class PanelGameState extends JPanel {
 			panelPlayer2State.add(getProgressPlayer2Ship3(), gridBagConstraints15);
 			panelPlayer2State.add(lablePlayer2Ship4, gridBagConstraints16);
 			panelPlayer2State.add(getProgressPlayer2Ship4(), gridBagConstraints17);
-			Engine.guiElements.addElement(lablePlayer2Ship1);
-			Engine.guiElements.addElement(lablePlayer2Ship2);
-			Engine.guiElements.addElement(lablePlayer2Ship3);
-			Engine.guiElements.addElement(lablePlayer2Ship4);
+			_engine.getGuiElements().addElement(lablePlayer2Ship1);
+			_engine.getGuiElements().addElement(lablePlayer2Ship2);
+			_engine.getGuiElements().addElement(lablePlayer2Ship3);
+			_engine.getGuiElements().addElement(lablePlayer2Ship4);
 		}
 		return panelPlayer2State;
 	}
+	
 	/**
-	 * This method initializes progressPlayer2Ship1
-	 */    
+	 * following methods creates all the progressbars
+	 */
+	
+	private JProgressBar getProgressPlayer1Ship1() {
+		if (progressPlayer1Ship1 == null) {
+			progressPlayer1Ship1 = new JProgressBar();
+			progressPlayer1Ship1.setStringPainted(true);
+		}
+		return progressPlayer1Ship1;
+	}
+	
+	private JProgressBar getProgressPlayer1Ship2() {
+		if (progressPlayer1Ship2 == null) {
+			progressPlayer1Ship2 = new JProgressBar();
+			progressPlayer1Ship2.setStringPainted(true);
+		}
+		return progressPlayer1Ship2;
+	}
+	
+	private JProgressBar getProgressPlayer1Ship3() {
+		if (progressPlayer1Ship3 == null) {
+			progressPlayer1Ship3 = new JProgressBar();
+			progressPlayer1Ship3.setStringPainted(true);
+		}
+		return progressPlayer1Ship3;
+	}
+	
+	private JProgressBar getProgressPlayer1Ship4() {
+		if (progressPlayer1Ship4 == null) {
+			progressPlayer1Ship4 = new JProgressBar();
+			progressPlayer1Ship4.setStringPainted(true);
+		}
+		return progressPlayer1Ship4;
+	}
+	
 	private JProgressBar getProgressPlayer2Ship1() {
 		if (progressPlayer2Ship1 == null) {
 			progressPlayer2Ship1 = new JProgressBar();
@@ -270,9 +257,7 @@ public class PanelGameState extends JPanel {
 		}
 		return progressPlayer2Ship1;
 	}
-	/**
-	 * This method initializes progressPlayer2Ship2	
-	 */    
+	
 	private JProgressBar getProgressPlayer2Ship2() {
 		if (progressPlayer2Ship2 == null) {
 			progressPlayer2Ship2 = new JProgressBar();
@@ -280,9 +265,7 @@ public class PanelGameState extends JPanel {
 		}
 		return progressPlayer2Ship2;
 	}
-	/**
-	 * This method initializes progressPlayer2Ship3
-	 */    
+	
 	private JProgressBar getProgressPlayer2Ship3() {
 		if (progressPlayer2Ship3 == null) {
 			progressPlayer2Ship3 = new JProgressBar();
@@ -290,9 +273,7 @@ public class PanelGameState extends JPanel {
 		}
 		return progressPlayer2Ship3;
 	}
-	/**
-	 * This method initializes progressPlayer2Ship4	
-	 */    
+	
 	private JProgressBar getProgressPlayer2Ship4() {
 		if (progressPlayer2Ship4 == null) {
 			progressPlayer2Ship4 = new JProgressBar();
@@ -302,7 +283,7 @@ public class PanelGameState extends JPanel {
 	}
 	
 	/**
-	 * Setting the PlayerName
+	 * setting the player names
 	 */
 	
 	public void setPlayernames(String Player1Name, String Player2Name) {
@@ -310,15 +291,17 @@ public class PanelGameState extends JPanel {
 	    lablePlayer2Name.setText(Player2Name);
 	}
 	
+	/**
+	 * updates all the informations
+	 */
 	public void updateShipStates() {
-	    Vector ships = Engine.battleShips;
 	    int shipperc[] = new int[8];
 	    
-	    for (int i = 0; i < ships.size(); i++){
-	        BattleShip bs = (BattleShip) ships.elementAt(i);
+	    for (int i = 0; i < _engine.getBattleShips().size(); i++){
+	        BattleShip bs = (BattleShip) _engine.getBattleShips().elementAt(i);
 	        shipperc[i] = bs.getShipStatePercent();
 	    }
-	    if (_engine.playernumber == 1) {
+	    if (_engine.getMyPlayernumber() == 1) {
 	    	setPlayernames(_engine.getMyNick(), _engine.getRivalsNick());
 	    	lablePlayer1Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getMyNationality() + "/banner.jpg")));
 		    lablePlayer2Name.setIcon(new ImageIcon(getClass().getResource("/nations/" + _engine.getRivalsNationality() + "/banner.jpg")));

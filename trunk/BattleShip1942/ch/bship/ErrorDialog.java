@@ -1,20 +1,30 @@
+/**
+ * @author Adrian Greiler, Marcel Ryser
+ * 
+ * PROJECT: Battleship 1942
+ *
+ * Changelog:
+ * 
+ * 24.08.2004	MR		Erstellung
+ * 
+ */
 package ch.bship;
 
-import javax.swing.*;
 import java.awt.BorderLayout;
+import javax.swing.Icon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-/**
- * @author metawave
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+
 public class ErrorDialog extends JFrame {
 
 	private javax.swing.JPanel jContentPane = null;
 
-	private JPanel jPanel1 = null;
+	private JPanel headerInfopanel = null;
 	private JLabel jLabel = null;
 	private JLabel iconlabel = null;
 	private JLabel shlabel = null;
@@ -30,12 +40,12 @@ public class ErrorDialog extends JFrame {
 	public static final int INFO_MESSAGE		= 2;
 	public static final int WARN_MESSAGE		= 3; 
 	
-	public int actmsg;
+	private int actmsg;
 	
-	private JScrollPane jScrollPane = null;
-	private JTextArea jTextArea = null;
-	private JPanel jPanel = null;
-	private JButton jButton = null;
+	private JScrollPane mainScrollPane = null;
+	private JTextArea mainTextArea = null;
+	private JPanel buttonPanel = null;
+	private JButton okButton = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -43,8 +53,8 @@ public class ErrorDialog extends JFrame {
 		super();
 		this.setTitle(title);
 		
-		Icon ic = null;
 		// Iconchoose
+		Icon ic = null;
 		switch(icon) {
 			case ERROR_MESSAGE: ic = errIcon;break;
 			case INFO_MESSAGE: ic = infoIcon;break;
@@ -52,15 +62,12 @@ public class ErrorDialog extends JFrame {
 		}
 		getJIconLabel().setIcon(ic);
 		getJShortLabel().setText(shorttext);
-		getJTextArea().setText(longtext);
+		getMainTextArea().setText(longtext);
 		actmsg = icon;
-		// Init
-		initialize();
+		initialize(); // Init
 	}
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * This method initializes the guielements
 	 */
 	private void initialize() {
 		this.setSize(462, 318);
@@ -69,33 +76,24 @@ public class ErrorDialog extends JFrame {
 		this.setAlwaysOnTop(true);
 	}
 	
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
 			jContentPane = new javax.swing.JPanel();
 			jContentPane.setLayout(new BorderLayout());
-			jContentPane.add(getJPanel1(), java.awt.BorderLayout.NORTH);
-			jContentPane.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(getJPanel(), java.awt.BorderLayout.SOUTH);
+			jContentPane.add(getHeaderInfopanel(), java.awt.BorderLayout.NORTH);
+			jContentPane.add(getMainScrollPane(), java.awt.BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
 		}
 		return jContentPane;
 	}
-	/**
-	 * This method initializes jPanel1	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel1() {
-		if (jPanel1 == null) {
-			jPanel1 = new JPanel();
-			jPanel1.add(getJIconLabel(), null);
-			jPanel1.add(getJShortLabel(), null);
+	
+	private JPanel getHeaderInfopanel() {
+		if (headerInfopanel == null) {
+			headerInfopanel = new JPanel();
+			headerInfopanel.add(getJIconLabel(), null);
+			headerInfopanel.add(getJShortLabel(), null);
 		}
-		return jPanel1;
+		return headerInfopanel;
 	}
 	
 	private JLabel getJIconLabel() {
@@ -113,52 +111,35 @@ public class ErrorDialog extends JFrame {
 		}
 		return shlabel;
 	}
-	/**
-	 * This method initializes jScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
-	private JScrollPane getJScrollPane() {
-		if (jScrollPane == null) {
-			jScrollPane = new JScrollPane();
-			jScrollPane.setViewportView(getJTextArea());
+
+	private JScrollPane getMainScrollPane() {
+		if (mainScrollPane == null) {
+			mainScrollPane = new JScrollPane();
+			mainScrollPane.setViewportView(getMainTextArea());
 		}
-		return jScrollPane;
+		return mainScrollPane;
 	}
-	/**
-	 * This method initializes jTextPane	
-	 * 	
-	 * @return javax.swing.JTextPane	
-	 */    
-	private JTextArea getJTextArea() {
-		if (jTextArea == null) {
-			jTextArea = new JTextArea();
-			
+
+	private JTextArea getMainTextArea() {
+		if (mainTextArea == null) {
+			mainTextArea = new JTextArea();
 		}
-		return jTextArea;
+		return mainTextArea;
 	}
-	/**
-	 * This method initializes jPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel() {
-		if (jPanel == null) {
-			jPanel = new JPanel();
-			jPanel.add(getJButton(), null);
+ 
+	private JPanel getButtonPanel() {
+		if (buttonPanel == null) {
+			buttonPanel = new JPanel();
+			buttonPanel.add(getOkButton(), null);
 		}
-		return jPanel;
+		return buttonPanel;
 	}
-	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.setText("OK");
-			jButton.addActionListener(new java.awt.event.ActionListener() { 
+  
+	private JButton getOkButton() {
+		if (okButton == null) {
+			okButton = new JButton();
+			okButton.setText("OK");
+			okButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {   
 					// Action depends on InfoBox
 					switch(actmsg) {
@@ -169,6 +150,6 @@ public class ErrorDialog extends JFrame {
 				}
 			});
 		}
-		return jButton;
+		return okButton;
 	}
   }  //  @jve:decl-index=0:visual-constraint="10,10"

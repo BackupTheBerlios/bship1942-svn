@@ -1,9 +1,12 @@
 package ch.bship;
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.event.WindowAdapter;
 
+import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 /**
@@ -19,8 +22,7 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-	private javax.swing.JPanel jContentPane = null;
-	GameLanguage translator = GameLanguage.getInstance();
+	private JPanel jContentPane = null;
 
 	private PanelGameState gameState = null;
 	private Field gameField = null;
@@ -42,8 +44,9 @@ public class MainFrame extends JFrame {
 		
 	private JPanel shipNav = null;
 	private JPanel northwest = null;
+	
 	/**
-	 * This is the default constructor
+	 * constructor
 	 */
 	public MainFrame(Engine engine) {
 		super();
@@ -51,9 +54,7 @@ public class MainFrame extends JFrame {
 		initialize();
 	}
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * initialize gui components
 	 */
 	private void initialize() {
 		this.initGuiComponents();
@@ -63,35 +64,36 @@ public class MainFrame extends JFrame {
 		this.setSize(960, 730);
 		this.setContentPane(getJContentPane());
 	}
+	
+	/**
+	 * application closer to terminate the application really
+	 */
 	protected static final class AppCloser extends WindowAdapter {
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			System.exit(0);
 		}
 	}
+	
 	/**
-	 * 
+	 * adding gui components to visualcomponent container
 	 */
 	private void initGuiComponents() {
-		Engine.guiElements.addElement(getJMenuFile());
-		Engine.guiElements.addElement(getJMenuOptions());
-		Engine.guiElements.addElement(getJMenuHelp());
-		Engine.guiElements.addElement(getJMenuItemNewGame());
-		Engine.guiElements.addElement(getJMenuItemQuit());
-		Engine.guiElements.addElement(getJMenuLanguage());
-		Engine.guiElements.addElement(getJCheckBoxGerman());
-		Engine.guiElements.addElement(getJCheckBoxEnglish());
-		Engine.guiElements.addElement(getJCheckBoxFrench());
-		Engine.guiElements.addElement(getJMenuItemManual());
-		Engine.guiElements.addElement(getJMenuItemInfo());
+		_engine.getGuiElements().addElement(getJMenuFile());
+		_engine.getGuiElements().addElement(getJMenuOptions());
+		_engine.getGuiElements().addElement(getJMenuHelp());
+		_engine.getGuiElements().addElement(getJMenuItemNewGame());
+		_engine.getGuiElements().addElement(getJMenuItemQuit());
+		_engine.getGuiElements().addElement(getJMenuLanguage());
+		_engine.getGuiElements().addElement(getJCheckBoxGerman());
+		_engine.getGuiElements().addElement(getJCheckBoxEnglish());
+		_engine.getGuiElements().addElement(getJCheckBoxFrench());
+		_engine.getGuiElements().addElement(getJMenuItemManual());
+		_engine.getGuiElements().addElement(getJMenuItemInfo());
 	}
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
+	
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			jContentPane = new javax.swing.JPanel();
+			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
 			
 			JPanel west = new JPanel();
@@ -112,55 +114,53 @@ public class MainFrame extends JFrame {
 		}
 		return jContentPane;
 	}
-	/**
-	 * This method initializes gameState	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGameState() {
+	
+	public JPanel getGameState() {
 		if (gameState == null) {
 			gameState = new PanelGameState(_engine);
 		}
 		return gameState;
 	}
-	/**
-	 * This method initializes gameField	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGameField() {
+	
+	public JPanel getGameField() {
 		if (gameField == null) {
 			gameField = new Field(_engine);
 		}
 		return gameField;
 	}
-	/**
-	 * This method initializes gameChat	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	JPanel getGameChat() {
+	
+	public JPanel getGameChat() {
 		if (gameChat == null) {
-			gameChat = new Chat(_engine.getNetInstance());
+			gameChat = new Chat(_engine);
 		}
 		return gameChat;
 	}
-	/**
-	 * This method initializes shipState	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getShipState() {
+	
+	public JPanel getShipState() {
 		if (shipState == null) {
 			shipState = new PanelShipState(_engine);
 		}
 		return shipState;
 	}
+	
+	public JPanel getShipNavField() {
+		if (shipNav == null) {
+			shipNav = new PanelShipNav(_engine);
+		}
+		return shipNav;
+	}
+	
+	private JPanel getNorthwest() {
+		if (northwest == null) {
+			northwest = new JPanel();
+			northwest.add(getGameState(), null);
+		}
+		return northwest;
+	}
+	
 	/**
-	 * This method initializes jJMenuBar	
-	 * 	
-	 * @return javax.swing.JMenuBar	
-	 */    
+	 * following methods initializes the menu
+	 */
 	private JMenuBar getJJMenuBar() {
 		if (jJMenuBar == null) {
 			jJMenuBar = new JMenuBar();
@@ -170,50 +170,37 @@ public class MainFrame extends JFrame {
 		}
 		return jJMenuBar;
 	}
-	/**
-	 * This method initializes jMenuFile	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
+	
 	private JMenu getJMenuFile() {
 		if (jMenuFile == null) {
 			jMenuFile = new JMenu();
-			jMenuFile.setText(translator.tr("File"));
+			jMenuFile.setText(_engine.getTranslator().tr("File"));
 			jMenuFile.setName("File");
 			jMenuFile.add(getJMenuItemNewGame());
 			jMenuFile.add(getJMenuItemQuit());
 		}
 		return jMenuFile;
 	}
-	/**
-	 * This method initializes jMenuItemNewGame	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
+	
 	private JMenuItem getJMenuItemNewGame() {
 		if (jMenuItemNewGame == null) {
 			jMenuItemNewGame = new JMenuItem();
-			jMenuItemNewGame.setText(translator.tr("NewGame"));
+			jMenuItemNewGame.setText(_engine.getTranslator().tr("NewGame"));
 			jMenuItemNewGame.setName("NewGame");
 			jMenuItemNewGame.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK, false));
 			jMenuItemNewGame.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
-					_engine.openStartDialog();
-					setVisible(false);
+					_engine.startNewGame();
 				}
 			});
 		}
 		return jMenuItemNewGame;
 	}
-	/**
-	 * This method initializes jMenuItemQuit	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
+	
 	private JMenuItem getJMenuItemQuit() {
 		if (jMenuItemQuit == null) {
 			jMenuItemQuit = new JMenuItem();
-			jMenuItemQuit.setText(translator.tr("Quit"));
+			jMenuItemQuit.setText(_engine.getTranslator().tr("Quit"));
 			jMenuItemQuit.setName("Quit");
 			jMenuItemQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK, false));
 			jMenuItemQuit.addActionListener(new java.awt.event.ActionListener() { 
@@ -224,29 +211,21 @@ public class MainFrame extends JFrame {
 		}
 		return jMenuItemQuit;
 	}
-	/**
-	 * This method initializes jMenuOptions	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
+	
 	private JMenu getJMenuOptions() {
 		if (jMenuOptions == null) {
 			jMenuOptions = new JMenu();
-			jMenuOptions.setText(translator.tr("Options"));
+			jMenuOptions.setText(_engine.getTranslator().tr("Options"));
 			jMenuOptions.setName("Options");
 			jMenuOptions.add(getJMenuLanguage());
 		}
 		return jMenuOptions;
 	}
-	/**
-	 * This method initializes jMenuLanguage	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
+	
 	private JMenu getJMenuLanguage() {
 		if (jMenuLanguage == null) {
 			jMenuLanguage = new JMenu();
-			jMenuLanguage.setText(translator.tr("Applanguage"));
+			jMenuLanguage.setText(_engine.getTranslator().tr("Applanguage"));
 			jMenuLanguage.setName("Applanguage");
 			jMenuLanguage.add(getJCheckBoxGerman());
 			jMenuLanguage.add(getJCheckBoxEnglish());
@@ -254,160 +233,88 @@ public class MainFrame extends JFrame {
 		}
 		return jMenuLanguage;
 	}
-	/**
-	 * This method initializes jCheckBoxGerman	
-	 * 	
-	 * @return javax.swing.JCheckBoxMenuItem	
-	 */    
+	
 	private JCheckBoxMenuItem getJCheckBoxGerman() {
 		if (jCheckBoxGerman == null) {
 			jCheckBoxGerman = new JCheckBoxMenuItem();
-			jCheckBoxGerman.setText(translator.tr("German"));
+			jCheckBoxGerman.setText(_engine.getTranslator().tr("German"));
 			jCheckBoxGerman.setName("German");
 			jCheckBoxGerman.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
+					getJCheckBoxGerman().setSelected(true);
 					getJCheckBoxEnglish().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
-					translator.setLanguage("german");
+					_engine.getTranslator().setLanguage("german");
 				    _engine.updateLanguage();
 				}
 			});
 		}
 		return jCheckBoxGerman;
 	}
-	/**
-	 * This method initializes jCheckBoxEnglish	
-	 * 	
-	 * @return javax.swing.JCheckBoxMenuItem	
-	 */    
+	
 	private JCheckBoxMenuItem getJCheckBoxEnglish() {
 		if (jCheckBoxEnglish == null) {
 			jCheckBoxEnglish = new JCheckBoxMenuItem();
-			jCheckBoxEnglish.setText(translator.tr("English"));
+			jCheckBoxEnglish.setText(_engine.getTranslator().tr("English"));
 			jCheckBoxEnglish.setName("English");
 			jCheckBoxEnglish.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
+					getJCheckBoxEnglish().setSelected(true);
 					getJCheckBoxFrench().setSelected(false);
-					translator.setLanguage("english");
+					_engine.getTranslator().setLanguage("english");
 				    _engine.updateLanguage();
 				}
 			});
 		}
 		return jCheckBoxEnglish;
 	}
-	/**
-	 * This method initializes jCheckBoxFrench	
-	 * 	
-	 * @return javax.swing.JCheckBoxMenuItem	
-	 */    
+	
 	private JCheckBoxMenuItem getJCheckBoxFrench() {
 		if (jCheckBoxFrench == null) {
 			jCheckBoxFrench = new JCheckBoxMenuItem();
-			jCheckBoxFrench.setText(translator.tr("French"));
+			jCheckBoxFrench.setText(_engine.getTranslator().tr("French"));
 			jCheckBoxFrench.setName("French");
 			jCheckBoxFrench.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxEnglish().setSelected(false);
-					translator.setLanguage("french");
+					getJCheckBoxFrench().setSelected(true);
+					_engine.getTranslator().setLanguage("french");
 					_engine.updateLanguage();
 				}
 			});
 		}
 		return jCheckBoxFrench;
 	}
-	/**
-	 * This method initializes jMenuHelp	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
+	
 	private JMenu getJMenuHelp() {
 		if (jMenuHelp == null) {
 			jMenuHelp = new JMenu();
-			jMenuHelp.setText(translator.tr("Help"));
+			jMenuHelp.setText(_engine.getTranslator().tr("Help"));
 			jMenuHelp.setName("Help");
 			jMenuHelp.add(getJMenuItemManual());
 			jMenuHelp.add(getJMenuItemInfo());
 		}
 		return jMenuHelp;
 	}
-	/**
-	 * This method initializes jMenuItemManual	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
+	
 	private JMenuItem getJMenuItemManual() {
 		if (jMenuItemManual == null) {
 			jMenuItemManual = new JMenuItem();
-			jMenuItemManual.setText(translator.tr("Manual"));
+			jMenuItemManual.setText(_engine.getTranslator().tr("Manual"));
 			jMenuItemManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0, false));
 			jMenuItemManual.setName("Manual");
 		}
 		return jMenuItemManual;
 	}
-	/**
-	 * This method initializes jMenuItemInfo	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
+	
 	private JMenuItem getJMenuItemInfo() {
 		if (jMenuItemInfo == null) {
 			jMenuItemInfo = new JMenuItem();
-			jMenuItemInfo.setText(translator.tr("Info"));
+			jMenuItemInfo.setText(_engine.getTranslator().tr("Info"));
 			jMenuItemInfo.setName("Info");
 		}
 		return jMenuItemInfo;
 	}
-	/**
-	 * This method initializes shipNavField	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	public JPanel getShipNavField() {
-		if (shipNav == null) {
-			shipNav = new PanelShipNav(_engine, (Field)getGameField());
-		}
-		return shipNav;
-	}
-	
-	public void paint(Graphics g) {
-		super.paint(g);
-		((Field) getGameField()).zeichne();
-	}
-	
-	public void updateselected() {
-		((PanelShipNav)getShipNavField()).actualizebuttons();
-		((PanelShipState)getShipState()).updateship();
-		((PanelGameState)getGameState()).updateShipStates();
-	}
-	
-	public void initField() {
-		setVisible(true);
-		((Field) getGameField()).zeichne();
-	}
-	
-	public void defeatmsg() {
-		((Field) getGameField()).setDefeated(true);
-		((Field) getGameField()).zeichne();
-	}
-	
-	/**
-	 * This method initializes northwest	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getNorthwest() {
-		if (northwest == null) {
-			northwest = new JPanel();
-			northwest.add(getGameState(), null);
-		}
-		return northwest;
-	}
-	/**
-	 * 
-	 */
-	public void repaintField() {
-		((Field) getGameField()).zeichne();
-	}
-      }  //  @jve:decl-index=0:visual-constraint="10,10"
+}  //  @jve:decl-index=0:visual-constraint="10,10"

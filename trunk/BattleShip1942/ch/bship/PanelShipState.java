@@ -32,23 +32,19 @@ public class PanelShipState extends JPanel {
 	private JLabel jShipPicture = null;
 	private Engine _engine;
 	
-	private GameLanguage gl = GameLanguage.getInstance();
-	
 	/**
-	 * This is the default constructor
+	 * constructor
 	 */
 	public PanelShipState(Engine engine) {
 		super();
 		_engine = engine;
 		initialize();
 	}
+	
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * intitialize of guielements
 	 */
 	private  void initialize() {
-		jShipPicture = new JLabel();
 		this.setLayout(new BorderLayout());
 		this.setSize(300,200);
 		jShipPicture = new JLabel();
@@ -57,10 +53,8 @@ public class PanelShipState extends JPanel {
 		
 	}
 	/**
-	 * This method initializes panelShipDetails	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * this method creates the ship details
+	 */  
 	private JPanel getPanelShipDetails() {
 		if (panelShipDetails == null) {
 			labelValueSpeed = new JLabel();
@@ -76,20 +70,20 @@ public class PanelShipState extends JPanel {
 			java.awt.GridLayout gridLayout6 = new GridLayout();
 			panelShipDetails = new JPanel();
 			panelShipDetails.setLayout(gridLayout6);
-			labelBezShield.setText(gl.tr("Shield"));
+			labelBezShield.setText(_engine.getTranslator().tr("Shield"));
 			labelBezShield.setName("Shield");
 			labelValueShield.setText("0");
-			labelBezStrength.setText(gl.tr("Strength"));
+			labelBezStrength.setText(_engine.getTranslator().tr("Strength"));
 			labelBezStrength.setName("Strength");
 			gridLayout6.setRows(5);
 			labelValueStrength.setText("0");
-			labelBezRangeOfSight.setText(gl.tr("RangeOfSight"));
+			labelBezRangeOfSight.setText(_engine.getTranslator().tr("RangeOfSight"));
 			labelBezRangeOfSight.setName("RangeOfSight");
 			labelValueRangeOfSight.setText("0");
-			labelBezShotRange.setText(gl.tr("Shootrange"));
+			labelBezShotRange.setText(_engine.getTranslator().tr("Shootrange"));
 			labelBezShotRange.setName("Shootrange");
 			labelValueShotRange.setText("0");
-			labelBezSpeed.setText(gl.tr("Speed"));
+			labelBezSpeed.setText(_engine.getTranslator().tr("Speed"));
 			labelBezSpeed.setName("Speed");
 			labelValueSpeed.setText("0");
 			panelShipDetails.add(labelBezShield, null);
@@ -102,15 +96,18 @@ public class PanelShipState extends JPanel {
 			panelShipDetails.add(labelValueShotRange, null);
 			panelShipDetails.add(labelBezSpeed, null);
 			panelShipDetails.add(labelValueSpeed, null);
-			Engine.guiElements.addElement(labelBezShield);
-			Engine.guiElements.addElement(labelBezStrength);
-			Engine.guiElements.addElement(labelBezRangeOfSight);
-			Engine.guiElements.addElement(labelBezShotRange);
-			Engine.guiElements.addElement(labelBezSpeed);
+			_engine.getGuiElements().addElement(labelBezShield);
+			_engine.getGuiElements().addElement(labelBezStrength);
+			_engine.getGuiElements().addElement(labelBezRangeOfSight);
+			_engine.getGuiElements().addElement(labelBezShotRange);
+			_engine.getGuiElements().addElement(labelBezSpeed);
 		}
 		return panelShipDetails;
 	}
 	
+	/**
+	 * this method updates the shipinformation
+	 */
 	public void updateship() {
 	    BattleShip acbs = _engine.getSelectedBoat();
 	    if (acbs != null) {

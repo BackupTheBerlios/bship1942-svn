@@ -17,29 +17,24 @@ import java.awt.BorderLayout;
 
 public class PanelShipNav extends JPanel {
 	
-	JButton navleftButton = null;
-	JButton navrightButton = null;
-	JButton navupButton = null;
-	JButton navdownButton = null;
+	private JButton navleftButton = null;
+	private JButton navrightButton = null;
+	private JButton navupButton = null;
+	private JButton navdownButton = null;
+	private JButton navbattleButton = null;
 	
 	private Engine _engine;
-	private Field _field;
-	private int nav = 1;
 	
-	private JButton navbattleButton = null;
 	/**
-	 * This is the default constructor
+	 * constructor
 	 */
-	public PanelShipNav(Engine engine, Field field) {
+	public PanelShipNav(Engine engine) {
 		super();
 		_engine = engine;
-		_field = field;
 		initialize();
 	}
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * intitialize of guielements
 	 */
 	private  void initialize() {
 		this.setLayout(new BorderLayout());
@@ -52,10 +47,9 @@ public class PanelShipNav extends JPanel {
 	}
 	
 	/**
-	 * This method initializes navleftButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	 * following methods creates all the buttons for navigation and battle-nav-mode
+	 */
+	
 	private JButton getNavleftButton() {
 		if (navleftButton == null) {
 			navleftButton = new JButton();
@@ -64,18 +58,14 @@ public class PanelShipNav extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveLeft(1);
 					_engine.reduceaction();
-					_field.zeichne();
+					_engine.repaintField();
 					actualizebuttons();
 				}
 			});
 		}
 		return navleftButton;
 	}
-	/**
-	 * This method initializes navupButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	
 	private JButton getNavupButton() {
 		if (navupButton == null) {
 			navupButton = new JButton();
@@ -84,18 +74,14 @@ public class PanelShipNav extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveUp(1);
 					_engine.reduceaction();
-					_field.zeichne();
+					_engine.repaintField();
 					actualizebuttons();
 				}
 			});
 		}
 		return navupButton;
 	}
-	/**
-	 * This method initializes navdownButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	
 	private JButton getNavdownButton() {
 		if (navdownButton == null) {
 			navdownButton = new JButton();
@@ -104,18 +90,14 @@ public class PanelShipNav extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveDown(1);
 					_engine.reduceaction();
-					_field.zeichne();
+					_engine.repaintField();
 					actualizebuttons();
 				}
 			});
 		}
 		return navdownButton;
 	}
-	/**
-	 * This method initializes navrightButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	
 	private JButton getNavrightButton() {
 		if (navrightButton == null) {
 			navrightButton = new JButton();
@@ -124,7 +106,7 @@ public class PanelShipNav extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					((BattleShip)_engine.getSelectedBoat()).moveRight(1);
 					_engine.reduceaction();
-					_field.zeichne();
+					_engine.repaintField();
 					actualizebuttons();
 				}
 			});
@@ -132,10 +114,31 @@ public class PanelShipNav extends JPanel {
 		return navrightButton;
 	}
 	
+	private JButton getNavbattleButton() {
+		if (navbattleButton == null) {
+			navbattleButton = new JButton();
+			navbattleButton.setText("Nav / Battle");
+			navbattleButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					if (_engine.getNavmode()) {
+						getNavbattleButton().setText("Battle Mode");
+						_engine.setNavmode(false);
+					}else{
+						getNavbattleButton().setText("Navigation Mode");
+						_engine.setNavmode(true);
+					}
+				}
+			});
+		}
+		return navbattleButton;
+	}
+	
+	/**
+	 * actualize the buttons (enabled property)
+	 */
 	public void actualizebuttons() {
 		// kein Schiff selektiert => alle buttons disablen
 		boolean enabled;
-		System.out.println("actualize buttons");
 		if (_engine.getSelectedBoat() == null || !_engine.isAtPlaying()) {
 			enabled = false;
 		}else{
@@ -146,36 +149,5 @@ public class PanelShipNav extends JPanel {
 		getNavupButton().setEnabled(enabled);
 		getNavdownButton().setEnabled(enabled);
 		getNavbattleButton().setEnabled(enabled);
-		
-
-	}
-	/**
-	 * This method initializes navbattleButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
-	private JButton getNavbattleButton() {
-		if (navbattleButton == null) {
-			navbattleButton = new JButton();
-			navbattleButton.setText("Nav / Battle");
-			navbattleButton.addActionListener(new java.awt.event.ActionListener() { 
-				public void actionPerformed(java.awt.event.ActionEvent e) {    
-					if (nav == 1) {
-						getNavbattleButton().setText("Navigation Mode");
-						nav = 2;
-						_engine.setNavmode(true);
-					}else{
-						getNavbattleButton().setText("Battle Mode");
-						_engine.setNavmode(false);
-						nav = 1;
-					}
-				}
-			});
-		}
-		return navbattleButton;
-	}
-	
-	public void resetButton() {
-		getNavbattleButton().setText("Nav / Battle");
 	}
  }

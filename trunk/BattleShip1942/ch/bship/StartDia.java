@@ -66,28 +66,21 @@ public class StartDia extends JFrame implements ActionListener {
 	private final static String OK = "OK_CMD";
     private final static String CANCEL = "CANCEL_CMD";
     private final static String MAP_CHANGED = "MAP_CHANGED_CMD";
-	private Net _net;
 	private Engine _engine;
-	private GameLanguage _lang = GameLanguage.getInstance();
 	private Vector _flags;
-	private JLabel jLabel = null;
 	private JPanel subButtonPanel = null;
 	private JPanel optionPanel = null;
-	private JPanel jPanel1 = null;
+	
 	/**
-	 * This is the default constructor
+	 * constructor
 	 */
-	public StartDia(Net net, Engine engine) {
+	public StartDia(Engine engine) {
 		super();
-		_lang = GameLanguage.getInstance();
-        _net = net;
         _engine = engine;
 		initialize();
 	}
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * initialize gui components
 	 */
 	private void initialize() {
 		this.setSize(640, 280);
@@ -96,16 +89,16 @@ public class StartDia extends JFrame implements ActionListener {
 		this.addWindowListener(new AppCloser());
         _flags = listDir("nations", "banner.jpg");
 	}
+	
+	/**
+	 * application closer to terminate the application really
+	 */
 	protected static final class AppCloser extends WindowAdapter {
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			System.exit(0);
 		}
 	}
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
+	
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
 			jContentPane = new javax.swing.JPanel();
@@ -116,11 +109,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return jContentPane;
 	}
-	/**
-	 * This method initializes optionsPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	
 	private JPanel getOptionsPanel() {
 		if (optionsPanel == null) {
 			nickFieldLabel = new JLabel();
@@ -133,21 +122,21 @@ public class StartDia extends JFrame implements ActionListener {
 			optionsPanel.setLayout(gridLayout1);
 			gridLayout1.setRows(5);
 			gridLayout1.setColumns(2);
-			nickFieldLabel.setText(_lang.tr("Nick"));
+			nickFieldLabel.setText(_engine.getTranslator().tr("Nick"));
 			nickFieldLabel.setName("Nick");
-			ipFieldLabel.setText(_lang.tr("IP"));
+			ipFieldLabel.setText(_engine.getTranslator().tr("IP"));
 			ipFieldLabel.setName("IP");
-			nationComboLabel.setText(_lang.tr("Nation"));
+			nationComboLabel.setText(_engine.getTranslator().tr("Nation"));
 			nationComboLabel.setName("Nation");
-			mapComboLabel.setText(_lang.tr("Map"));
+			mapComboLabel.setText(_engine.getTranslator().tr("Map"));
 			mapComboLabel.setName("Map");
-			langComboLabel.setText(_lang.tr("Language"));
+			langComboLabel.setText(_engine.getTranslator().tr("Language"));
 			langComboLabel.setName("Language");
-			Engine.guiElements.addElement(nickFieldLabel);
-			Engine.guiElements.addElement(ipFieldLabel);
-			Engine.guiElements.addElement(nationComboLabel);
-			Engine.guiElements.addElement(mapComboLabel);
-			Engine.guiElements.addElement(langComboLabel);
+			_engine.getGuiElements().addElement(nickFieldLabel);
+			_engine.getGuiElements().addElement(ipFieldLabel);
+			_engine.getGuiElements().addElement(nationComboLabel);
+			_engine.getGuiElements().addElement(mapComboLabel);
+			_engine.getGuiElements().addElement(langComboLabel);
 			optionsPanel.add(nickFieldLabel, null);
 			optionsPanel.add(getNickField(), null);
 			optionsPanel.add(ipFieldLabel, null);
@@ -161,22 +150,14 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return optionsPanel;
 	}
-	/**
-	 * This method initializes nickField	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */    
+	
 	private JTextField getNickField() {
 		if (nickField == null) {
 			nickField = new JTextField();
 		}
 		return nickField;
 	}
-	/**
-	 * This method initializes ipField	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */    
+	
 	private JTextField getIpField() {
 		if (ipField == null) {
 			ipField = new JTextField();
@@ -188,11 +169,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return ipField;
 	}
-	/**
-	 * This method initializes nationCombo	
-	 * 	
-	 * @return javax.swing.JComboBox	
-	 */    
+	
 	private JComboBox getNationCombo() {
 		if (nationCombo == null) {
 			nationCombo = new JComboBox(listDir("nations", ""));
@@ -200,11 +177,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return nationCombo;
 	}
-	/**
-	 * This method initializes mapCombo	
-	 * 	
-	 * @return javax.swing.JComboBox	
-	 */    
+	
 	private JComboBox getMapCombo() {
 		if (mapCombo == null) {
 			mapCombo = new JComboBox(listDir("./maps", ""));
@@ -213,17 +186,13 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return mapCombo;
 	}
-	/**
-	 * This method initializes langCombo	
-	 * 	
-	 * @return javax.swing.JComboBox	
-	 */    
+	
 	private JComboBox getLangCombo() {
 		if (langCombo == null) {
-			langCombo = new JComboBox(_lang.getLanguages());
+			langCombo = new JComboBox(_engine.getTranslator().getLanguages());
 			langCombo.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {    
-					_lang.setLanguage(langCombo.getSelectedItem().toString());
+					_engine.getTranslator().setLanguage(langCombo.getSelectedItem().toString());
 					_engine.updateLanguage();
 					drawPreviewPic();
 				}
@@ -231,11 +200,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return langCombo;
 	}
-	/**
-	 * This method initializes previewPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	
 	private JPanel getPreviewPanel() {
 		if (previewPanel == null) {
 			previewPanel = new JPanel();
@@ -252,11 +217,6 @@ public class StartDia extends JFrame implements ActionListener {
 		return previewLabel;
 	}
 	
-	/**
-	 * This method initializes buttonPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
@@ -265,11 +225,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return buttonPanel;
 	}
-	/**
-	 * This method initializes buttonsPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	
 	private JPanel getButtonsPanel() {
 		if (buttonsPanel == null) {
 			buttonsPanel = new JPanel();
@@ -278,11 +234,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return buttonsPanel;
 	}
-	/**
-	 * This method initializes okButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
@@ -292,11 +244,7 @@ public class StartDia extends JFrame implements ActionListener {
 		}
 		return okButton;
 	}
-	/**
-	 * This method initializes cancelButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
@@ -307,15 +255,34 @@ public class StartDia extends JFrame implements ActionListener {
 		return cancelButton;
 	}
 	
+	private JPanel getSubButtonPanel() {
+		if (subButtonPanel == null) {
+			subButtonPanel = new JPanel();
+			subButtonPanel.add(getOkButton(), null);
+			subButtonPanel.add(getCancelButton(), null);
+		}
+		return subButtonPanel;
+	}
+	
+	private JPanel getOptionPanel() {
+		if (optionPanel == null) {
+			optionPanel = new JPanel();
+			optionPanel.add(getOptionsPanel(), null);
+		}
+		return optionPanel;
+	}
+	
+	/**
+	 * action listener for start dialog
+	 */
 	public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals(OK)) {
         	if (getIpField().getText().equals("")) {
-        		_engine.isclient = true;
         		_engine.setMyNick(getNickField().getText());
                 _engine.setMyNationality(getNationCombo().getSelectedItem().toString());
-                _lang.setLanguage((getLangCombo().getSelectedItem()).toString());
+                _engine.getTranslator().setLanguage((getLangCombo().getSelectedItem()).toString());
         	}else{
-        		_net.setIP(getIpField().getText());
+        		_engine.getNetInstance().setIP(getIpField().getText());
                 _engine.setMyNick(getNickField().getText());
                 _engine.setMyNationality(getNationCombo().getSelectedItem().toString());
                 _engine.setMap(getMapCombo().getSelectedItem().toString());
@@ -324,7 +291,7 @@ public class StartDia extends JFrame implements ActionListener {
                     getNickField().getText() + "|" +
                     ((String)(getNationCombo().getSelectedItem())) + "|" +
                     ((String)(getMapCombo().getSelectedItem()));
-                _net.send(message);
+                _engine.getNetInstance().send(message);
         	}
             setVisible(false);
         } else if ((e.getActionCommand()).equals(CANCEL)) {
@@ -335,11 +302,12 @@ public class StartDia extends JFrame implements ActionListener {
         }else{
         	repaint();
         	drawPreviewPic();
-        	
         }
-        
     }
 	
+	/**
+	 * get a little preview of the map
+	 */
 	private BufferedImage getMapPreviewImage() {
 		if (img == null) {
 			File f = new File("maps" + File.separator + (getMapCombo().getSelectedItem().toString()) + File.separator + "map.jpg");
@@ -355,6 +323,9 @@ public class StartDia extends JFrame implements ActionListener {
 		return img;
 	}
 	
+	/**
+	 * gives back a vector with a dirlisting
+	 */
 	private Vector listDir(String dirName, String filename) {
         Vector list = new Vector();
 
@@ -372,6 +343,22 @@ public class StartDia extends JFrame implements ActionListener {
         }
         return list;
     }
+	
+	private void drawPreviewPic() {
+		if (getMapPreviewImage() != null) {
+			System.out.println("Draw image");
+			getPreviewPanel().getGraphics().drawImage(getMapPreviewImage(),0,0,300,214,getPreviewPanel());
+		}
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		drawPreviewPic();
+	}
+	
+	/**
+	 * a combobox renderer to display flag in front of nations name
+	 */
 	class NationsCBoxRenderer extends JLabel implements ListCellRenderer {
         
         public NationsCBoxRenderer() {
@@ -389,42 +376,4 @@ public class StartDia extends JFrame implements ActionListener {
             return this;
         }
     }
-	/**
-	 * This method initializes subButtonPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getSubButtonPanel() {
-		if (subButtonPanel == null) {
-			subButtonPanel = new JPanel();
-			subButtonPanel.add(getOkButton(), null);
-			subButtonPanel.add(getCancelButton(), null);
-		}
-		return subButtonPanel;
-	}
-
-	/**
-	 * This method initializes optionPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getOptionPanel() {
-		if (optionPanel == null) {
-			optionPanel = new JPanel();
-			optionPanel.add(getOptionsPanel(), null);
-		}
-		return optionPanel;
-	}
-	
-	private void drawPreviewPic() {
-		if (getMapPreviewImage() != null) {
-			System.out.println("Draw image");
-			getPreviewPanel().getGraphics().drawImage(getMapPreviewImage(),0,0,300,214,getPreviewPanel());
-		}
-	}
-	
-	public void paint(Graphics g) {
-		super.paint(g);
-		drawPreviewPic();
-	}
-   }  //  @jve:decl-index=0:visual-constraint="10,10"
+}  //  @jve:decl-index=0:visual-constraint="10,10"

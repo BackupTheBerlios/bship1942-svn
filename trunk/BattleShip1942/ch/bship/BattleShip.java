@@ -16,15 +16,11 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 import javax.imageio.ImageIO;
 public class BattleShip {
 
-	private int _alignment;
-	private Vector _positions;
 	private int _kind;
-	private String _picture;
 	private int _shield;
 	private int _force;
 	private int _rangeOfSight;
@@ -35,29 +31,52 @@ public class BattleShip {
 	private int _ypos;
 	private int _player;
 	private int _direction = 1;
-	private String _name;
-	private String _pathToImage;
-	private GameLanguage translator = GameLanguage.getInstance();
-	private BufferedImage shippic;
-	
+	private String _picture;
+	private BufferedImage _shippic;
 	
 	/**
-	 * constructor
+	 * constructor of BattleShip
+	 * 
+	 * @param kind the kind of ship
+	 * @param player the number of the player who the ship belongs to
 	 */
 	public BattleShip(int kind, int player) {
 	    _kind = kind;
 	    _player = player;
 		setInfos(_kind);
-		_name = translator.tr(_name);
-		/**
-		 * TODO: pathToImage mit properties oder setinfos implementieren
-		 */
-		_pathToImage = "";
 	}
+	
+	/**
+     * getters for various functions
+     */	
+    public int getShipStatePercent() { return _actualShipStatePercent; } // actual health of the ship
+    public int getShipShield() { return  _shield; } // shield strength
+    public int getShipStrength() { return _force; } // shooting strength
+    public int getShipRangeOfSight() { return _rangeOfSight; } // range of sight
+    public int getShipShotRange() { return _rangeOfShot; } // shooting range of ship
+    public int getShipSpeed() { return _speed; } // ship's speed
+    public int getXPosition() { return _xpos; } // ship's x position in coordinate system
+    public int getYPosition() { return _ypos; } // ship's y position in coordinate system
+    public int getDirection() { return _direction; } // get direction
+    public String getShipPicture() { return _picture; } // picture of this ship
+    public BufferedImage getShipPic() { return rotate(getShipImage(), _direction * 90); } // returns ship image for display
+    
+    //  Following setters just for sync function
+    public void setShipStatePercent(int perc){ _actualShipStatePercent = perc; } // setting health percent
+    public void setXPosition(int x) { _xpos = x; } // setting x position
+    public void setYPosition(int y) { _ypos = y; } // setting y position
+    public void setDirection(int dir) { _direction = dir; } // setting direction
+    
+    /**
+     * ship navigation
+     */
+    public void moveUp(int howmany) { _ypos -= 15 * howmany; _direction = 0; }
+    public void moveDown(int howmany) { _ypos += 15 * howmany; _direction = 2; }
+    public void moveLeft(int howmany) { _xpos -= 15 * howmany; _direction = 3; }
+    public void moveRight(int howmany) { _xpos += 15 * howmany; _direction = 1; }
 
     /**
-	 * sets the variables with the values
-	 * for the given kind of ship
+	 * sets the variables with the values for the given kind of ship
 	 */
 	private void setInfos(int kind) {
 		if (kind == 0) {
@@ -66,7 +85,6 @@ public class BattleShip {
 			_rangeOfSight = 1;
 			_rangeOfShot = 1;
 			_speed = 1;
-			_name = "LandingCraft";
 			_picture = "pics/ships/Landungsboot.jpg";
 		} else if (kind == 1) {
 			_shield = 2;
@@ -74,7 +92,6 @@ public class BattleShip {
 			_rangeOfSight = 3;
 			_rangeOfShot = 1;
 			_speed = 3;
-			_name = "SpeedBoat";
 			_picture = "pics/ships/SpeedBoot.jpg";
 		} else if (kind == 2) {
 			_shield = 4;
@@ -82,7 +99,6 @@ public class BattleShip {
 			_rangeOfSight = 2;
 			_rangeOfShot = 2;
 			_speed = 1;
-			_name = "ArmoredBoat";
 			_picture = "pics/ships/Panzerboot.jpg";
 		} else if (kind == 3) {
 			_shield = 3;
@@ -90,10 +106,10 @@ public class BattleShip {
 			_rangeOfSight = 4;
 			_rangeOfShot = 4;
 			_speed = 1;
-			_name = "AirCraftCarrier";
 			_picture = "pics/ships/Flugzeugtraeger.jpg";
 		}
 		
+		// placing ships in left under and right upper corner (need to be implmented dynamicly)
 		if (_player == 1) {
 			_xpos = 30; _ypos = 310 + kind * 45;
 		}else{
@@ -101,141 +117,10 @@ public class BattleShip {
 			_direction = 3;
 		}
 	}
-
-	/**
-	 * sets the current alignment of the ship
-	 *
-	 * @param alignment
-	 */
-	public void setAlignment(int alignment) {
-		_alignment = alignment;
-	}
 	
     /**
-     * get the current shipstate (in percent)
+     * some methods for general ship functions
      */
-    public int getShipStatePercent() {
-        return _actualShipStatePercent;
-    }
-
-    /**
-     * get the Ship Shield
-     */
-    public int getShipShield() {
-        return  _shield;
-    }
-
-    /**
-     * get the Ship Strength
-     */
-    public int getShipStrength() {
-        return _force;
-    }
-
-    /**
-     * get the Ship Range of Sight
-     */
-    public int getShipRangeOfSight() {
-        return _rangeOfSight;
-    }
-
-    /**
-     * get the Ship Shot Range
-     */
-    public int getShipShotRange() {
-        return _rangeOfShot;
-    }
-
-    /**
-     * get the Ship Speed
-     */
-    public int getShipSpeed() {
-        return _speed;
-    }
-
-    /**
-     * get the Ships own picture
-     */
-    public String getShipPicture() {
-    	return _picture;
-    }
-    
-    /**
-     * Graphical Part of the Ship
-     */
-    
-    private BufferedImage getShipImage() {
-    	if (shippic == null) {
-    		System.out.println("Loding now pic: " + getShipPicture());
-    		File f = new File(getShipPicture());
-        	try {
-        		shippic = ImageIO.read(f);
-    		} catch (IOException e) {
-    			Error.addError(e, "Fehler beim laden des Schiffbildes");
-    		}
-    	}
-    	return shippic;
-    }
-    
-    public int getYPosition() {
-    	return _ypos;
-    }
-    
-    public int getXPosition() {
-    	return _xpos;
-    }
-    
-    // Following Methods just for sync function
-    public void setYPosition(int y) {
-    	_ypos = y;
-    }
-    
-    public void setXPosition(int x) {
-    	_xpos = x;
-    }
-    
-    public void setDirection(int dir) {
-    	_direction = dir;
-    }
-    
-    public void setShipStatePercent(int perc){
-    	_actualShipStatePercent = perc;
-    }
-    
-    public void moveUp(int howmany) {
-    	_ypos -= 15 * howmany;
-    	_direction = 0;
-    }
-    
-    public void moveDown(int howmany) {
-    	_ypos += 15 * howmany;
-    	_direction = 2;
-    }
-    
-    public void moveLeft(int howmany) {
-    	_xpos -= 15 * howmany;
-    	_direction = 3;
-    }
-    
-    public void moveRight(int howmany) {
-    	_xpos += 15 * howmany;
-    	_direction = 1;
-    }
-    
-    private BufferedImage rotate(BufferedImage bi, int angle){
-		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		Rectangle2D rect = op.getBounds2D(bi);
-		tx.translate(-rect.getX(), rect.getY());
-		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		bi = op.filter(bi, null);
-		return bi;
-	}
-    
-    public BufferedImage getShipPic() {
-    	return rotate(getShipImage(), _direction * 90);
-    }
-    
     public boolean isAtCoordinate(int x, int y){
     	BufferedImage img = getShipImage();
     	int imgheight = img.getHeight();
@@ -260,10 +145,30 @@ public class BattleShip {
     	System.out.println("Ship: " +_actualShipStatePercent+"");
     }
     
-	/**
-	 * @return Returns the _direction.
-	 */
-	public int getDirection() {
-		return _direction;
+    /**
+     * graphical part of the ship
+     */
+    
+    private BufferedImage getShipImage() {
+    	if (_shippic == null) {
+    		System.out.println("Loding now pic: " + getShipPicture());
+    		File f = new File(getShipPicture());
+        	try {
+        		_shippic = ImageIO.read(f);
+    		} catch (IOException e) {
+    			Error.addError(e, "Fehler beim laden des Schiffbildes");
+    		}
+    	}
+    	return _shippic;
+    }
+    
+    private BufferedImage rotate(BufferedImage bi, int angle){
+		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		Rectangle2D rect = op.getBounds2D(bi);
+		tx.translate(-rect.getX(), rect.getY());
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		bi = op.filter(bi, null);
+		return bi;
 	}
 }
