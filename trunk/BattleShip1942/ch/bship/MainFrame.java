@@ -2,6 +2,7 @@ package ch.bship;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import javax.swing.JMenuItem;
+import javax.swing.JButton;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -18,10 +19,10 @@ public class MainFrame extends JFrame {
 	private javax.swing.JPanel jContentPane = null;
 	GameLanguage translator = new GameLanguage();
 
-	private JPanel gameState = null;
-	private JPanel gameField = null;
-	private JPanel gameChat = null;
-	private JPanel shipState = null;
+	private PanelGameState gameState = null;
+	private Field gameField = null;
+	private Chat gameChat = null;
+	private PanelShipState shipState = null;
 	private JMenuBar jJMenuBar = null;
 	private JMenu jMenuFile = null;
 	private JMenuItem jMenuItemNewGame = null;
@@ -35,6 +36,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem jMenuItemManual = null;
 	private JMenuItem jMenuItemInfo = null;
 		
+	private JButton jButton = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -138,6 +140,7 @@ public class MainFrame extends JFrame {
 	private JPanel getShipState() {
 		if (shipState == null) {
 			shipState = new PanelShipState();
+			shipState.add(getJButton(), java.awt.BorderLayout.NORTH);
 		}
 		return shipState;
 	}
@@ -338,4 +341,20 @@ public class MainFrame extends JFrame {
 		}
 		return jMenuItemInfo;
 	}
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+	/**
+	 * This method initializes jButton	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */    
+	private JButton getJButton() {
+		if (jButton == null) {
+			jButton = new JButton();
+			jButton.addActionListener(new java.awt.event.ActionListener() { 
+				public void actionPerformed(java.awt.event.ActionEvent e) {    
+					((Field) getGameField()).zeichne();
+				}
+			});
+		}
+		return jButton;
+	}
+ }  //  @jve:decl-index=0:visual-constraint="10,10"
