@@ -54,7 +54,8 @@ public class Chat extends JPanel {
 		_sendButton = new JButton();
 		_mainPanel = new JPanel(new BorderLayout());
 		_sendPanel = new JPanel(new BorderLayout());
-		_sendButton.setText("Send");
+		_sendButton.setText(_gl.tr("Send"));
+		_sendButton.setName("Send");
 		_mainPanel.setPreferredSize(new java.awt.Dimension(200,150));
 		this.setSize(216, 165);
 		_sendPanel.add(_inputBox, BorderLayout.CENTER);
@@ -62,6 +63,7 @@ public class Chat extends JPanel {
 		_mainPanel.add(_messagesField, BorderLayout.CENTER);
 		_mainPanel.add(_sendPanel, BorderLayout.SOUTH);
 		this.add(_mainPanel, null);
+		Engine.guiElements.addElement(_sendButton);
 	}
 	
 	/**

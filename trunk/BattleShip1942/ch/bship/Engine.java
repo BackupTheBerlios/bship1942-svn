@@ -12,10 +12,13 @@ package ch.bship;
 
 import java.io.File;
 import java.util.Vector;
+import javax.swing.*;
 
 public class Engine {
     
     public static Vector BattleShips = new Vector();
+    public static Vector guiElements = new Vector();
+    static GameLanguage translator = new GameLanguage();
     public static String language = "german.lng";
     private static BattleShip actBship;
     private static int i, shipnr = 0;
@@ -62,4 +65,29 @@ public class Engine {
         actBship = bs;
     }
 	
+    public static void updateLanguage() {
+    	for (int i = 0; i < guiElements.size(); i++){
+    		if (guiElements.elementAt(i) instanceof JMenu){
+    			JMenu m = (JMenu) guiElements.elementAt(i);
+    			m.setText(translator.tr(m.getName()));
+    		}
+    		if (guiElements.elementAt(i) instanceof JMenuItem){
+    			JMenuItem mi = (JMenuItem) guiElements.elementAt(i);
+    			mi.setText(translator.tr(mi.getName()));
+    		}
+    		if (guiElements.elementAt(i) instanceof JCheckBoxMenuItem){
+    			JCheckBoxMenuItem cbmi = (JCheckBoxMenuItem) guiElements.elementAt(i);
+    			cbmi.setText(translator.tr(cbmi.getName()));
+    		}
+    		if (guiElements.elementAt(i) instanceof JLabel){
+    			JLabel l = (JLabel) guiElements.elementAt(i);
+    			l.setText(translator.tr(l.getName()));
+    		}
+    		if (guiElements.elementAt(i) instanceof JButton){
+    			JButton b = (JButton) guiElements.elementAt(i);
+    			b.setText(translator.tr(b.getName()));
+    		}
+    	}
+    }
+    
 }

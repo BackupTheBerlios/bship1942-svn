@@ -23,9 +23,12 @@ public class GameLanguage {
     }
     
     private void loadLangFile(){
+    	if (Engine.language == null) { Engine.language = "german.lng"; }
     	lang = Engine.language;
     	try {
-            props.load(new FileInputStream(lang));
+    		FileInputStream fis = new FileInputStream(lang);
+            props.load(fis);
+            fis.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -36,11 +39,9 @@ public class GameLanguage {
     }
     
     public String tr(String stringtotranslate){
-    	// Wenn Sprache geändert hat muss das neue Langfile geladen werden
-    	
     	if (Engine.language.equals(lang) == false){
+    		props.clear();
     		loadLangFile();
-    		System.out.println("lade neues langfile");
     	}
         String stringtr = props.getProperty(stringtotranslate); 
         return stringtr;

@@ -91,24 +91,28 @@ public class PanelGameState extends JPanel {
 			gridBagConstraints2.gridx = 0;
 			gridBagConstraints2.gridy = 0;
 			lablePlayer1Ship1.setText(translator.tr("LandingCraft"));
+			lablePlayer1Ship1.setName("LandingCraft");
 			lablePlayer1Ship1.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints3.gridx = 1;
 			gridBagConstraints3.gridy = 0;
 			gridBagConstraints4.gridx = 0;
 			gridBagConstraints4.gridy = 1;
 			lablePlayer1Ship2.setText(translator.tr("SpeedBoat"));
+			lablePlayer1Ship2.setName("SpeedBoat");
 			lablePlayer1Ship2.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints5.gridx = 1;
 			gridBagConstraints5.gridy = 1;
 			gridBagConstraints6.gridx = 0;
 			gridBagConstraints6.gridy = 2;
 			lablePlayer1Ship3.setText(translator.tr("ArmoredBoat"));
+			lablePlayer1Ship3.setName("ArmoredBoat");
 			lablePlayer1Ship3.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints7.gridx = 1;
 			gridBagConstraints7.gridy = 2;
 			gridBagConstraints8.gridx = 0;
 			gridBagConstraints8.gridy = 3;
 			lablePlayer1Ship4.setText(translator.tr("AirCraftCarrier"));
+			lablePlayer1Ship4.setName("AirCraftCarrier");
 			lablePlayer1Ship4.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints9.gridx = 1;
 			gridBagConstraints9.gridy = 3;
@@ -121,6 +125,10 @@ public class PanelGameState extends JPanel {
 			panelPlayer1State.add(getProgressPlayer1Ship3(), gridBagConstraints7);
 			panelPlayer1State.add(lablePlayer1Ship4, gridBagConstraints8);
 			panelPlayer1State.add(getProgressPlayer1Ship4(), gridBagConstraints9);
+			Engine.guiElements.addElement(lablePlayer1Ship1);
+			Engine.guiElements.addElement(lablePlayer1Ship2);
+			Engine.guiElements.addElement(lablePlayer1Ship3);
+			Engine.guiElements.addElement(lablePlayer1Ship4);
 		}
 		return panelPlayer1State;
 	}
@@ -216,12 +224,16 @@ public class PanelGameState extends JPanel {
 			java.awt.GridBagConstraints gridBagConstraints17 = new GridBagConstraints();
 			panelPlayer2State.setLayout(new GridBagLayout());
 			lablePlayer2Ship1.setText(translator.tr("LandingCraft"));
+			lablePlayer2Ship1.setName("LandingCraft");
 			lablePlayer2Ship1.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			lablePlayer2Ship2.setText(translator.tr("SpeedBoat"));
+			lablePlayer2Ship2.setName("SpeedBoat");
 			lablePlayer2Ship2.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			lablePlayer2Ship3.setText(translator.tr("ArmoredBoat"));
+			lablePlayer2Ship3.setName("ArmoredBoat");
 			lablePlayer2Ship3.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			lablePlayer2Ship4.setText(translator.tr("AirCraftCarrier"));
+			lablePlayer2Ship4.setName("AirCraftCarrier");
 			lablePlayer2Ship4.setIcon(new ImageIcon(getClass().getResource("/pics/karte/urcool.gif")));
 			gridBagConstraints10.gridx = 0;
 			gridBagConstraints10.gridy = 0;
@@ -247,6 +259,10 @@ public class PanelGameState extends JPanel {
 			panelPlayer2State.add(getProgressPlayer2Ship3(), gridBagConstraints15);
 			panelPlayer2State.add(lablePlayer2Ship4, gridBagConstraints16);
 			panelPlayer2State.add(getProgressPlayer2Ship4(), gridBagConstraints17);
+			Engine.guiElements.addElement(lablePlayer2Ship1);
+			Engine.guiElements.addElement(lablePlayer2Ship2);
+			Engine.guiElements.addElement(lablePlayer2Ship3);
+			Engine.guiElements.addElement(lablePlayer2Ship4);
 		}
 		return panelPlayer2State;
 	}

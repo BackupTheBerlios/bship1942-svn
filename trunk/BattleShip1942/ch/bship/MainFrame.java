@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 public class MainFrame extends JFrame {
 
 	private javax.swing.JPanel jContentPane = null;
+	GameLanguage translator = new GameLanguage();
 
 	private JPanel gameState = null;
 	private JPanel gameField = null;
@@ -23,19 +24,17 @@ public class MainFrame extends JFrame {
 	private JPanel shipState = null;
 	private JMenuBar jJMenuBar = null;
 	private JMenu jMenuFile = null;
-	private JMenu jMenuOptions = null;
-	private JMenu jMenuHelp = null;
 	private JMenuItem jMenuItemNewGame = null;
-	
-	GameLanguage translator = new GameLanguage();
 	private JMenuItem jMenuItemQuit = null;
-	private JCheckBoxMenuItem jCheckBoxGerman = null;
+	private JMenu jMenuOptions = null;
 	private JMenu jMenuLanguage = null;
+	private JCheckBoxMenuItem jCheckBoxGerman = null;
 	private JCheckBoxMenuItem jCheckBoxEnglish = null;
 	private JCheckBoxMenuItem jCheckBoxFrench = null;
+	private JMenu jMenuHelp = null;
 	private JMenuItem jMenuItemManual = null;
 	private JMenuItem jMenuItemInfo = null;
-	private JMenuItem setEnglishItem = null;
+		
 	/**
 	 * This is the default constructor
 	 */
@@ -49,10 +48,27 @@ public class MainFrame extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		this.initGuiComponents();
 		this.setJMenuBar(getJJMenuBar());
 		this.setTitle("BattleShip 1942");
 		this.setSize(958, 641);
 		this.setContentPane(getJContentPane());
+	}
+	/**
+	 * 
+	 */
+	private void initGuiComponents() {
+		Engine.guiElements.addElement(getJMenuFile());
+		Engine.guiElements.addElement(getJMenuOptions());
+		Engine.guiElements.addElement(getJMenuHelp());
+		Engine.guiElements.addElement(getJMenuItemNewGame());
+		Engine.guiElements.addElement(getJMenuItemQuit());
+		Engine.guiElements.addElement(getJMenuLanguage());
+		Engine.guiElements.addElement(getJCheckBoxGerman());
+		Engine.guiElements.addElement(getJCheckBoxEnglish());
+		Engine.guiElements.addElement(getJCheckBoxFrench());
+		Engine.guiElements.addElement(getJMenuItemManual());
+		Engine.guiElements.addElement(getJMenuItemInfo());
 	}
 	/**
 	 * This method initializes jContentPane
@@ -148,37 +164,11 @@ public class MainFrame extends JFrame {
 		if (jMenuFile == null) {
 			jMenuFile = new JMenu();
 			jMenuFile.setText(translator.tr("File"));
+			jMenuFile.setName("File");
 			jMenuFile.add(getJMenuItemNewGame());
 			jMenuFile.add(getJMenuItemQuit());
 		}
 		return jMenuFile;
-	}
-	/**
-	 * This method initializes jMenuOptions	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
-	private JMenu getJMenuOptions() {
-		if (jMenuOptions == null) {
-			jMenuOptions = new JMenu();
-			jMenuOptions.setText(translator.tr("Options"));
-			jMenuOptions.add(getJMenuLanguage());
-		}
-		return jMenuOptions;
-	}
-	/**
-	 * This method initializes jMenuHelp	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
-	private JMenu getJMenuHelp() {
-		if (jMenuHelp == null) {
-			jMenuHelp = new JMenu();
-			jMenuHelp.setText(translator.tr("Help"));
-			jMenuHelp.add(getJMenuItemManual());
-			jMenuHelp.add(getJMenuItemInfo());
-		}
-		return jMenuHelp;
 	}
 	/**
 	 * This method initializes jMenuItemNewGame	
@@ -214,6 +204,36 @@ public class MainFrame extends JFrame {
 		return jMenuItemQuit;
 	}
 	/**
+	 * This method initializes jMenuOptions	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */    
+	private JMenu getJMenuOptions() {
+		if (jMenuOptions == null) {
+			jMenuOptions = new JMenu();
+			jMenuOptions.setText(translator.tr("Options"));
+			jMenuOptions.setName("Options");
+			jMenuOptions.add(getJMenuLanguage());
+		}
+		return jMenuOptions;
+	}
+	/**
+	 * This method initializes jMenuLanguage	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */    
+	private JMenu getJMenuLanguage() {
+		if (jMenuLanguage == null) {
+			jMenuLanguage = new JMenu();
+			jMenuLanguage.setText(translator.tr("Applanguage"));
+			jMenuLanguage.setName("Applanguage");
+			jMenuLanguage.add(getJCheckBoxGerman());
+			jMenuLanguage.add(getJCheckBoxEnglish());
+			jMenuLanguage.add(getJCheckBoxFrench());
+		}
+		return jMenuLanguage;
+	}
+	/**
 	 * This method initializes jCheckBoxGerman	
 	 * 	
 	 * @return javax.swing.JCheckBoxMenuItem	
@@ -225,56 +245,15 @@ public class MainFrame extends JFrame {
 			jCheckBoxGerman.setSelected(true);
 			jCheckBoxGerman.setName("German");
 			jCheckBoxGerman.addItemListener(new java.awt.event.ItemListener() { 
-				public void itemStateChanged(java.awt.event.ItemEvent e) {    
-//					 Bei einem anchecken müssen die anderen Sprachen abgewählt werden
+				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxEnglish().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
 				    Engine.language = "german.lng";
-				    refresh();
+				    Engine.updateLanguage();
 				}
 			});
 		}
 		return jCheckBoxGerman;
-	}
-	/**
-	 * 
-	 */
-	protected void refresh() {
-		// TODO Auto-generated method stub
-		this.repaint();
-		
-		JCheckBoxMenuItem	CMI = new JCheckBoxMenuItem();
-		JMenuItem			MI = new JMenuItem();
-		
-		// Alle Componenten abholen
-		JComponent comp[] = (JComponent[]) this.getComponents();
-		
-		for (int i = 0; i < comp.length; i++){
-			if (comp[i].getClass().isInstance(new JCheckBoxMenuItem())) {
-				CMI = (JCheckBoxMenuItem) comp[i];
-				CMI.setText(translator.tr(comp[i].getName()));
-			}
-			if (comp[i].getClass().isInstance(new JMenuItem())) {
-				MI = (JMenuItem) comp[i];
-				MI.setText(translator.tr(comp[i].getName()));
-			}
-		}
-		
-	}
-	/**
-	 * This method initializes jMenuLanguage	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */    
-	private JMenu getJMenuLanguage() {
-		if (jMenuLanguage == null) {
-			jMenuLanguage = new JMenu();
-			jMenuLanguage.setText(translator.tr("Applanguage"));
-			jMenuLanguage.add(getJCheckBoxGerman());
-			jMenuLanguage.add(getJCheckBoxEnglish());
-			jMenuLanguage.add(getJCheckBoxFrench());
-		}
-		return jMenuLanguage;
 	}
 	/**
 	 * This method initializes jCheckBoxEnglish	
@@ -285,12 +264,13 @@ public class MainFrame extends JFrame {
 		if (jCheckBoxEnglish == null) {
 			jCheckBoxEnglish = new JCheckBoxMenuItem();
 			jCheckBoxEnglish.setText(translator.tr("English"));
+			jCheckBoxEnglish.setName("English");
 			jCheckBoxEnglish.addItemListener(new java.awt.event.ItemListener() { 
-				public void itemStateChanged(java.awt.event.ItemEvent e) {    
+				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
 				    Engine.language = "english.lng";
-				    refresh();
+				    Engine.updateLanguage();
 				}
 			});
 		}
@@ -305,8 +285,32 @@ public class MainFrame extends JFrame {
 		if (jCheckBoxFrench == null) {
 			jCheckBoxFrench = new JCheckBoxMenuItem();
 			jCheckBoxFrench.setText(translator.tr("French"));
+			jCheckBoxFrench.setName("French");
+			jCheckBoxFrench.addItemListener(new java.awt.event.ItemListener() { 
+				public void itemStateChanged(java.awt.event.ItemEvent e) {
+					getJCheckBoxEnglish().setSelected(false);
+					getJCheckBoxFrench().setSelected(false);
+				    Engine.language = "french.lng";
+				    Engine.updateLanguage();
+				}
+			});
 		}
 		return jCheckBoxFrench;
+	}
+	/**
+	 * This method initializes jMenuHelp	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */    
+	private JMenu getJMenuHelp() {
+		if (jMenuHelp == null) {
+			jMenuHelp = new JMenu();
+			jMenuHelp.setText(translator.tr("Help"));
+			jMenuHelp.setName("Help");
+			jMenuHelp.add(getJMenuItemManual());
+			jMenuHelp.add(getJMenuItemInfo());
+		}
+		return jMenuHelp;
 	}
 	/**
 	 * This method initializes jMenuItemManual	
@@ -318,6 +322,7 @@ public class MainFrame extends JFrame {
 			jMenuItemManual = new JMenuItem();
 			jMenuItemManual.setText(translator.tr("Manual"));
 			jMenuItemManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0, false));
+			jMenuItemManual.setName("Manual");
 		}
 		return jMenuItemManual;
 	}
@@ -330,6 +335,7 @@ public class MainFrame extends JFrame {
 		if (jMenuItemInfo == null) {
 			jMenuItemInfo = new JMenuItem();
 			jMenuItemInfo.setText(translator.tr("Info"));
+			jMenuItemInfo.setName("Info");
 		}
 		return jMenuItemInfo;
 	}
