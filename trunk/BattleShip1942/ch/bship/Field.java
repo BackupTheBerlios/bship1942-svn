@@ -11,8 +11,6 @@ package ch.bship;
  * 
  */
 
-import Verschieber;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -30,6 +28,8 @@ import javax.swing.JLabel;
 public class Field extends JPanel {
 
 	private javax.swing.JPanel jContentPane = null;
+	
+	private BufferedImage bim;
 	
 	private static String gridfile = "grid.dat";
     private static String pictfile = "map.jpg";
@@ -68,9 +68,9 @@ public class Field extends JPanel {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						ag += 20;
-						BufferedImage bim = Verschieber.versch(img,ag);
-						getContentPane().getGraphics().drawImage(bim, 10, 10, v);
+						bim = versch(img,20);
+						zeichne();
+						
 					}
 				}
 			}
@@ -108,6 +108,7 @@ public class Field extends JPanel {
     
     public void zeichne() {
 		getGraphics().drawImage(getMapImage(), 0, 0, this);
+		getGraphics().drawImage(bim, 10, 10, this);
     }
     
     public static BufferedImage versch(BufferedImage bi, int angle){
