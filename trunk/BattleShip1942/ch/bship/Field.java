@@ -88,10 +88,6 @@ public class Field extends JPanel {
 		}
     }
     
-    public void update() {
-    	zeichne();
-    }
-    
     class FieldMouseListener implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 			selectShipAtCoordinate(e.getX(), e.getY());
