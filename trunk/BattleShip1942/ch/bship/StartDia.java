@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +59,7 @@ public class StartDia extends JFrame implements ActionListener {
 	private JButton okButton = null;
 	private JButton cancelButton = null;
 	private JLabel previewLabel = null;
+	private BufferedImage img = null;
 	
 	private final static String OK = "OK_CMD";
     private final static String CANCEL = "CANCEL_CMD";
@@ -315,19 +317,23 @@ public class StartDia extends JFrame implements ActionListener {
             System.exit(0);
         } else if ((e.getActionCommand()).equals(MAP_CHANGED)) {
             // set new image to map... 
-            getPreviewPanel().getGraphics().drawImage(getMapPreviewImage(),0,0,300,214,getPreviewPanel());
+        	drawPreviewPic();
         } //  vielleicht noch die sprachen aendern
+        drawPreviewPic();
     }
 	
 	private BufferedImage getMapPreviewImage() {
-		File f = new File("maps" + File.separator + (getMapCombo().getSelectedItem().toString()) + File.separator + "map.jpg");
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(f);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (img == null) {
+			File f = new File("maps" + File.separator + (getMapCombo().getSelectedItem().toString()) + File.separator + "map.jpg");
+			if (f.exists()){
+				try {
+					img = ImageIO.read(f);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				img.getScaledInstance(300,214,java.awt.Image.SCALE_FAST);
+			}else{ img = null; }
 		}
-		img.getScaledInstance(300,214,java.awt.Image.SCALE_FAST);
 		return img;
 	}
 	
@@ -392,5 +398,16 @@ public class StartDia extends JFrame implements ActionListener {
 			optionPanel.add(getOptionsPanel(), null);
 		}
 		return optionPanel;
+	}
+	
+	private void drawPreviewPic() {
+		if (!getMapCombo().getSelectedItem().toString().equals("") && getMapPreviewImage() != null) {
+			getPreviewPanel().getGraphics().drawImage(getMapPreviewImage(),0,0,300,214,getPreviewPanel());
+		}
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		drawPreviewPic();
 	}
    }  //  @jve:decl-index=0:visual-constraint="10,10"

@@ -20,7 +20,7 @@ public class Engine {
     public static Vector guiElements = new Vector();
     public static String language = "german.lng";
     private static GameLanguage translator = GameLanguage.getInstance();
-    private static BattleShip actBship;
+    private static BattleShip actBship = null;
     private MainFrame _frm;
     private Net _net = null;
     private int shipnr = 0;
@@ -75,6 +75,7 @@ public class Engine {
     
     public void openMainFrame() {
         _frm = new MainFrame(this);
+        _frm.updateselected();
         _frm.initField();
     }
 

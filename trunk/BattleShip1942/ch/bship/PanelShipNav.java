@@ -120,4 +120,18 @@ public class PanelShipNav extends JPanel {
 		}
 		return navrightButton;
 	}
+	
+	public void actualizebuttons() {
+		// kein Schiff selektiert => alle buttons disablen
+		boolean enabled;
+		if (_engine.getSelectedBoat() == null) {
+			enabled = false;
+		}else{
+			enabled = true;
+		}
+		getNavrightButton().setEnabled(enabled);
+		getNavleftButton().setEnabled(enabled);
+		getNavupButton().setEnabled(enabled);
+		getNavdownButton().setEnabled(enabled);
+	}
 }

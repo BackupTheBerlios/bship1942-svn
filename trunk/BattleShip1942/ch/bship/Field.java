@@ -34,7 +34,8 @@ public class Field extends JPanel {
     private String folderdivider = File.separator;
     private String _mapimgpath, _mapdatpath;
     private Engine _engine;
-
+    
+    private BufferedImage mapimg = null;
 	private JLabel jLabel = null;
 	/**
 	 * This is the default constructor
@@ -57,14 +58,16 @@ public class Field extends JPanel {
 	}
 	
 	private BufferedImage getMapImage() {
-		File f = new File(_mapimgpath);
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(f);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (mapimg == null) {
+			File f = new File(_mapimgpath);
+			try {
+				mapimg = ImageIO.read(f);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		return img;
+		
+		return mapimg;
 	}
 	
     private int[] grid2px(int[] grid) {
@@ -81,7 +84,7 @@ public class Field extends JPanel {
     
     public void zeichne() {
 		getGraphics().drawImage(getMapImage(), 0, 0, this);
-		for (int i = 0; i < Engine.battleShips.size(); i++) {
+		for (int i = Engine.battleShips.size()-1; i >= 0; i--) {
 			bim = ((BattleShip)Engine.battleShips.elementAt(i)).getShipPic();
 			BattleShip bs = (BattleShip)Engine.battleShips.elementAt(i);
 			getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
@@ -102,8 +105,12 @@ public class Field extends JPanel {
 		for (int i = 0; i < Engine.battleShips.size(); i++){
 			if (((BattleShip)Engine.battleShips.elementAt(i)).isAtCoordinate(x,y)) {
 				_engine.setSelectedBoat((BattleShip)Engine.battleShips.elementAt(i));
+				break;
+			}else{
+				_engine.setSelectedBoat(null);
 			}
 		}
+		
 	}
 } 
 	//  @jve:decl-index=0:visual-constraint="10,10"

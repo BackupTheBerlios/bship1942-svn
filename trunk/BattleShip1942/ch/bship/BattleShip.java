@@ -36,6 +36,7 @@ public class BattleShip {
 	private String _name;
 	private String _pathToImage;
 	private GameLanguage translator = GameLanguage.getInstance();
+	private BufferedImage shippic;
 	
 	
 	/**
@@ -150,14 +151,15 @@ public class BattleShip {
      */
     
     private BufferedImage getShipImage() {
-    	File f = new File(getShipPicture());
-    	BufferedImage bim = null;
-    	try {
-			bim = ImageIO.read(f);
-		} catch (IOException e) {
-			Error.addError(e, "Fehler beim laden des Schiffbildes");
-		}
-    	return bim;
+    	if (shippic == null) {
+    		File f = new File(getShipPicture());
+        	try {
+        		shippic = ImageIO.read(f);
+    		} catch (IOException e) {
+    			Error.addError(e, "Fehler beim laden des Schiffbildes");
+    		}
+    	}
+    	return shippic;
     }
     
     public int getYPosition() {

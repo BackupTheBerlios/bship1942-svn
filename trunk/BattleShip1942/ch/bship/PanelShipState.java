@@ -114,17 +114,25 @@ public class PanelShipState extends JPanel {
 	
 	public void updateship() {
 	    BattleShip acbs = _engine.getSelectedBoat();
-	    
-	    labelValueShield.setText(""+acbs.getShipShield()+"");
-	    labelValueStrength.setText(""+acbs.getShipStrength()+"");
-	    labelValueRangeOfSight.setText(""+acbs.getShipRangeOfSight()+"");
-	    labelValueShotRange.setText(""+acbs.getShipShotRange()+"");
-	    labelValueSpeed.setText(""+acbs.getShipSpeed()+"");
-	    
-	    this.remove(jShipPicture);
-	    ImageIcon icon = new ImageIcon(acbs.getShipPicture());
-		jShipPicture = new JLabel(icon);
-		this.add(jShipPicture, java.awt.BorderLayout.EAST);
-	    
+	    if (acbs != null) {
+	    	labelValueShield.setText(""+acbs.getShipShield()+"");
+		    labelValueStrength.setText(""+acbs.getShipStrength()+"");
+		    labelValueRangeOfSight.setText(""+acbs.getShipRangeOfSight()+"");
+		    labelValueShotRange.setText(""+acbs.getShipShotRange()+"");
+		    labelValueSpeed.setText(""+acbs.getShipSpeed()+"");
+		    
+		    this.remove(jShipPicture);
+		    ImageIcon icon = new ImageIcon(acbs.getShipPicture());
+			jShipPicture = new JLabel(icon);
+			this.add(jShipPicture, java.awt.BorderLayout.EAST);
+	    }else{
+	    	labelValueShield.setText("0");
+		    labelValueStrength.setText("0");
+		    labelValueRangeOfSight.setText("0");
+		    labelValueShotRange.setText("0");
+		    labelValueSpeed.setText("0");
+		    
+		    this.remove(jShipPicture);
+	    }
 	}
 }

@@ -1,6 +1,8 @@
 package ch.bship;
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 /**
@@ -360,10 +362,14 @@ public class MainFrame extends JFrame {
 		}
 		return shipNav;
 	}
-	/**
-	 * 
-	 */
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		((Field) getGameField()).zeichne();
+	}
+	
 	public void updateselected() {
+		((PanelShipNav)getShipNavField()).actualizebuttons();
 		((PanelShipState)getShipState()).updateship();
 	}
 	
