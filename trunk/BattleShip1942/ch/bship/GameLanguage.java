@@ -10,27 +10,17 @@
  */
 package ch.bship;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 public class GameLanguage {
     
-    /**
-     * Language
-     * 1 = German
-     * 2 = English
-     * 3 = French
-     */
-    
-    static String langfile[] = {"german.lng","english.lng","french.lng"};
     static Properties props = new Properties();
     
     public GameLanguage() {
-        int langid = Engine.language;
+        String lang = Engine.language;
         try {
-            props.load(new FileInputStream(langfile[langid]));
+            props.load(new FileInputStream(lang));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -23,6 +23,7 @@ public class Field extends JPanel {
     private String _mapimgpath, _mapdatpath;
     
     public Field() {
+    	setMap("testkarte");
         ImageIcon map = new ImageIcon(_mapimgpath);
         JLabel label = new JLabel(map);
         this.add(label, java.awt.BorderLayout.CENTER);
@@ -36,10 +37,8 @@ public class Field extends JPanel {
     }
     
     private void setMap(String mapname) {
-        _mapimgpath = _mappath + folderdivider + mapname + pictfile;
-        _mapdatpath = _mappath + folderdivider + mapname + gridfile;
+        _mapimgpath = _mappath + folderdivider + mapname + folderdivider + pictfile;
+        _mapdatpath = _mappath + folderdivider + mapname + folderdivider + gridfile;
     }
     
-    
-
 }

@@ -10,12 +10,13 @@
  */
 package ch.bship;
 
+import java.io.File;
 import java.util.Vector;
 
 public class Engine {
     
     public static Vector BattleShips = new Vector();
-    public static int language = 0;
+    public static String language = "german.lng";
     private static BattleShip actBship;
     private static int i, shipnr = 0;
     
@@ -32,6 +33,19 @@ public class Engine {
 		    shipnr++;
 		}
 	}
+	
+	public static String[] getLanguages() {
+    	File langs = new File(".");
+    	File[] f = langs.listFiles();
+    	
+    	String out = "";
+    	for (int i = 0; i < f.length; i++) {
+    		if (f[i].isFile() && f[i].getName().endsWith(".lng")) {
+    			out +=  f[i].getName().substring(0,f[i].getName().length()-4) + ":";
+    		}
+    	}
+    	return out.split(":");
+    }
 
 	public void Eventhandler(String msg) {
 		// TODO: Programming the new Eventhandler

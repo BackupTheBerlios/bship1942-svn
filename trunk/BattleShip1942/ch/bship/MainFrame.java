@@ -1,12 +1,6 @@
 package ch.bship;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.*;
+import java.awt.BorderLayout;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -55,7 +49,7 @@ public class MainFrame extends JFrame {
 	private void initialize() {
 		this.setJMenuBar(getJJMenuBar());
 		this.setTitle("BattleShip 1942");
-		this.setSize(655, 430);
+		this.setSize(958, 641);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -65,32 +59,22 @@ public class MainFrame extends JFrame {
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			java.awt.GridBagConstraints gridBagConstraintsShipState = new GridBagConstraints();
-			java.awt.GridBagConstraints gridBagConstraintsGameField = new GridBagConstraints();
-			java.awt.GridBagConstraints gridBagConstraintsGameChat = new GridBagConstraints();
-			java.awt.GridBagConstraints gridBagConstraintsGameState = new GridBagConstraints();
 			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new GridBagLayout());
-			gridBagConstraintsGameState.gridx = 1;
-			gridBagConstraintsGameState.gridy = 1;
-			gridBagConstraintsGameState.weightx = 822;
-			gridBagConstraintsGameState.weighty = 22;
-			gridBagConstraintsGameField.gridx = 2;
-			gridBagConstraintsGameField.gridy = 1;
-			gridBagConstraintsGameField.weightx = 27;
-			gridBagConstraintsGameField.weighty = 22;
-			gridBagConstraintsGameChat.gridx = 1;
-			gridBagConstraintsGameChat.gridy = 2;
-			gridBagConstraintsGameChat.weightx = 8;
-			gridBagConstraintsGameChat.weighty = 6;
-			gridBagConstraintsShipState.gridx = 2;
-			gridBagConstraintsShipState.gridy = 2;
-			gridBagConstraintsShipState.weightx = 27;
-			gridBagConstraintsShipState.weighty = 6;
-			jContentPane.add(getGameState(), gridBagConstraintsGameState);
-			jContentPane.add(getGameField(), gridBagConstraintsGameField);
-			jContentPane.add(getGameChat(), gridBagConstraintsGameChat);
-			jContentPane.add(getShipState(), gridBagConstraintsShipState);
+			jContentPane.setLayout(new BorderLayout());
+			
+			JPanel west = new JPanel();
+			west.setLayout(new BoxLayout(west, BoxLayout.X_AXIS));
+			west.add(getGameState());
+			west.add(getGameChat());
+			
+			JPanel south = new JPanel();
+			south.setLayout(new BoxLayout(south, BoxLayout.X_AXIS));
+			south.add(getGameChat());
+			south.add(getShipState());
+			
+			jContentPane.add(west, java.awt.BorderLayout.WEST);
+			jContentPane.add(getGameField(), java.awt.BorderLayout.CENTER);
+			jContentPane.add(south, java.awt.BorderLayout.SOUTH);
 			
 		}
 		return jContentPane;
@@ -234,6 +218,7 @@ public class MainFrame extends JFrame {
 		if (jCheckBoxGerman == null) {
 			jCheckBoxGerman = new JCheckBoxMenuItem();
 			jCheckBoxGerman.setText(translator.tr("German"));
+			jCheckBoxGerman.setSelected(true);
 			jCheckBoxGerman.addChangeListener(new javax.swing.event.ChangeListener() { 
 				public void stateChanged(javax.swing.event.ChangeEvent e) {    
 					// Bei einem anchecken müssen die anderen Sprachen abgewählt werden
