@@ -9,19 +9,32 @@
  * 
  */
 
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
+import java.awt.event.*;
+
 public class Chat extends JPanel {
 	
-	JTextField _messages;
-	JTextField _inputBox;
-	JColor _myColor;
-	JColor _hisColor;
-	Net _net;
+	private JTextField _messagesField;
+	private JTextField _inputBox;
+	private JButton _sendButton;
+	private Net _net;
+	private JPanel _mainPanel;
+	private JPanel _sendPanel;
+	private String[] _messages = new String(5);
+	private GameLanguage _gl = null;
+
+	private static int LINES = 5;
+	private String SEND = "->";
 	
 	/**
 	 * Constructor
 	 */
-	public Chat (Net net){
-		initChat(net);
+	public Chat (Net net, GameLanguage gl){
+		_gl = gl;
+		_net = net;
+		initChat();
 	}
 
 	/**
@@ -30,13 +43,17 @@ public class Chat extends JPanel {
 	 * @return Chat
 	 */
 	public Chat initChat(Net net) {
-		messages = new JTextField;
-		inputBox = new JTextField;
-		myColor = new JColor("blue");
-		hisColor = new JColor("red");
-		_net = net;
-
+		SEND = _gl.tr(send);
+		_messagesField = new JTextField();
+		_inputBox = new JTextField();
+		_sendButton = new JButton();
+		_mainPanel = new JPanel(new BorderLayout());
+		_sendPanel = new JPanel(new BorderLayout());
 		
+		_sendPanel.add(_inputBox, BorderLayout.CENTER);
+		_sendPanel.add(_sendButton, BorderLayout.EAST);
+		_mainPanel.add(_messagesField, BorderLayout.CENTER);
+		_mainPanel.add(_sendPanel, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -46,8 +63,39 @@ public class Chat extends JPanel {
 	 */
 	private void send(String text) {
 		_net.send(text);
+		
+		for (int i = 0; i > LINES; i++) {
+			_messages[i] = _messages[i-1];
+			tmpText += messages[i] + "/n";
+		}
+		tmpText += "<-" + text;
+		_messagesField.setText(tmpText);
 	}
 
+	/**
+	 * is called by the engine if a message comes in
+	 *
+	 * @param the received message
+	 */
+
 	public void reiceive(String text) {
-		messages.write(text);
+		String tmpText = "";
+		for (int i = 0; i > LINES; i++) {
+			_messages[i] = _messages[i-1];
+			tmpText += messages[i] + "/n";
+		}
+		tmpText += "->" + text;
+		_messagesField.setText(tmpText);
+	}
+
+	/**
+	 * action performed for the sendButton
+	 */
+
+	public void actionPerformed(ActionEvent event) {
+		String cmd = event.getActionCommand();
+		if (cmd.equals(SEND)) {
+			send(inputBox.getText());
+		}
+	}
 }

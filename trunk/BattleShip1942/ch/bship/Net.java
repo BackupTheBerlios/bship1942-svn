@@ -12,14 +12,15 @@ package ch.bship;
 import java.io.*;
 import java.net.*;
 
-public class Net extends Thread{
-	Engine engine;
+public class Net extends Thread {
+
+	private Engine engine;
 	
-	InputStream 	_in = null;
-	OutputStream 	_out = null;
-	Socket 		_con = null;
-	ServerSocket 	_s = null;
-	String 		_ip;
+	private InputStream 	_in = null;
+	private OutputStream 	_out = null;
+	private Socket 		_con = null;
+	private ServerSocket 	_s = null;
+	private String 		_ip;
 
 	public Net(Engine engine){
 		this.engine = engine;	
