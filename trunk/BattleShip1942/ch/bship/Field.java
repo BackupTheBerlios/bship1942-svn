@@ -35,7 +35,7 @@ public class Field extends JPanel {
         px[1] = grid[1] * 15;
         return px;
     }
-    
+        
     private void setMap(String mapname) {
         _mapimgpath = _mappath + folderdivider + mapname + folderdivider + pictfile;
         _mapdatpath = _mappath + folderdivider + mapname + folderdivider + gridfile;

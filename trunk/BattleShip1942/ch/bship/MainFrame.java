@@ -1,6 +1,7 @@
 package ch.bship;
 import javax.swing.*;
 import java.awt.BorderLayout;
+import javax.swing.JMenuItem;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -34,6 +35,7 @@ public class MainFrame extends JFrame {
 	private JCheckBoxMenuItem jCheckBoxFrench = null;
 	private JMenuItem jMenuItemManual = null;
 	private JMenuItem jMenuItemInfo = null;
+	private JMenuItem setEnglishItem = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -187,6 +189,7 @@ public class MainFrame extends JFrame {
 		if (jMenuItemNewGame == null) {
 			jMenuItemNewGame = new JMenuItem();
 			jMenuItemNewGame.setText(translator.tr("NewGame"));
+			jMenuItemNewGame.setName("NewGame");
 			jMenuItemNewGame.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.Event.CTRL_MASK, false));
 		}
 		return jMenuItemNewGame;
@@ -200,6 +203,7 @@ public class MainFrame extends JFrame {
 		if (jMenuItemQuit == null) {
 			jMenuItemQuit = new JMenuItem();
 			jMenuItemQuit.setText(translator.tr("Quit"));
+			jMenuItemQuit.setName("Quit");
 			jMenuItemQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.Event.CTRL_MASK, false));
 			jMenuItemQuit.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
@@ -219,14 +223,43 @@ public class MainFrame extends JFrame {
 			jCheckBoxGerman = new JCheckBoxMenuItem();
 			jCheckBoxGerman.setText(translator.tr("German"));
 			jCheckBoxGerman.setSelected(true);
-			jCheckBoxGerman.addChangeListener(new javax.swing.event.ChangeListener() { 
-				public void stateChanged(javax.swing.event.ChangeEvent e) {    
-					// Bei einem anchecken müssen die anderen Sprachen abgewählt werden
-				    
+			jCheckBoxGerman.setName("German");
+			jCheckBoxGerman.addItemListener(new java.awt.event.ItemListener() { 
+				public void itemStateChanged(java.awt.event.ItemEvent e) {    
+//					 Bei einem anchecken müssen die anderen Sprachen abgewählt werden
+					getJCheckBoxEnglish().setSelected(false);
+					getJCheckBoxFrench().setSelected(false);
+				    Engine.language = "german.lng";
+				    refresh();
 				}
 			});
 		}
 		return jCheckBoxGerman;
+	}
+	/**
+	 * 
+	 */
+	protected void refresh() {
+		// TODO Auto-generated method stub
+		this.repaint();
+		
+		JCheckBoxMenuItem	CMI = new JCheckBoxMenuItem();
+		JMenuItem			MI = new JMenuItem();
+		
+		// Alle Componenten abholen
+		JComponent comp[] = (JComponent[]) this.getComponents();
+		
+		for (int i = 0; i < comp.length; i++){
+			if (comp[i].getClass().isInstance(new JCheckBoxMenuItem())) {
+				CMI = (JCheckBoxMenuItem) comp[i];
+				CMI.setText(translator.tr(comp[i].getName()));
+			}
+			if (comp[i].getClass().isInstance(new JMenuItem())) {
+				MI = (JMenuItem) comp[i];
+				MI.setText(translator.tr(comp[i].getName()));
+			}
+		}
+		
 	}
 	/**
 	 * This method initializes jMenuLanguage	
@@ -252,6 +285,14 @@ public class MainFrame extends JFrame {
 		if (jCheckBoxEnglish == null) {
 			jCheckBoxEnglish = new JCheckBoxMenuItem();
 			jCheckBoxEnglish.setText(translator.tr("English"));
+			jCheckBoxEnglish.addItemListener(new java.awt.event.ItemListener() { 
+				public void itemStateChanged(java.awt.event.ItemEvent e) {    
+					getJCheckBoxGerman().setSelected(false);
+					getJCheckBoxFrench().setSelected(false);
+				    Engine.language = "english.lng";
+				    refresh();
+				}
+			});
 		}
 		return jCheckBoxEnglish;
 	}
@@ -292,4 +333,4 @@ public class MainFrame extends JFrame {
 		}
 		return jMenuItemInfo;
 	}
-                 }  //  @jve:decl-index=0:visual-constraint="10,10"
+}  //  @jve:decl-index=0:visual-constraint="10,10"

@@ -16,10 +16,15 @@ import java.util.Properties;
 public class GameLanguage {
     
     static Properties props = new Properties();
+    private String lang = Engine.language;
     
     public GameLanguage() {
-        String lang = Engine.language;
-        try {
+        this.loadLangFile();
+    }
+    
+    private void loadLangFile(){
+    	lang = Engine.language;
+    	try {
             props.load(new FileInputStream(lang));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -31,6 +36,12 @@ public class GameLanguage {
     }
     
     public String tr(String stringtotranslate){
+    	// Wenn Sprache geändert hat muss das neue Langfile geladen werden
+    	
+    	if (Engine.language.equals(lang) == false){
+    		loadLangFile();
+    		System.out.println("lade neues langfile");
+    	}
         String stringtr = props.getProperty(stringtotranslate); 
         return stringtr;
     }
