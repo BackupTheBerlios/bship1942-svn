@@ -1,9 +1,3 @@
-package ch.bship;
-import javax.swing.*;
-import java.awt.BorderLayout;
-import javax.swing.JMenuItem;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -15,10 +9,17 @@ import javax.swing.JPanel;
  * 
  */
 
+package ch.bship;
+
+import javax.swing.*;
+import java.awt.BorderLayout;
+import javax.swing.JMenuItem;
+import javax.swing.JButton;
+
 public class MainFrame extends JFrame {
 
 	private javax.swing.JPanel jContentPane = null;
-	GameLanguage translator = new GameLanguage();
+	GameLanguage translator = GameLanguage.getInstance();
 
 	private PanelGameState gameState = null;
 	private Field gameField = null;
@@ -36,14 +37,15 @@ public class MainFrame extends JFrame {
 	private JMenu jMenuHelp = null;
 	private JMenuItem jMenuItemManual = null;
 	private JMenuItem jMenuItemInfo = null;
+        private Engine _engine = null;
 		
 	private JButton jButton = null;
-	private JPanel shipNav = null;
 	/**
 	 * This is the default constructor
 	 */
-	public MainFrame() {
+	public MainFrame(Engine engine) {
 		super();
+                _engine = engine;
 		initialize();
 	}
 	/**
@@ -97,7 +99,6 @@ public class MainFrame extends JFrame {
 			jContentPane.add(west, java.awt.BorderLayout.WEST);
 			jContentPane.add(getGameField(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(south, java.awt.BorderLayout.SOUTH);
-			south.add(getShipNavField(), null);
 			
 		}
 		return jContentPane;
@@ -129,11 +130,11 @@ public class MainFrame extends JFrame {
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
-	private JPanel getGameChat() {
-		if (gameChat == null) {
-			gameChat = new Chat();
-		}
-		return gameChat;
+        public JPanel getGameChat() {
+            if (gameChat == null) {
+                gameChat = new Chat(_engine.getNetInstance());
+            }
+            return gameChat;
 	}
 	/**
 	 * This method initializes shipState	
@@ -360,16 +361,4 @@ public class MainFrame extends JFrame {
 		}
 		return jButton;
 	}
-	/**
-	 * This method initializes shipNavField	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getShipNavField() {
-		if (shipNav == null) {
-			shipNav = new PanelShipNav();
-		}
-		return shipNav;
-	}
-	
-     }  //  @jve:decl-index=0:visual-constraint="10,10"
+ }  //  @jve:decl-index=0:visual-constraint="10,10"

@@ -49,7 +49,7 @@ public class PanelGameState extends JPanel {
 	private JProgressBar progressPlayer2Ship3 = null;
 	private JProgressBar progressPlayer2Ship4 = null;
 	
-	GameLanguage translator = new GameLanguage();
+	GameLanguage translator = GameLanguage.getInstance();
 	
 	/**
 	 * This is the constructor
@@ -317,7 +317,7 @@ public class PanelGameState extends JPanel {
 	}
 	
 	public void updateShipStates() {
-	    Vector ships = Engine.BattleShips;
+	    Vector ships = Engine.battleShips;
 	    int shipperc[] = new int[8];
 	    
 	    for (int i = 0; i < ships.size(); i++){

@@ -31,7 +31,7 @@ public class PanelShipState extends JPanel {
 	private JLabel labelValueSpeed = null;
 	private JLabel jShipPicture = null;
 	
-	private GameLanguage gl = new GameLanguage();
+	private GameLanguage gl = GameLanguage.getInstance();
 	
 	/**
 	 * This is the default constructor
