@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 /**
  * @author Adrian Greiler, Marcel Ryser
  * 
@@ -37,6 +38,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem jMenuItemInfo = null;
 		
 	private JButton jButton = null;
+	private JPanel shipNav = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -95,6 +97,7 @@ public class MainFrame extends JFrame {
 			jContentPane.add(west, java.awt.BorderLayout.WEST);
 			jContentPane.add(getGameField(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(south, java.awt.BorderLayout.SOUTH);
+			south.add(getShipNavField(), null);
 			
 		}
 		return jContentPane;
@@ -357,4 +360,16 @@ public class MainFrame extends JFrame {
 		}
 		return jButton;
 	}
- }  //  @jve:decl-index=0:visual-constraint="10,10"
+	/**
+	 * This method initializes shipNavField	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getShipNavField() {
+		if (shipNav == null) {
+			shipNav = new PanelShipNav();
+		}
+		return shipNav;
+	}
+	
+     }  //  @jve:decl-index=0:visual-constraint="10,10"

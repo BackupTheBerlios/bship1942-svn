@@ -96,15 +96,6 @@ public class BattleShip {
 		_alignment = alignment;
 	}
 	
-	/**
-	 * sets the current position of the ship
-	 *
-	 * @param alignment
-	 */
-	public void setPosition(Vector position) {
-		_positions = position;
-	}
-
     /**
      * get the current shipstate (in percent)
      */
@@ -177,16 +168,14 @@ public class BattleShip {
     	return _xpos;
     }
     
-    public BufferedImage rotateLeft() {
+    public void rotateLeft() {
     	_shipangle -= 90;
     	if (_shipangle < 0) { _shipangle = 360 + _shipangle; }
-    	return rotate(getShipImage(), _shipangle);
     }
     
-    public BufferedImage rotateRight() {
+    public void rotateRight() {
     	_shipangle += 90;
     	if (_shipangle == 360) { _shipangle = 0; }
-    	return rotate(getShipImage(), _shipangle);
     }
     
     public void moveUp(int howmany) {
@@ -205,7 +194,7 @@ public class BattleShip {
     	_xpos += 15 * howmany;
     }
     
-    public static BufferedImage rotate(BufferedImage bi, int angle){
+    private static BufferedImage rotate(BufferedImage bi, int angle){
 		AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), bi.getWidth() / 2d, bi.getHeight() / 2d);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		Rectangle2D rect = op.getBounds2D(bi);
@@ -214,4 +203,8 @@ public class BattleShip {
 		bi = op.filter(bi, null);
 		return bi;
 	}
+    
+    public BufferedImage getShipPic() {
+    	return rotate(getShipImage(), _shipangle);
+    }
 }

@@ -77,7 +77,12 @@ public class Field extends JPanel {
     
     public void zeichne() {
 		getGraphics().drawImage(getMapImage(), 0, 0, this);
-		bim = ((BattleShip)Engine.BattleShips.elementAt(1)).rotateLeft();
-		getGraphics().drawImage(bim, 10, 10, this);
+		for (int i = 0; i < Engine.BattleShips.size(); i++) {
+			bim = ((BattleShip)Engine.BattleShips.elementAt(i)).getShipPic();
+			BattleShip bs = (BattleShip)Engine.BattleShips.elementAt(i);
+			getGraphics().drawImage(bim, bs.getXPosition(), bs.getYPosition(), this);
+		}
+		//bim = ((BattleShip)Engine.BattleShips.elementAt(1)).rotateLeft();
+		//getGraphics().drawImage(bim, 10, 10, this);
     }
 }  //  @jve:decl-index=0:visual-constraint="10,10"
