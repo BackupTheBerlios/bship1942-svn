@@ -158,6 +158,11 @@ public class MainFrame extends JFrame {
 		return northwest;
 	}
 	
+	public void paint(java.awt.Graphics g) {
+		super.paint(g);
+		_engine.repaintField();
+	}
+	
 	/**
 	 * following methods initializes the menu
 	 */
@@ -241,11 +246,9 @@ public class MainFrame extends JFrame {
 			jCheckBoxGerman.setName("German");
 			jCheckBoxGerman.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
-					getJCheckBoxGerman().setSelected(true);
 					getJCheckBoxEnglish().setSelected(false);
 					getJCheckBoxFrench().setSelected(false);
-					_engine.getTranslator().setLanguage("german");
-				    _engine.updateLanguage();
+				    _engine.updateLanguage("german");
 				}
 			});
 		}
@@ -260,10 +263,8 @@ public class MainFrame extends JFrame {
 			jCheckBoxEnglish.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
-					getJCheckBoxEnglish().setSelected(true);
 					getJCheckBoxFrench().setSelected(false);
-					_engine.getTranslator().setLanguage("english");
-				    _engine.updateLanguage();
+				    _engine.updateLanguage("english");
 				}
 			});
 		}
@@ -279,9 +280,7 @@ public class MainFrame extends JFrame {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxEnglish().setSelected(false);
-					getJCheckBoxFrench().setSelected(true);
-					_engine.getTranslator().setLanguage("french");
-					_engine.updateLanguage();
+					_engine.updateLanguage("french");
 				}
 			});
 		}

@@ -191,9 +191,8 @@ public class StartDia extends JFrame implements ActionListener {
 		if (langCombo == null) {
 			langCombo = new JComboBox(_engine.getTranslator().getLanguages());
 			langCombo.addItemListener(new java.awt.event.ItemListener() { 
-				public void itemStateChanged(java.awt.event.ItemEvent e) {    
-					_engine.getTranslator().setLanguage(langCombo.getSelectedItem().toString());
-					_engine.updateLanguage();
+				public void itemStateChanged(java.awt.event.ItemEvent e) {
+					_engine.updateLanguage(langCombo.getSelectedItem().toString());
 					drawPreviewPic();
 				}
 			});
@@ -281,6 +280,7 @@ public class StartDia extends JFrame implements ActionListener {
         		_engine.setMyNick(getNickField().getText());
                 _engine.setMyNationality(getNationCombo().getSelectedItem().toString());
                 _engine.getTranslator().setLanguage((getLangCombo().getSelectedItem()).toString());
+                _engine.getNetInstance();
         	}else{
         		_engine.getNetInstance().setIP(getIpField().getText());
                 _engine.setMyNick(getNickField().getText());

@@ -138,6 +138,7 @@ public class Engine {
     public void openMainFrame() {
     	getMainFrame().setVisible(true);
     	updateSelectedShipInformation();
+    	repaintField();
     	setActualPlayer(1);
     	setActionsLeft(3);
     }
@@ -188,10 +189,8 @@ public class Engine {
 	 */
 	public boolean isAtPlaying(){
     	if (getActualPlayer() == getMyPlayernumber()) {
-    		System.out.println("Is at play");
     		return true;
     	}else{
-    		System.out.println("Is not at playing");
     		return false;
     	}
     }
@@ -243,15 +242,16 @@ public class Engine {
 		if (getActualPlayer() == getMyPlayernumber()) {
 			if (getActualPlayer() == 1) { setActualPlayer(2); } else{ setActualPlayer(1); }
 		}
+		setNavmode(true);
 		getNetInstance().send(tosend);
 		updateSelectedShipInformation();
-		setNavmode(true);
 	}
     
 	/**
 	 * this method updates the general language of the application
 	 */
-    public void updateLanguage() {
+    public void updateLanguage(String language) {
+    	getTranslator().setLanguage(language);
         for (int i = 0; i < getGuiElements().size(); i++){
             if (getGuiElements().elementAt(i) instanceof JMenu){
                 JMenu m = (JMenu) getGuiElements().elementAt(i);
@@ -274,6 +274,8 @@ public class Engine {
                 b.setText(getTranslator().tr(b.getName()));
             }
         }
-        getMainFrame().repaint();
+        if (_frm != null){
+            getMainFrame().repaint();
+        }
     }
 }

@@ -11,8 +11,13 @@
 
 package ch.bship;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
 
 public class Net extends Thread {
 
@@ -43,7 +48,7 @@ public class Net extends Thread {
 			if (_con != null)
 				_con.close();
 		} catch (IOException e) {
-			System.err.println(" " + e);
+			Error.addError(e, "Ein-/Ausgabefehler");
 		}
 	}
 
@@ -53,7 +58,7 @@ public class Net extends Thread {
 			String n = _s.getInetAddress().toString();
 			System.out.println("name = " + n + " " + _s.getLocalPort());
 		} catch (Exception e) {
-			System.err.println(e);
+			Error.addError(e, "Es ist ein Fehler beim erstellen des Socket aufgetreten");
 		}
 		while (true) {
 			try {
@@ -66,7 +71,7 @@ public class Net extends Thread {
 				System.out.println(" <- " + msg);
 				_engine.Eventhandler(msg);
 			} catch (Exception e) {
-				System.err.println(e);
+				Error.addError(e, "Fehler beim abhören");
 			}
 		}
 	}
@@ -77,7 +82,7 @@ public class Net extends Thread {
 			Socket _s = new Socket(_ip, 8888);
 			_s.getOutputStream().write(msg.getBytes());
 		} catch (IOException e) {
-			System.err.println(e);
+			Error.addError(e, "Konnte TCP Nachricht nicht senden");
 		}
 	}
 }

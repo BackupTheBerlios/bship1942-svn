@@ -151,12 +151,11 @@ public class BattleShip {
     
     private BufferedImage getShipImage() {
     	if (_shippic == null) {
-    		System.out.println("Loding now pic: " + getShipPicture());
     		File f = new File(getShipPicture());
         	try {
         		_shippic = ImageIO.read(f);
     		} catch (IOException e) {
-    			Error.addError(e, "Fehler beim laden des Schiffbildes");
+    			Error.addError(e, "Fehler beim Laden des Schiffbildes");
     		}
     	}
     	return _shippic;

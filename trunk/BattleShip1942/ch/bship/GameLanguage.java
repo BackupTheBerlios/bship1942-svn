@@ -58,6 +58,7 @@ public class GameLanguage {
      * loading the properties file to Properties hashtable
      */
     private void loadLangFile() {
+    	props.clear();
     	try {
             FileInputStream fis = new FileInputStream(getLanguage() + ".lng");
             props.load(fis);

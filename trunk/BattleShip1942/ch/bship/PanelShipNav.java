@@ -117,7 +117,7 @@ public class PanelShipNav extends JPanel {
 	private JButton getNavbattleButton() {
 		if (navbattleButton == null) {
 			navbattleButton = new JButton();
-			navbattleButton.setText("Nav / Battle");
+			navbattleButton.setText("Navigation Mode");
 			navbattleButton.addActionListener(new java.awt.event.ActionListener() { 
 				public void actionPerformed(java.awt.event.ActionEvent e) {    
 					if (_engine.getNavmode()) {
@@ -149,5 +149,11 @@ public class PanelShipNav extends JPanel {
 		getNavupButton().setEnabled(enabled);
 		getNavdownButton().setEnabled(enabled);
 		getNavbattleButton().setEnabled(enabled);
+		
+		if (_engine.getNavmode()) {
+			getNavbattleButton().setText("Navigation Mode");
+		} else {
+			getNavbattleButton().setText("Battle Mode");
+		}
 	}
  }
