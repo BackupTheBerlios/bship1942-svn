@@ -242,7 +242,6 @@ public class MainFrame extends JFrame {
 		if (jCheckBoxGerman == null) {
 			jCheckBoxGerman = new JCheckBoxMenuItem();
 			jCheckBoxGerman.setText(translator.tr("German"));
-			jCheckBoxGerman.setSelected(true);
 			jCheckBoxGerman.setName("German");
 			jCheckBoxGerman.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
@@ -288,8 +287,8 @@ public class MainFrame extends JFrame {
 			jCheckBoxFrench.setName("French");
 			jCheckBoxFrench.addItemListener(new java.awt.event.ItemListener() { 
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
+					getJCheckBoxGerman().setSelected(false);
 					getJCheckBoxEnglish().setSelected(false);
-					getJCheckBoxFrench().setSelected(false);
 				    Engine.language = "french.lng";
 				    Engine.updateLanguage();
 				}
