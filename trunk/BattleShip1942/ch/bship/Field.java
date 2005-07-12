@@ -23,7 +23,7 @@ public class Field extends JPanel {
 	private String _gridfile = "grid.dat";
     private String _pictfile = "map.jpg";
     private String _mappath = "maps";
-    private String _mapdefault = "testkarte";
+    private String _mapdefault = "logo";
     private String _mapimgpath, _mapdatpath;
     private Engine _engine;
     private BufferedImage _mapimg = null;
