@@ -25,11 +25,8 @@ public class ErrorDialog extends JFrame {
 	private javax.swing.JPanel jContentPane = null;
 
 	private JPanel headerInfopanel = null;
-	private JLabel jLabel = null;
 	private JLabel iconlabel = null;
 	private JLabel shlabel = null;
-	private JLabel jLabel1 = null;
-	
 	// Getting some Icons
 	Icon infoIcon 	= UIManager.getIcon("OptionPane.informationIcon");
 	Icon errIcon 	= UIManager.getIcon("OptionPane.errorIcon");

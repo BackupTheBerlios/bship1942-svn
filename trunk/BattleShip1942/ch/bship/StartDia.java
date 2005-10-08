@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -59,7 +58,6 @@ public class StartDia extends JFrame implements ActionListener {
 	private JComboBox langCombo = null;
 	private JPanel previewPanel = null;
 	private JPanel buttonPanel = null;
-	private JPanel seperatorPanel = null;
 	private JPanel buttonsPanel = null;
 	private JButton okButton = null;
 	private JButton cancelButton = null;
@@ -335,7 +333,6 @@ public class StartDia extends JFrame implements ActionListener {
 	
 	public static Vector listDir(String dirname, String filename) {
         Vector list = new Vector();
-        File file = new File(dirname);
         JarFile jar = null; 
 
         try {

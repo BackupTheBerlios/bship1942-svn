@@ -36,9 +36,6 @@ public class Chat extends JPanel implements ActionListener {
 	private JPanel _sendPanel;
 	private Vector _messages = new Vector();
 	private static String SEND_CMD = "send_pressed";
-	private String SEND = "->";
-	private String tmpText;
-
 	/**
 	 * Constructor
 	 */

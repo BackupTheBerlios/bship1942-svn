@@ -19,12 +19,16 @@ import javax.swing.JPanel;
 
 public class Field extends JPanel {
 
-	private javax.swing.JPanel jContentPane = null;
-	private String _gridfile = "grid.dat";
-    private String _pictfile = "map.jpg";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6456381475473239996L;
+	/**
+	 * 
+	 */
+	private String _pictfile = "map.jpg";
     private String _mappath = "maps";
-    private String _mapdefault = "logo";
-    private String _mapimgpath, _mapdatpath;
+    private String _mapimgpath;
     private Engine _engine;
     private BufferedImage _mapimg = null;
     
@@ -48,21 +52,10 @@ public class Field extends JPanel {
 	}
 	
 	/**
-	 * calculates grid to pixels
-	 */
-    private int[] grid2px(int[] grid) {
-        int[] px = new int[2];
-        px[0] = grid[0] * 15;
-        px[1] = grid[1] * 15;
-        return px;
-    }
-	
-	/**
 	 * setting actual map
 	 */
 	private void setMap(String mapname) {
         _mapimgpath = _mappath + "/" + mapname + "/" + _pictfile;
-        _mapdatpath = _mappath + "/" + mapname + "/" + _gridfile;
     }
 	
 	/**
