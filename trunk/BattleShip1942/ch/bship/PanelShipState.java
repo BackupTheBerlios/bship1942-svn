@@ -18,6 +18,7 @@ import java.awt.GridLayout;
 
 public class PanelShipState extends JPanel {
 
+	private static final long serialVersionUID = 8063073555737230021L;
 	private JPanel panelShipDetails = null;
 	private JLabel labelBezShield = null;
 	private JLabel labelValueShield = null;
@@ -55,6 +56,7 @@ public class PanelShipState extends JPanel {
 	/**
 	 * this method creates the ship details
 	 */  
+	@SuppressWarnings("unchecked")
 	private JPanel getPanelShipDetails() {
 		if (panelShipDetails == null) {
 			labelValueSpeed = new JLabel();

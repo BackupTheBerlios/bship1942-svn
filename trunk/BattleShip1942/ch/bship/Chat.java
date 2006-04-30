@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 
 public class Chat extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = -1145055935997537679L;
 	private JTextArea _messagesField = null;
 	private JTextField _inputBox = null;
 	private JScrollPane _scroller = null;
@@ -34,7 +35,7 @@ public class Chat extends JPanel implements ActionListener {
 	private Engine _engine;
 	private JPanel _mainPanel;
 	private JPanel _sendPanel;
-	private Vector _messages = new Vector();
+	private Vector <String>_messages = new Vector<String>();
 	private static String SEND_CMD = "send_pressed";
 	/**
 	 * Constructor
@@ -48,6 +49,7 @@ public class Chat extends JPanel implements ActionListener {
 	/**
 	 * initializes the Chat
 	 */
+	@SuppressWarnings("unchecked")
 	private void initialize() {
 		_mainPanel = new JPanel(new BorderLayout());
 		_sendPanel = new JPanel(new BorderLayout());

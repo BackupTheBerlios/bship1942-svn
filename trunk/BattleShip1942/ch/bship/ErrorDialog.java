@@ -22,6 +22,8 @@ import javax.swing.UIManager;
 
 public class ErrorDialog extends JFrame {
 
+	private static final long serialVersionUID = -2815781961853831044L;
+
 	private javax.swing.JPanel jContentPane = null;
 
 	private JPanel headerInfopanel = null;

@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 
 public class PanelShipNav extends JPanel {
 	
+	private static final long serialVersionUID = -5838009479304218346L;
 	private JButton navleftButton = null;
 	private JButton navrightButton = null;
 	private JButton navupButton = null;

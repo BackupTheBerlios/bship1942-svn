@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -30,8 +31,8 @@ public class Engine {
     private String _myNick = "";
     private String _myNationality = "";
     private String _map = "logo";
-    private Vector _battleShips = null;
-    private Vector _guiElements = null;
+    private Vector <BattleShip>_battleShips = null;
+    private Vector <JComponent>_guiElements = null;
     private GameLanguage _translator = null;
     private BattleShip _actBship = null;
     private MainFrame _frm = null;
@@ -111,7 +112,7 @@ public class Engine {
     
     public Vector getBattleShips() {
     	if (_battleShips == null){
-    		_battleShips = new Vector();
+    		_battleShips = new Vector<BattleShip>();
     		
     		int shipnr = 0, player = 1;
             // Creating ship instances and adding ships to Vector
@@ -127,7 +128,7 @@ public class Engine {
     
     public Vector getGuiElements() {
     	if (_guiElements == null) {
-    		_guiElements = new Vector();
+    		_guiElements = new Vector<JComponent>();
     	}
     	return _guiElements;
     }

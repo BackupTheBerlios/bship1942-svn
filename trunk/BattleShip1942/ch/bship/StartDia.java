@@ -43,6 +43,8 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 public class StartDia extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 6206351859655710574L;
+
 	private javax.swing.JPanel jContentPane = null;
 
 	private JPanel optionsPanel = null;
@@ -109,6 +111,7 @@ public class StartDia extends JFrame implements ActionListener {
 		return jContentPane;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private JPanel getOptionsPanel() {
 		if (optionsPanel == null) {
 			nickFieldLabel = new JLabel();
@@ -331,6 +334,7 @@ public class StartDia extends JFrame implements ActionListener {
 		drawPreviewPic();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static Vector listDir(String dirname, String filename) {
         Vector list = new Vector();
         JarFile jar = null; 
@@ -358,7 +362,8 @@ public class StartDia extends JFrame implements ActionListener {
 	 */
 	class NationsCBoxRenderer extends JLabel implements ListCellRenderer {
         
-        public NationsCBoxRenderer() {
+       	private static final long serialVersionUID = -5809167887445383335L;
+		public NationsCBoxRenderer() {
             setOpaque(true);
         }
         public Component getListCellRendererComponent(

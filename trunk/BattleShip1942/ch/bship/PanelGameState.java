@@ -21,7 +21,9 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 
 public class PanelGameState extends JPanel {
-    private JPanel panelPlayerName1 = null;
+
+	private static final long serialVersionUID = 2748071451941469718L;
+	private JPanel panelPlayerName1 = null;
 	private JPanel panelPlayer1State = null;
 	private JPanel panelPlayerName2 = null;
 	private JPanel panelPlayer2State = null;
@@ -103,6 +105,7 @@ public class PanelGameState extends JPanel {
 	/**
 	 * following 2 methods creates the panel with the gamestate
 	 */
+	@SuppressWarnings("unchecked")
 	private JPanel getPanelPlayer1State() {
 		if (panelPlayer1State == null) {
 			lablePlayer1Ship1 = new JLabel();
@@ -160,6 +163,7 @@ public class PanelGameState extends JPanel {
 		return panelPlayer1State;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private JPanel getPanelPlayer2State() {
 		if (panelPlayer2State == null) {
 			panelPlayer2State = new JPanel();

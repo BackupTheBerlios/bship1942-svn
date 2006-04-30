@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
+	
+	private static final long serialVersionUID = 2500237607511627892L;
+
 	private JPanel jContentPane = null;
 
 	private PanelGameState gameState = null;
@@ -77,6 +80,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * adding gui components to visualcomponent container
 	 */
+	@SuppressWarnings("unchecked")
 	private void initGuiComponents() {
 		_engine.getGuiElements().addElement(getJMenuFile());
 		_engine.getGuiElements().addElement(getJMenuOptions());
